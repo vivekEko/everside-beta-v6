@@ -47,6 +47,8 @@ const NPSDashboard = () => {
   const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
   // const [apiNameVars, setApiNameVars] = useRecoilState(apiNameVar);
   const defaultStartYear = new Date().getFullYear();
+  // const defaultStartYear = 2018;
+
   const defaultStartMonth = 1;
   const defaultEndYear = new Date().getFullYear();
   const defaultEndMonth = new Date().getMonth() + 1;

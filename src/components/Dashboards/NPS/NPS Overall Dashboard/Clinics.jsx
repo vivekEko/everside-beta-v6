@@ -43,8 +43,15 @@ const Clinics = () => {
       {apiData?.data?.length > 0 && (
         <div className="h-[300px] ">
           <h1 className="  font-bold  opacity-80">Health Centers</h1>
-          <div className=" text-xs text-gray-400 border-b-2 border-b-gray-100 flex justify-end px-2 pb-2">
-            <span className="invisible">Rank</span>
+          <div className="text-xs text-gray-400 border-b-2 border-b-gray-100 mt-1 pb-2 flex">
+            <div className="w-[70%]  flex justify-start gap-8">
+              <div className="invisible">Type</div>
+              <div className="">Name</div>
+            </div>
+            <div className="w-[30%] flex ml-auto">
+              <div className="flex-1 text-center">Avg NPS</div>
+              <div className="flex-1 text-center">Rating</div>
+            </div>
           </div>
 
           <div className=" h-[85%] overflow-y-scroll scrollbar-hide  max-h-[220px]">
@@ -56,7 +63,7 @@ const Clinics = () => {
                     key={Math.random()}
                     className="flex justify-between items-center my-4"
                   >
-                    <div className="flex gap-5 items-center">
+                    <div className="flex gap-5 items-center w-[70%]">
                       <img
                         src={clinicIcon}
                         alt={data.clinic}
@@ -64,47 +71,19 @@ const Clinics = () => {
                       />
 
                       <div>
-                        <div className="text-sm">
-                          {/* {truncate(data?.clinic, 23)} */}
-                          {data?.clinic}
-                        </div>
+                        <div className="text-sm">{data?.clinic}</div>
                         <div className="text-gray-500 text-xs">
                           {data?.city}, {data?.state}
                         </div>
                       </div>
                     </div>
 
-                    {index + 1 > 3 && (
-                      <div className="text-sm hidden text-gray-500 justify-center items-center  w-[40px] ">
-                        {index + 1}
+                    <div className="text-sm text-gray-500  w-[30%] flex">
+                      <div className=" flex-1 text-center">
+                        {data?.average_nps}
                       </div>
-                    )}
-
-                    {index + 1 <= 3 && (
-                      <div>
-                        {index + 1 == 1 && (
-                          <img
-                            src={FirstMedal}
-                            alt="First Medal"
-                            className="text-sm hidden text-gray-500 justify-center items-center  w-[40px] "
-                          />
-                        )}
-                        {index + 1 == 2 && (
-                          <img
-                            src={SecondMedal}
-                            alt="Second Medal"
-                            className="text-sm hidden text-gray-500 justify-center items-center  w-[40px] "
-                          />
-                        )}
-                        {index + 1 == 3 && (
-                          <img
-                            src={ThirdMedal}
-                            alt="Third Medal"
-                            className="text-sm hidden text-gray-500 justify-center items-center  w-[40px] "
-                          />
-                        )}
-                      </div>
-                    )}
+                      <div className=" flex-1 text-center">{data?.rating}</div>
+                    </div>
                   </div>
                 );
               })}

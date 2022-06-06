@@ -19,6 +19,7 @@ const NPSallComments = () => {
   const [totalViewedComments, setTotalViewedComments] = useState(99);
   const [totalNoComments, setTotalNoComments] = useRecoilState(totalComments);
   const [totalFilteredComments, setTotalFilteredComments] = useState(100);
+  const [ascSort, setAscSort] = useState(false);
 
   function handleLoadMore() {
     if (totalViewedComments + 100 <= totalNoComments) {
@@ -75,15 +76,15 @@ const NPSallComments = () => {
     useRecoilState(totalCommentsApiData);
 
   useEffect(() => {
-    setApiData(allCommentsAPIData?.data);
-    // console.log("all comments data:");
-    // console.log(allCommentsAPIData);
-    // console.log("totalNoComments:");
-    // console.log(totalNoComments);
-    // console.log("all comments............");
-    // console.log(allCommentsAPIData?.data);
-  }, [allCommentsAPIData]);
+    if (ascSort === false) {
+      setApiData(allCommentsAPIData?.data);
+    } else if (ascSort === true) {
+      setApiData(allCommentsAPIData?.data?.map((data) => data)?.reverse());
+    }
+  }, [allCommentsAPIData, ascSort]);
 
+  // console.log("reverseeeeeeeeeeeeeeeeee");
+  // console.log(allCommentsAPIData?.data?.map((data) => data)?.reverse());
   // useEffect(() => {
   //   // setTotalFilteredComments(filteredComments);
   //   // console.log("total Filtered Comments:");
@@ -153,7 +154,10 @@ const NPSallComments = () => {
                         </div>
                       </th>
 
-                      <th className=" text-gray-400 w-[7%] min-w-[70px] capitalize  font-normal ">
+                      <th
+                        onClick={() => setAscSort(!ascSort)}
+                        className=" text-gray-400 w-[7%] min-w-[70px] capitalize  font-normal "
+                      >
                         Date
                       </th>
                       <th className=" text-gray-400 w-[70%] min-w-[200px] capitalize text-left font-normal">

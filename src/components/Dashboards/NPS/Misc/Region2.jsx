@@ -65,10 +65,10 @@ const Region2 = () => {
     });
   }
 
-  const [newRegionLocal, setNewRegionLoacal] = useState();
+  const [newRegionLocal, setNewRegionLocal] = useState();
 
   useEffect(() => {
-    setNewRegionLoacal(regionListValue?.region);
+    setNewRegionLocal(regionListValue?.region);
   }, [regionListValue]);
 
   // useEffect(() => {

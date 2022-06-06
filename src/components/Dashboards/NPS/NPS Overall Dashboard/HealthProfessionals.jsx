@@ -34,11 +34,15 @@ const HealthProfessionals = () => {
       {apiData?.length > 0 && (
         <>
           <h1 className="  font-bold  opacity-80">Providers</h1>
-          <div className="text-xs text-gray-400 border-b-2 border-b-gray-100 flex justify-end px-2 pb-2">
-            {/* <div className="flex items-center gap-10">
-              <span> NPS</span>
-              <span>Rating</span>
-            </div> */}
+          <div className="text-xs text-gray-400 border-b-2 border-b-gray-100 mt-1 pb-2 flex">
+            <div className="w-[70%]  flex justify-start gap-10">
+              <div className="">Type</div>
+              <div className="">Name</div>
+            </div>
+            <div className="w-[30%] flex ml-auto">
+              <div className="flex-1 text-center">Avg NPS</div>
+              <div className="flex-1 text-center">Rating</div>
+            </div>
           </div>
           <div className=" h-[85%] overflow-y-scroll scrollbar-hide   ">
             <div className="">
@@ -48,8 +52,8 @@ const HealthProfessionals = () => {
                     key={Math.random()}
                     className="flex justify-between items-center my-4"
                   >
-                    <div className="flex gap-5 items-center">
-                      <div className="w-[40px] h-[40px] rounded-full bg-[#e6f5fc] flex justify-center items-center text-[#0094e0] uppercase font-semibold">
+                    <div className="flex gap-8 items-center">
+                      <div className=" rounded-md p-1 bg-[#e6f5fc] flex justify-center items-center text-[#0094e0] text-sm w-[40px] uppercase font-semibold">
                         {data?.provider_type}
                       </div>
                       <div>
@@ -58,6 +62,12 @@ const HealthProfessionals = () => {
                           {data?.provider_category}
                         </div>
                       </div>
+                    </div>
+                    <div className="text-sm text-gray-500  w-[30%] flex">
+                      <div className=" flex-1 text-center">
+                        {data?.average_nps}
+                      </div>
+                      <div className=" flex-1 text-center">{data?.rating}</div>
                     </div>
                   </div>
                 );
