@@ -84,7 +84,7 @@ const AlertComments = () => {
 
       {apiData?.data && (
         <div>
-          <div className=" pt-2  flex justify-between items-center pb-4 ">
+          <div className=" pt-2  flex justify-between items-center pb-2 ">
             <h1 className=" text-left font-bold  flex-1 px-2 opacity-80">
               Alerts
               <span
@@ -123,75 +123,74 @@ const AlertComments = () => {
                 No Alerts
               </div>
             ) : (
-              ""
+              <table className=" text-[12px] p-3 pb-0 w-full">
+                <thead className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5]">
+                  <tr className=" flex justify-between items-center gap-3 text-center px-2 text-[12px] text-gray-500 uppercase p-2 font-normal">
+                    <th className=" text-gray-400 w-[10%] min-w-[70px] capitalize  text-left font-normal ">
+                      Date
+                    </th>
+                    <th className=" text-gray-400 w-[60%] min-w-[200px]  capitalize text-left font-normal">
+                      Comments
+                    </th>
+
+                    <th className=" text-gray-400 w-[25%] min-w-[70px]  capitalize font-normal text-left ">
+                      Clinic
+                    </th>
+
+                    <th className="font-normal w-[5%]   text-gray-400 capitalize invisible">
+                      Sentiment
+                    </th>
+                  </tr>
+                </thead>
+                {apiData?.data
+                  ?.filter((filtered_value) => {
+                    if (inputData === "") {
+                      return filtered_value;
+                    } else if (
+                      filtered_value?.review
+                        ?.toLowerCase()
+                        ?.includes(inputData.toLowerCase())
+                    ) {
+                      return filtered_value;
+                    }
+                  })
+                  .map((data, index) => {
+                    return (
+                      <tbody key={index} className="w-full ">
+                        <tr className="  flex justify-around items-center gap-3 px-2 py-3 border-b">
+                          <td className=" text-gray-400 w-[10%] min-w-[70px] capitalize  font-normal text-[12px] ">
+                            {data?.timestamp}
+                          </td>
+                          <td className="  text-gray-400 w-[60%] min-w-[200px]  text-left font-normal ">
+                            <div
+                              className="w-full text-[#000c08b3] text-[12px] font-semibold"
+                              onClick={() => {
+                                setExpandComment(data?.id);
+                                setClickCount(!clickCount);
+                              }}
+                            >
+                              {expandComment == data?.id && clickCount
+                                ? data?.review
+                                : truncate(data?.review, 100)}
+                            </div>
+                          </td>
+
+                          <td className=" text-gray-400 w-[25%] min-w-[70px]   font-normal ">
+                            {data?.clinic}
+                          </td>
+                          <td className="font-normal w-[5%]   text-gray-400 capitalize">
+                            <img
+                              src={ExtremeIcon}
+                              alt="extreme"
+                              className="ml-auto"
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                    );
+                  })}
+              </table>
             )}
-            <table className=" text-[12px] p-3 pb-0 w-full">
-              <thead className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5]">
-                <tr className=" flex justify-between items-center gap-3 text-center px-2 text-[10px] text-gray-500 uppercase p-2 font-normal">
-                  <th className=" text-gray-400 w-[10%] min-w-[70px] capitalize  text-left font-normal ">
-                    Date
-                  </th>
-                  <th className=" text-gray-400 w-[60%] min-w-[200px]  capitalize text-left font-normal">
-                    Comments
-                  </th>
-
-                  <th className=" text-gray-400 w-[25%] min-w-[70px]  capitalize font-normal text-left ">
-                    Clinic
-                  </th>
-
-                  <th className="font-normal w-[5%]   text-gray-400 capitalize invisible">
-                    Sentiment
-                  </th>
-                </tr>
-              </thead>
-              {apiData?.data
-                ?.filter((filtered_value) => {
-                  if (inputData === "") {
-                    return filtered_value;
-                  } else if (
-                    filtered_value?.review
-                      ?.toLowerCase()
-                      ?.includes(inputData.toLowerCase())
-                  ) {
-                    return filtered_value;
-                  }
-                })
-                .map((data, index) => {
-                  return (
-                    <tbody key={index} className="w-full ">
-                      <tr className="  flex justify-around items-center gap-3 px-2 py-3 border-b">
-                        <td className=" text-gray-400 w-[10%] min-w-[70px] capitalize  font-normal text-[12px] ">
-                          {data?.timestamp}
-                        </td>
-                        <td className="  text-gray-400 w-[60%] min-w-[200px]  text-left font-normal ">
-                          <div
-                            className="w-full text-[#000c08b3] text-[12px] font-semibold"
-                            onClick={() => {
-                              setExpandComment(data?.id);
-                              setClickCount(!clickCount);
-                            }}
-                          >
-                            {expandComment == data?.id && clickCount
-                              ? data?.review
-                              : truncate(data?.review, 100)}
-                          </div>
-                        </td>
-
-                        <td className=" text-gray-400 w-[25%] min-w-[70px]   font-normal ">
-                          {data?.clinic}
-                        </td>
-                        <td className="font-normal w-[5%]   text-gray-400 capitalize">
-                          <img
-                            src={ExtremeIcon}
-                            alt="extreme"
-                            className="ml-auto"
-                          />
-                        </td>
-                      </tr>
-                    </tbody>
-                  );
-                })}
-            </table>
           </div>
         </div>
       )}

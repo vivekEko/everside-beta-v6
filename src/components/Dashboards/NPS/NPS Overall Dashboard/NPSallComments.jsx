@@ -10,6 +10,9 @@ import ExtremeIcon from "../../../../assets/img/NPS Dashboard/Extreme.svg";
 import NeutralIcon from "../../../../assets/img/NPS Dashboard/Neutral.svg";
 import DoubleArrowRoundedIcon from "@mui/icons-material/DoubleArrowRounded";
 import totalComments from "../../../../recoil/atoms/totalComments";
+import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
+import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
+import nssAPIdata from "../../../../recoil/atoms/nssAPIdata";
 
 const NPSallComments = () => {
   const [inputData, setInputData] = useState("");
@@ -20,6 +23,16 @@ const NPSallComments = () => {
   const [totalNoComments, setTotalNoComments] = useRecoilState(totalComments);
   const [totalFilteredComments, setTotalFilteredComments] = useState(100);
   const [ascSort, setAscSort] = useState(false);
+  const [showSentiments, setShowSentiments] = useState(false);
+  const [selectedSentiments, setSelectedSentiments] = useState([]);
+  const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
+
+  useEffect(() => {
+    console.log("selected senti:");
+    console.log(selectedSentiments);
+    console.log("legth of selected senti");
+    console.log(selectedSentiments.length);
+  }, [selectedSentiments]);
 
   function handleLoadMore() {
     if (totalViewedComments + 100 <= totalNoComments) {
@@ -71,27 +84,202 @@ const NPSallComments = () => {
   }
 
   const [apiData, setApiData] = useState();
+  const [apiDataCopy, setApiDataCopy] = useState();
 
   const [allCommentsAPIData, setAllCommentsAPIData] =
     useRecoilState(totalCommentsApiData);
 
+  const sentimentList = ["Positive", "Neutral", "Negative", "Extreme"];
+
+  useEffect(() => {
+    if (ascSort === true) {
+      setApiData(apiData?.map((data) => data)?.reverse());
+    }
+    if (ascSort === false) {
+      setApiData(apiData?.map((data) => data)?.reverse());
+    }
+  }, [ascSort]);
+
   useEffect(() => {
     if (ascSort === false) {
       setApiData(allCommentsAPIData?.data);
-    } else if (ascSort === true) {
-      setApiData(allCommentsAPIData?.data?.map((data) => data)?.reverse());
     }
-  }, [allCommentsAPIData, ascSort]);
 
-  // console.log("reverseeeeeeeeeeeeeeeeee");
-  // console.log(allCommentsAPIData?.data?.map((data) => data)?.reverse());
+    sentimentList?.map((sentimentNames) => {
+      if (selectedSentiments?.includes(sentimentNames)) {
+        if (selectedSentiments?.length > 1) {
+          setApiData((apiData) => [
+            ...apiData,
+            allCommentsAPIData?.data
+              ?.filter((filteredData) => {
+                if (filteredData?.label?.includes(sentimentNames)) {
+                  return filteredData;
+                }
+              })
+              .map((data) => data),
+          ]);
+        } else if (selectedSentiments?.length === 1) {
+          setApiData(
+            allCommentsAPIData?.data
+              ?.filter((filteredData) => {
+                if (filteredData?.label?.includes(sentimentNames)) {
+                  return filteredData;
+                }
+              })
+              .map((data) => data)
+          );
+        }
+      }
+    });
+
+    // if (selectedSentiments?.includes("Positive")) {
+    //   if (selectedSentiments?.length > 1) {
+    //     setApiData((apiData) => [
+    //       ...apiData,
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Positive")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data),
+    //     ]);
+    //   } else if (selectedSentiments?.length === 1) {
+    //     setApiData(
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Positive")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data)
+    //     );
+    //   }
+    // } else if (selectedSentiments?.includes("Neutral")) {
+    //   if (selectedSentiments?.length > 1) {
+    //     setApiData((apiData) => [
+    //       ...apiData,
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Neutral")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data),
+    //     ]);
+    //   } else if (selectedSentiments?.length === 1) {
+    //     setApiData(
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Neutral")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data)
+    //     );
+    //   }
+    // } else if (selectedSentiments?.includes("Negative")) {
+    //   if (selectedSentiments?.length > 1) {
+    //     setApiData((apiData) => [
+    //       ...apiData,
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Negative")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data),
+    //     ]);
+    //   } else if (selectedSentiments?.length === 1) {
+    //     setApiData(
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Negative")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data)
+    //     );
+    //   }
+    // } else if (selectedSentiments?.includes("Extreme")) {
+    //   if (selectedSentiments?.length > 1) {
+    //     setApiData((apiData) => [
+    //       ...apiData,
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Extreme")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data),
+    //     ]);
+    //   } else if (selectedSentiments?.length === 1) {
+    //     setApiData(
+    //       allCommentsAPIData?.data
+    //         ?.filter((filteredData) => {
+    //           if (filteredData?.label?.includes("Extreme")) {
+    //             return filteredData;
+    //           }
+    //         })
+    //         .map((data) => data)
+    //     );
+    //   }
+    // }
+
+    // else if (selectedSentiments?.includes("Neutral")) {
+    //   setApiData((apiData) => [
+    //     ...apiData,
+    //     allCommentsAPIData?.data
+    //       ?.filter((filteredData) => {
+    //         if (filteredData?.label?.includes("Neutral")) {
+    //           return filteredData;
+    //         }
+    //       })
+    //       .map((data) => data),
+    //   ]);
+    // } else if (selectedSentiments?.includes("Negative")) {
+    //   setApiData((apiData) => [
+    //     ...apiData,
+    //     allCommentsAPIData?.data
+    //       ?.filter((filteredData) => {
+    //         if (filteredData?.label?.includes("Negative")) {
+    //           return filteredData;
+    //         }
+    //       })
+    //       .map((data) => data),
+    //   ]);
+    // } else if (selectedSentiments?.includes("Extreme")) {
+    //   setApiData((apiData) => [
+    //     ...apiData,
+    //     allCommentsAPIData?.data
+    //       ?.filter((filteredData) => {
+    //         if (filteredData?.label?.includes("Extreme")) {
+    //           return filteredData;
+    //         }
+    //       })
+    //       .map((data) => data),
+    //   ]);
+    // }
+  }, [allCommentsAPIData, selectedSentiments]);
+
   // useEffect(() => {
-  //   // setTotalFilteredComments(filteredComments);
-  //   // console.log("total Filtered Comments:");
-  //   // console.log(totalFilteredComments);
-  // }, [filteredComments]);
+  //   console.log(
+  //     allCommentsAPIData?.data
+  //       ?.filter((filteredData) => {
+  //         if (filteredData?.label?.includes("Extreme")) {
+  //           return filteredData;
+  //         }
+  //       })
+  //       .map((data) => data)
+  //   );
+  // }, [apiData]);
 
-  // console.log("This is API Data: " + apiData);
+  // function to remove selected text from array
+  function arrayRemove(arr, value) {
+    return arr.filter(function (geek) {
+      return geek != value;
+    });
+  }
 
   return (
     <div className="w-[100%] md:w-[60%] border  p-2 h-[400px] rounded-lg bg-white">
@@ -147,7 +335,7 @@ const NPSallComments = () => {
               <div>
                 <table className="border-b-gray-100 border-b-2 text-[12px] p-3 pb-0 w-full min-w-[400px]  ">
                   <thead className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5]">
-                    <tr className=" flex justify-between items-center gap-3 text-center px-2 text-[10px] text-gray-500 uppercase p-2 font-normal">
+                    <tr className=" flex justify-between items-center gap-3 text-center px-2 text-[12px] text-gray-500 uppercase p-2 font-normal">
                       <th className=" w-[5%]  min-w-[30px] hidden">
                         <div className=" rounded-md  flex justify-start text-gray-400 capitalize font-medium">
                           S.No
@@ -156,9 +344,19 @@ const NPSallComments = () => {
 
                       <th
                         onClick={() => setAscSort(!ascSort)}
-                        className=" text-gray-400 w-[7%] min-w-[70px] capitalize  font-normal "
+                        className=" text-gray-400 w-[7%] min-w-[70px] capitalize  font-normal cursor-pointer hover:text-gray-600 transition"
                       >
-                        Date
+                        <span>Date</span>
+                        <span>
+                          {" "}
+                          <ArrowDropUpRoundedIcon
+                            className={` transition  ${
+                              ascSort
+                                ? "rotate-180   ease-in"
+                                : "rotate-0  ease-in"
+                            } `}
+                          />{" "}
+                        </span>
                       </th>
                       <th className=" text-gray-400 w-[70%] min-w-[200px] capitalize text-left font-normal">
                         Comments
@@ -171,8 +369,109 @@ const NPSallComments = () => {
                         Visit Type
                       </th>
 
-                      <th className="font-normal w-[7%] min-w-[70px]  text-gray-400 capitalize ">
-                        Sentiment
+                      <th
+                        className="font-normal w-[10%] min-w-[70px]  text-gray-400 capitalize relative"
+                        // onMouseEnter={() => setShowSentiments(true)}
+                        onMouseLeave={() => setShowSentiments(false)}
+                      >
+                        <span
+                          className=" cursor-pointer"
+                          onClick={() => setShowSentiments(!showSentiments)}
+                        >
+                          Sentiment
+                          <ArrowDropUpRoundedIcon
+                            fontSize="small"
+                            className={` ${
+                              showSentiments
+                                ? "rotate-0 ease-in"
+                                : "rotate-180 ease-in"
+                            } transition-all`}
+                          />
+                        </span>
+
+                        <div
+                          className={` ${
+                            showSentiments ? "block" : "hidden "
+                          } absolute bg-white  top-[100%] -right-2 -left-10 shadow-lg rounded-lg border`}
+                        >
+                          {sentimentList?.map((data, index) => (
+                            <div
+                              key={index + 1}
+                              className="text-left m-2 cursor-pointer"
+                            >
+                              <input
+                                className=" cursor-pointer"
+                                type="checkbox"
+                                name={data}
+                                value={data}
+                                checked={
+                                  selectedSentiments?.includes(data)
+                                    ? true
+                                    : false
+                                }
+                                onChange={() => {
+                                  if (selectedSentiments?.includes(data)) {
+                                    console.log(data + " already exits");
+                                    setSelectedSentiments(
+                                      (selectedSentiments) =>
+                                        arrayRemove(selectedSentiments, data)
+                                    );
+                                  } else {
+                                    setSelectedSentiments(
+                                      (selectedSentiments) => [
+                                        ...selectedSentiments,
+                                        data,
+                                      ]
+                                    );
+                                  }
+                                }}
+                              />
+
+                              <label
+                                htmlFor={data}
+                                className="text-xs pl-2 cursor-pointer"
+                                onClick={() => {
+                                  if (selectedSentiments?.includes(data)) {
+                                    console.log(data + " already exits");
+                                    setSelectedSentiments(
+                                      (selectedSentiments) =>
+                                        arrayRemove(selectedSentiments, data)
+                                    );
+                                  } else {
+                                    setSelectedSentiments(
+                                      (selectedSentiments) => [
+                                        ...selectedSentiments,
+                                        data,
+                                      ]
+                                    );
+                                  }
+                                }}
+                              >
+                                {data}
+                              </label>
+
+                              <div className="ml-2 inline-block">
+                                (
+                                {data === "Positive" &&
+                                  nssApiData?.nss?.total_positive}
+                                {data === "Negative" &&
+                                  nssApiData?.nss?.total_negative}
+                                {data === "Extreme" &&
+                                  nssApiData?.nss?.total_extreme}
+                                {data === "Neutral" &&
+                                  nssApiData?.nss?.total_neutral}
+                                )
+                              </div>
+                            </div>
+                          ))}
+
+                          <div
+                            className="underline w-fit text-[10px] cursor-pointer m-2"
+                            onClick={() => setSelectedSentiments([])}
+                          >
+                            Clear all
+                          </div>
+                        </div>
                       </th>
                     </tr>
                   </thead>

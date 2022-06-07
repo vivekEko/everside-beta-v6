@@ -264,8 +264,8 @@ const NPSDashboard = () => {
 
     // ELSE
     else if (sendDataStatus === -1) {
-      console.log("total Comments response:");
-      console.log(defaultArray[3]);
+      // console.log("total Comments response:");
+      // console.log(defaultArray[3]);
 
       const nps = await axios.get(defaultArray[0]);
       setTimeout(() => setNpsApiData(nps?.data), 50);

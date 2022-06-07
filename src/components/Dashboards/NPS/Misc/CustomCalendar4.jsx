@@ -165,7 +165,9 @@ const CustomCalendar4 = () => {
           {/* Month  list */}
           <div className="flex justify-between items-center gap-2 ">
             <div className="flex-1">
-              <div className="text-center w-full opacity-80">Start Month</div>
+              <div className="text-center w-full opacity-80 font-semibold">
+                Start Month
+              </div>
 
               <div className="grid grid-cols-3   place-items-center ">
                 {monthnameList?.map((monthName) => (
@@ -198,7 +200,9 @@ const CustomCalendar4 = () => {
             />
 
             <div className="flex-1 ">
-              <div className="text-center opacity-80">End Month</div>
+              <div className="text-center opacity-80 font-semibold">
+                End Month
+              </div>
               <div className="grid grid-cols-3   place-items-center flex-1 ">
                 {monthnameList?.map((monthName) => (
                   <div
@@ -218,13 +222,12 @@ const CustomCalendar4 = () => {
                 
                   `}
                     onClick={() => {
-                      if (
-                        finalStartDate === finalEndDate &&
-                        monthName.id > finalStartMonth
-                      ) {
-                        setEndMonthVal(monthName?.month);
-                        setEndMonthNumVal(monthName?.id);
-                        setFinalEndMonth(monthName?.id);
+                      if (finalStartDate === finalEndDate) {
+                        if (monthName.id > finalStartMonth) {
+                          setEndMonthVal(monthName?.month);
+                          setEndMonthNumVal(monthName?.id);
+                          setFinalEndMonth(monthName?.id);
+                        }
                       } else {
                         setEndMonthVal(monthName?.month);
                         setEndMonthNumVal(monthName?.id);

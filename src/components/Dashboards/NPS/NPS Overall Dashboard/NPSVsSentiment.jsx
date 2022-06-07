@@ -74,8 +74,8 @@ const NPSvsSentiment = () => {
 
   useEffect(() => {
     setApiData(npsVsSentiAPIData);
-    console.log("atom data nps vs senti component");
-    console.log(npsVsSentiAPIData);
+    // console.log("atom data nps vs senti component");
+    // console.log(npsVsSentiAPIData);
   }, [npsVsSentiAPIData]);
 
   return (

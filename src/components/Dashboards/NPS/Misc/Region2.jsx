@@ -150,8 +150,8 @@ const Region2 = () => {
       setRegionLocal([]);
     }
 
-    console.log("region flush value:");
-    console.log(flushRegionValue);
+    // console.log("region flush value:");
+    // console.log(flushRegionValue);
   }, [flushRegionValue]);
 
   // useEffect(() => {
