@@ -70,7 +70,7 @@ const TotalCard = () => {
   // }, [sendDataStatus]);
 
   return (
-    <div className=" w-full xl:w-[33%]    transition-all  flex  justify-center items-center max-w-[320px] sm:max-w-none  ">
+    <div className=" w-full xl:w-[33%] xl:ml-3 2xl:ml-0   transition-all  flex  justify-center items-center max-w-[320px] sm:max-w-none  ">
       {!apiData?.card_data && (
         <div className="min-h-[170px] w-full bg-[#ffffff] z-[0] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />

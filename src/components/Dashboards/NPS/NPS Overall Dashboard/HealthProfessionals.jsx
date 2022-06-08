@@ -40,7 +40,7 @@ const HealthProfessionals = () => {
               <div className="">Name</div>
             </div>
             <div className="w-[30%] flex ml-auto">
-              <div className="flex-1 text-center">Avg NPS</div>
+              <div className="flex-1 text-center">NPS</div>
               <div className="flex-1 text-center">Rating</div>
             </div>
           </div>

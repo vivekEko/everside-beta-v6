@@ -110,7 +110,7 @@ const NPSvsSentiment = () => {
 
           {/* Graph */}
 
-          <div className="relative">
+          <div className="relative mt-5">
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={apiData?.data} layout="vertical">
                 <XAxis

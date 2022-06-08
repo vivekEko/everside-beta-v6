@@ -86,7 +86,7 @@ const NSSOverTime = () => {
       {apiData && (
         <div className="w-full">
           <h1 className=" font-bold opacity-80 ">Sentiment Over Time</h1>
-          <div className="text-center text-[10px] opacity-80 flex w-full justify-between my-[10px]">
+          <div className="text-center text-[10px] opacity-80 flex w-full justify-between mb-[10px]">
             <div></div>
             <div className="justify-self-center">
               <span className="invisible">2020</span>

@@ -5,6 +5,7 @@ import UserAuthAtom from "../../recoil/atoms/UserAuthAtom";
 import { useNavigate } from "react-router-dom";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import UserValidity from "../../recoil/atoms/UserValidity";
+import goButtonStatus from "../../recoil/atoms/goButtonStatus";
 
 const Auth = () => {
   const signInEmailRef = useRef(null);
@@ -15,6 +16,12 @@ const Auth = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
   let history = useNavigate();
+
+  const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
+
+  useEffect(() => {
+    setGoStatus(!goStatus);
+  }, []);
 
   //   States
   const [loginErrorMessage, setLoginErrorMessage] = useState("");

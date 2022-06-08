@@ -3,7 +3,7 @@ import { monthnameList } from "../../utils/MonthNames";
 
 const endMonthValue = atom({
   key: "endMonthValue", // unique ID (with respect to other atoms/selectors)
-  default: new Date().getMonth() + 1, // default value (aka initial value)
+  default: 4, // default value (aka initial value)
 });
 
 export default endMonthValue;

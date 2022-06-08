@@ -37,6 +37,10 @@ import newRegionGlobalValue from "../../../../recoil/atoms/newRegionGlobalValue"
 import allDataRecieved from "../../../../recoil/atoms/allDataRecieved";
 import providersApiData from "../../../../recoil/atoms/providersApiData";
 import clientApidata from "../../../../recoil/atoms/clientApidata";
+import positiveComments from "../../../../recoil/atoms/positiveComments";
+import negativeComments from "../../../../recoil/atoms/negativeComments";
+import extremeComments from "../../../../recoil/atoms/extremeComments";
+import neutralComments from "../../../../recoil/atoms/neutralComments";
 
 const NPSDashboard = () => {
   const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
@@ -45,13 +49,23 @@ const NPSDashboard = () => {
   const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
   const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
   const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
+
+  const [positiveCommentAtom, setPositiveCommentAtom] =
+    useRecoilState(positiveComments);
+  const [negativeCommentAtom, setNegativeCommentAtom] =
+    useRecoilState(negativeComments);
+  const [extremeCommentAtom, setExtremeCommentAtom] =
+    useRecoilState(extremeComments);
+  const [neutralCommentAtom, setNeutralCommentAtom] =
+    useRecoilState(neutralComments);
+
   // const [apiNameVars, setApiNameVars] = useRecoilState(apiNameVar);
   const defaultStartYear = new Date().getFullYear();
   // const defaultStartYear = 2018;
 
   const defaultStartMonth = 1;
   const defaultEndYear = new Date().getFullYear();
-  const defaultEndMonth = new Date().getMonth() + 1;
+  const defaultEndMonth = 4;
 
   // All api data variables
   // const [atomName, setAtomName] = useState();
@@ -103,10 +117,27 @@ const NPSDashboard = () => {
 
   const [clientApiAtom, setClientApiAtom] = useRecoilState(clientApidata);
 
+  // useEffect(() => {
+  //   console.log("positiveCommentAtom");
+  //   console.log(positiveCommentAtom);
+  //   console.log("negativeCommentAtom");
+  //   console.log(negativeCommentAtom);
+  //   console.log("extremeCommentAtom");
+  //   console.log(extremeCommentAtom);
+  //   console.log("neutralCommentAtom");
+  //   console.log(neutralCommentAtom);
+  // }, [allDataRecievedStatus]);
+
   const allApiNames = [
     "netPromoterScore",
     "netSentimentScore",
     "totalCards",
+
+    "positiveComments",
+    "neutralComments",
+    "negativeComments",
+    "extremeComments",
+
     "totalComments",
     "alertComments",
     "npsOverTime",
@@ -146,7 +177,7 @@ const NPSDashboard = () => {
 
   useEffect(async () => {
     // API url creation
-    for (let i = 0; i < 13; i++) {
+    for (let i = 0; i < 17; i++) {
       const requestURL =
         baseAPI +
         allApiNames[i] +
@@ -209,8 +240,8 @@ const NPSDashboard = () => {
 
     // API Calls
     if (sendDataStatus === true) {
-      console.log("total Comments response:");
-      console.log(linksArray[3]);
+      // console.log("total Comments response:");
+      // console.log(linksArray[3]);
 
       const nps = await axios.get(linksArray[0]);
       setTimeout(() => setNpsApiData(nps?.data), 50);
@@ -230,32 +261,42 @@ const NPSDashboard = () => {
       // const topComments = await axios.get(linksArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const allComments = await axios.get(linksArray[3]);
+      const postive_comments = await axios.get(linksArray[3]);
+      setTimeout(() => setPositiveCommentAtom(postive_comments), 50);
+
+      const neutral_comments = await axios.get(linksArray[4]);
+      setTimeout(() => setNeutralCommentAtom(neutral_comments), 50);
+
+      const negative_comments = await axios.get(linksArray[5]);
+      setTimeout(() => setNegativeCommentAtom(negative_comments), 50);
+
+      const extreme_comments = await axios.get(linksArray[6]);
+      setTimeout(() => setExtremeCommentAtom(extreme_comments), 50);
+
+      const allComments = await axios.get(linksArray[7]);
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(linksArray[4]);
+      const alerts = await axios.get(linksArray[8]);
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(linksArray[5]);
+      const npsOverTime = await axios.get(linksArray[9]);
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(linksArray[6]);
+      const nssOverTime = await axios.get(linksArray[10]);
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
-      // console.log(linksArray[6]);
 
-      const npsVsSentiment = await axios.get(linksArray[7]);
+      const npsVsSentiment = await axios.get(linksArray[11]);
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(linksArray[8]);
+      const providers = await axios.get(linksArray[12]);
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(linksArray[9]);
-      // console.log(linksArray[9]);
+      const clinics = await axios.get(linksArray[13]);
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(linksArray[10]);
+      const clients = await axios.get(linksArray[14]);
       setTimeout(() => {
         setClientApiAtom(clients?.data);
         setAllDataRecievedStatus(true);
@@ -279,30 +320,42 @@ const NPSDashboard = () => {
       // const topComments = await axios.get(defaultArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const allComments = await axios.get(defaultArray[3]);
+      const postive_comments = await axios.get(defaultArray[3]);
+      setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
+
+      const neutral_comments = await axios.get(defaultArray[4]);
+      setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
+
+      const negative_comments = await axios.get(defaultArray[5]);
+      setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
+
+      const extreme_comments = await axios.get(defaultArray[6]);
+      setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
+
+      const allComments = await axios.get(defaultArray[7]);
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(defaultArray[4]);
+      const alerts = await axios.get(defaultArray[8]);
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(defaultArray[5]);
+      const npsOverTime = await axios.get(defaultArray[9]);
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(defaultArray[6]);
+      const nssOverTime = await axios.get(defaultArray[10]);
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
 
-      const npsVsSentiment = await axios.get(defaultArray[7]);
+      const npsVsSentiment = await axios.get(defaultArray[11]);
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(defaultArray[8]);
+      const providers = await axios.get(defaultArray[12]);
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(defaultArray[9]);
+      const clinics = await axios.get(defaultArray[13]);
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(defaultArray[10]);
+      const clients = await axios.get(defaultArray[14]);
       setTimeout(() => {
         setClientApiAtom(clients?.data);
         setAllDataRecievedStatus(true);

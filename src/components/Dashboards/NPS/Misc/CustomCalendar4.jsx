@@ -16,6 +16,7 @@ import goButtonStatus from "../../../../recoil/atoms/goButtonStatus";
 import callClinics from "../../../../recoil/atoms/callClinics";
 import flushRegion from "../../../../recoil/atoms/flushRegion";
 import allDataRecieved from "../../../../recoil/atoms/allDataRecieved";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 const YearSlider = styled(Slider)({
   color: "#52af77",
@@ -71,12 +72,8 @@ const CustomCalendar4 = () => {
   ]);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState(
-    monthnameList[new Date().getMonth()].month
-  );
-  const [endMonthNumVal, setEndMonthNumVal] = useState(
-    new Date().getMonth() + 1
-  );
+  const [endMonthVal, setEndMonthVal] = useState("Apr");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(4);
 
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
@@ -110,7 +107,7 @@ const CustomCalendar4 = () => {
 
   useEffect(() => {
     setFinalStartMonth(1);
-    setFinalEndMonth(new Date().getMonth() + 1);
+    setFinalEndMonth(4);
   }, []);
 
   const updateVal = (e, item) => {

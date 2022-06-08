@@ -13,6 +13,12 @@ import totalComments from "../../../../recoil/atoms/totalComments";
 import ArrowDropUpRoundedIcon from "@mui/icons-material/ArrowDropUpRounded";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import nssAPIdata from "../../../../recoil/atoms/nssAPIdata";
+import { useDetectClickOutside } from "react-detect-click-outside";
+import chevron from "../../../../assets/img/NPS Dashboard/chevron.svg";
+import positiveComments from "../../../../recoil/atoms/positiveComments";
+import negativeComments from "../../../../recoil/atoms/negativeComments";
+import extremeComments from "../../../../recoil/atoms/extremeComments";
+import neutralComments from "../../../../recoil/atoms/neutralComments";
 
 const NPSallComments = () => {
   const [inputData, setInputData] = useState("");
@@ -26,6 +32,16 @@ const NPSallComments = () => {
   const [showSentiments, setShowSentiments] = useState(false);
   const [selectedSentiments, setSelectedSentiments] = useState([]);
   const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
+  const [apiData, setApiData] = useState();
+
+  const [positiveCommentAtom, setPositiveCommentAtom] =
+    useRecoilState(positiveComments);
+  const [negativeCommentAtom, setNegativeCommentAtom] =
+    useRecoilState(negativeComments);
+  const [extremeCommentAtom, setExtremeCommentAtom] =
+    useRecoilState(extremeComments);
+  const [neutralCommentAtom, setNeutralCommentAtom] =
+    useRecoilState(neutralComments);
 
   useEffect(() => {
     console.log("selected senti:");
@@ -83,13 +99,18 @@ const NPSallComments = () => {
     );
   }
 
-  const [apiData, setApiData] = useState();
   const [apiDataCopy, setApiDataCopy] = useState();
 
   const [allCommentsAPIData, setAllCommentsAPIData] =
     useRecoilState(totalCommentsApiData);
 
-  const sentimentList = ["Positive", "Neutral", "Negative", "Extreme"];
+  const sentimentList = ["Positive", "Negative", "Neutral", "Extreme"];
+
+  const closeToggle = () => {
+    setShowSentiments(false);
+  };
+
+  const ref = useDetectClickOutside({ onTriggered: closeToggle });
 
   useEffect(() => {
     if (ascSort === true) {
@@ -101,36 +122,68 @@ const NPSallComments = () => {
   }, [ascSort]);
 
   useEffect(() => {
+    let arr = [];
+
     if (ascSort === false) {
       setApiData(allCommentsAPIData?.data);
     }
 
-    sentimentList?.map((sentimentNames) => {
-      if (selectedSentiments?.includes(sentimentNames)) {
-        if (selectedSentiments?.length > 1) {
-          setApiData((apiData) => [
-            ...apiData,
-            allCommentsAPIData?.data
-              ?.filter((filteredData) => {
-                if (filteredData?.label?.includes(sentimentNames)) {
-                  return filteredData;
-                }
-              })
-              .map((data) => data),
-          ]);
-        } else if (selectedSentiments?.length === 1) {
-          setApiData(
-            allCommentsAPIData?.data
-              ?.filter((filteredData) => {
-                if (filteredData?.label?.includes(sentimentNames)) {
-                  return filteredData;
-                }
-              })
-              .map((data) => data)
-          );
+    if (selectedSentiments?.length === 0) {
+      setApiData(allCommentsAPIData?.data);
+    } else {
+      for (let i in selectedSentiments) {
+        if (selectedSentiments[i] === "Positive") {
+          arr = [...arr, ...positiveCommentAtom?.data];
+          // setApiData(arr);
+        }
+        if (selectedSentiments[i] === "Negative") {
+          arr = [...arr, ...negativeCommentAtom?.data];
+          // setApiData(arr);
+        }
+        if (selectedSentiments[i] === "Neutral") {
+          arr = [...arr, ...neutralCommentAtom?.data];
+          // setApiData(arr);
+        }
+        if (selectedSentiments[i] === "Extreme") {
+          arr = [...arr, ...extremeCommentAtom?.data];
+          // setApiData(arr);
         }
       }
-    });
+
+      arr = arr.sort(function (x, y) {
+        return x?.time - y?.time;
+      });
+
+      setApiData(arr.reverse());
+    }
+
+    // sentimentList?.map((sentimentNames) => {
+    //   if (selectedSentiments?.includes(sentimentNames)) {
+    //     if (selectedSentiments?.length > 1) {
+    //       setApiData((apiData) => [
+    //         ...apiData,
+    //         allCommentsAPIData?.data
+    //           ?.filter((filteredData) => {
+    //             if (filteredData?.label?.includes(sentimentNames)) {
+    //               return filteredData;
+    //             }
+    //           })
+    //           .map((data) => data),
+    //       ]);
+    //     } else if (selectedSentiments?.length === 1) {
+    //       setApiData(
+    //         allCommentsAPIData?.data
+    //           ?.filter((filteredData) => {
+    //             if (filteredData?.label?.includes(sentimentNames)) {
+    //               return filteredData;
+    //             }
+    //           })
+    //           .map((data) => data)
+    //       );
+
+    //     }
+    //   }
+    // });
 
     // if (selectedSentiments?.includes("Positive")) {
     //   if (selectedSentiments?.length > 1) {
@@ -282,7 +335,7 @@ const NPSallComments = () => {
   }
 
   return (
-    <div className="w-[100%] md:w-[60%] border  p-2 h-[400px] rounded-lg bg-white">
+    <div className="w-[100%] md:w-[50%] border  p-2 h-[400px] rounded-lg bg-white">
       {!apiData && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -333,71 +386,90 @@ const NPSallComments = () => {
               </div>
             ) : (
               <div>
-                <table className="border-b-gray-100 border-b-2 text-[12px] p-3 pb-0 w-full min-w-[400px]  ">
-                  <thead className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5]">
+                <table className="text-[12px] p-3 pb-0 w-full  ">
+                  <thead className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5] ">
                     <tr className=" flex justify-between items-center gap-3 text-center px-2 text-[12px] text-gray-500 uppercase p-2 font-normal">
-                      <th className=" w-[5%]  min-w-[30px] hidden">
+                      {/* <th className=" w-[5%]  min-w-[30px] hidden">
                         <div className=" rounded-md  flex justify-start text-gray-400 capitalize font-medium">
                           S.No
                         </div>
-                      </th>
+                      </th> */}
 
                       <th
                         onClick={() => setAscSort(!ascSort)}
-                        className=" text-gray-400 w-[7%] min-w-[70px] capitalize  font-normal cursor-pointer hover:text-gray-600 transition"
+                        className=" text-gray-400 w-[10%] min-w-[70px] capitalize  text-left font-normal cursor-pointer hover:text-gray-600 transition relative "
                       >
                         <span>Date</span>
                         <span>
-                          {" "}
-                          <ArrowDropUpRoundedIcon
+                          {/* <ArrowDropUpRoundedIcon
                             className={` transition  ${
                               ascSort
                                 ? "rotate-180   ease-in"
                                 : "rotate-0  ease-in"
                             } `}
-                          />{" "}
+                          /> */}
+
+                          <img
+                            src={chevron}
+                            alt=" sort date"
+                            className={` ${
+                              ascSort
+                                ? "rotate-180 ease-in"
+                                : "rotate-0 ease-in"
+                            } transition-all inline w-[6px] ml-1 bottom-[30%] absolute`}
+                          />
                         </span>
                       </th>
-                      <th className=" text-gray-400 w-[70%] min-w-[200px] capitalize text-left font-normal">
+                      <th className=" text-gray-400 w-[60%] min-w-[200px]  capitalize text-left font-normal ">
                         Comments
                       </th>
 
-                      <th className=" text-gray-400 w-[7%] min-w-[70px]  capitalize font-normal hidden">
-                        Reason
+                      <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left  ">
+                        Clinic
                       </th>
-                      <th className=" text-gray-400 w-[7%] min-w-[70px]  capitalize font-normal hidden">
+                      {/* <th className=" text-gray-400 w-[7%] min-w-[70px]  capitalize font-normal hidden">
                         Visit Type
-                      </th>
+                      </th> */}
 
                       <th
-                        className="font-normal w-[10%] min-w-[70px]  text-gray-400 capitalize relative"
+                        className="font-normal w-[10%]      text-gray-400 capitalize relative  "
                         // onMouseEnter={() => setShowSentiments(true)}
-                        onMouseLeave={() => setShowSentiments(false)}
+                        // onMouseLeave={() => setShowSentiments(false)}
+                        ref={ref}
                       >
-                        <span
-                          className=" cursor-pointer"
+                        <div
+                          className=" cursor-pointer hover:text-gray-600 transition-all  inline-block w-full h-full relative "
                           onClick={() => setShowSentiments(!showSentiments)}
                         >
-                          Sentiment
-                          <ArrowDropUpRoundedIcon
+                          <span>Sentiment</span>
+                          {/* <ArrowDropUpRoundedIcon
                             fontSize="small"
                             className={` ${
                               showSentiments
                                 ? "rotate-0 ease-in"
                                 : "rotate-180 ease-in"
-                            } transition-all`}
+                            } transition-all inline`}
+                          /> */}
+                          <img
+                            src={chevron}
+                            alt=" select sentiment"
+                            className={` ${
+                              showSentiments
+                                ? "rotate-0 ease-in"
+                                : "rotate-180 ease-in"
+                            } transition-all inline w-[6px] ml-1 bottom-[30%] absolute right-[-10px]`}
                           />
-                        </span>
+                        </div>
 
                         <div
                           className={` ${
                             showSentiments ? "block" : "hidden "
-                          } absolute bg-white  top-[100%] -right-2 -left-10 shadow-lg rounded-lg border`}
+                          } absolute bg-white  top-[100%] w-[130px] right-0 shadow-lg rounded-lg `}
                         >
                           {sentimentList?.map((data, index) => (
                             <div
                               key={index + 1}
-                              className="text-left m-2 cursor-pointer"
+                              className="text-left m-2 cursor-pointer "
                             >
                               <input
                                 className=" cursor-pointer"
@@ -453,13 +525,13 @@ const NPSallComments = () => {
                               <div className="ml-2 inline-block">
                                 (
                                 {data === "Positive" &&
-                                  nssApiData?.nss?.total_positive}
+                                  positiveCommentAtom?.count}
                                 {data === "Negative" &&
-                                  nssApiData?.nss?.total_negative}
+                                  negativeCommentAtom?.count}
                                 {data === "Extreme" &&
-                                  nssApiData?.nss?.total_extreme}
+                                  extremeCommentAtom?.count}
                                 {data === "Neutral" &&
-                                  nssApiData?.nss?.total_neutral}
+                                  neutralCommentAtom?.count}
                                 )
                               </div>
                             </div>
@@ -492,20 +564,20 @@ const NPSallComments = () => {
                     })
                     .map((data, index) => {
                       return (
-                        <tbody key={index} className="w-full">
+                        <tbody key={index} className="w-full ">
                           {index <= totalViewedComments && (
                             <>
-                              <tr className=" py-2 px-2 flex justify-between items-center gap-3 border-b-2 border-b-gray-100 w-full">
-                                <td className=" text-gray-400 w-[5%]  min-w-[30px] text-[14px] hidden ">
+                              <tr className="flex justify-around items-center gap-3 px-2 py-3 border-b">
+                                {/* <td className=" text-gray-400 w-[5%]  min-w-[30px] text-[14px] hidden ">
                                   {index + 1}
-                                </td>
-                                <td className=" text-gray-400 w-[7%] min-w-[70px] text-center  font-semibold  text-[12px] ">
+                                </td> */}
+                                <td className=" text-gray-400 w-[10%] min-w-[70px] capitalize  font-normal text-[12px]  ">
                                   {data?.timestamp}
                                 </td>
 
-                                <td className=" w-[70%] min-w-[200px] ">
+                                <td className=" text-gray-400 w-[60%] min-w-[200px]  text-left font-normal  ">
                                   <div
-                                    className="max-w-[100%] text-[#000c08b3] font-semibold"
+                                    className="w-full text-[#000c08b3] text-[12px] font-semibold"
                                     onClick={() => {
                                       setExpandComment(data.id);
                                       setClickCount(!clickCount);
@@ -517,50 +589,54 @@ const NPSallComments = () => {
                                   </div>
                                 </td>
 
-                                <td className=" text-gray-400 w-[7%] min-w-[70px] text-center font-semibold  text-[10px] hidden">
+                                <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
+                                  {data?.clinic}
+                                </td>
+
+                                {/* <td className=" text-gray-400 w-[7%] min-w-[70px] text-center font-semibold  text-[10px] hidden">
                                   Annual Checkup
                                 </td>
                                 <td className=" text-gray-400 w-[7%] min-w-[70px]  text-center font-semibold text-[10px] hidden">
                                   Office
-                                </td>
+                                </td> */}
                                 {data?.label == "Positive" && (
                                   // <td className=" bg-[#00AC69] bg-opacity-[16%] text-[#00AC69] font-medium py-2 w-[15%]  rounded-full  min-w-[60px] text-center">
                                   //   {data?.label}
                                   // </td>
-                                  <td className="  font-medium py-2 w-[7%] min-w-[70px]  rounded-full text-center ">
+                                  <td className=" font-normal w-[10%]   text-gray-400 capitalize ">
                                     {/* <div className="bg-[#00AC69] w-[8px] h-[8px] rounded-lg mx-auto"></div> */}
                                     <img
                                       src={PositiveIcon}
                                       alt="Positive"
-                                      className="w-[20px] mx-auto opacity-80 "
+                                      className="mx-auto "
                                     />
                                   </td>
                                 )}
                                 {data?.label == "Negative" && (
-                                  <td className="  py-2 w-[7%] min-w-[70px]  font-medium rounded-full text-center ">
+                                  <td className="  font-normal w-[10%]   text-gray-400 capitalize ">
                                     <img
                                       src={NegativeIcon}
                                       alt="Negative"
-                                      className="w-[20px] mx-auto opacity-80 "
+                                      className="mx-auto "
                                     />
                                   </td>
                                 )}
                                 {data?.label == "Neutral" && (
-                                  <td className="  py-2 w-[7%] min-w-[70px]  text-gray-700 rounded-full   font-medium text-center ">
+                                  <td className="  font-normal w-[10%]   text-gray-400 capitalize ">
                                     {/* {data?.label} */}
                                     <img
                                       src={NeutralIcon}
                                       alt="Neutral"
-                                      className="w-[20px] mx-auto  "
+                                      className=" mx-auto  "
                                     />
                                   </td>
                                 )}
                                 {data?.label == "Extreme" && (
-                                  <td className="  py-2 w-[7%] min-w-[70px] text-center    rounded-full   ">
+                                  <td className="  font-normal w-[10%]   text-gray-400 capitalize  ">
                                     <img
                                       src={ExtremeIcon}
                                       alt="Extreme"
-                                      className="w-[20px] mx-auto opacity-80 "
+                                      className="mx-auto "
                                     />
                                   </td>
                                 )}

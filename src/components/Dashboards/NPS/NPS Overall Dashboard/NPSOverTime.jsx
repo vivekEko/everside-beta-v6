@@ -86,7 +86,7 @@ const NPSOverTime = () => {
       {apiData && (
         <div className="w-full">
           <h1 className=" font-bold opacity-80 ">NPS Over Time</h1>
-          <div className="text-center text-[10px] opacity-80 flex w-full justify-between mt-[30px] mb-[10px]">
+          <div className="text-center text-[10px] opacity-80 flex w-full justify-between mt-[0px] mb-[10px]">
             <div></div>
             <div className="justify-self-center"></div>
             <div className="flex justify-end items-center gap-[4px] ">

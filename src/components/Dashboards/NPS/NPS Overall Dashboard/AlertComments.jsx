@@ -75,7 +75,7 @@ const AlertComments = () => {
   // }, [apiData]);
 
   return (
-    <div className=" w-[100%] md:w-[40%] p-2 h-[400px] rounded-lg bg-white border ">
+    <div className=" w-[100%] md:w-[50%] p-2 h-[400px] rounded-lg bg-white border ">
       {!apiData?.data && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -133,11 +133,11 @@ const AlertComments = () => {
                       Comments
                     </th>
 
-                    <th className=" text-gray-400 w-[25%] min-w-[70px]  capitalize font-normal text-left ">
+                    <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
                       Clinic
                     </th>
 
-                    <th className="font-normal w-[5%]   text-gray-400 capitalize invisible">
+                    <th className="font-normal w-[10%]   text-gray-400 capitalize ">
                       Sentiment
                     </th>
                   </tr>
@@ -175,14 +175,14 @@ const AlertComments = () => {
                             </div>
                           </td>
 
-                          <td className=" text-gray-400 w-[25%] min-w-[70px]   font-normal ">
+                          <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
                             {data?.clinic}
                           </td>
-                          <td className="font-normal w-[5%]   text-gray-400 capitalize">
+                          <td className="font-normal w-[10%]   text-gray-400 capitalize">
                             <img
                               src={ExtremeIcon}
                               alt="extreme"
-                              className="ml-auto"
+                              className="mx-auto"
                             />
                           </td>
                         </tr>
