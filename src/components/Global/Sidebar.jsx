@@ -187,7 +187,7 @@ const Sidebar = () => {
 
             {/* <EngagementIcon /> */}
 
-            <div className="mb-[30px]">
+            <div className="mb-[30px] invisible">
               <Link to="/engagementModel">
                 <SidebarLink
                   iconName="/engagementModel"
@@ -211,7 +211,7 @@ const Sidebar = () => {
               </Link>
             </div>
 
-            <div className="mb-[30px]">
+            <div className="mb-[30px] invisible">
               <Link to="/SDOH">
                 <SidebarLink
                   iconName="/SDOH"
