@@ -308,12 +308,13 @@ const NPSDetailCard = () => {
 export default NPSDetailCard;
 
 function CustomTooltip({ active, payload, label }) {
-  const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
+  const [npsAPIdataValue, setNpsApiDataValue] = useRecoilState(npsAPIdata);
   const [apiData, setApiData] = useState();
 
+  console.log(payload[0]?.name);
   useEffect(() => {
-    setApiData(nssApiData);
-  }, [nssApiData]);
+    setApiData(npsAPIdataValue);
+  }, [npsAPIdataValue]);
 
   if (active) {
     return (
@@ -342,13 +343,13 @@ function CustomTooltip({ active, payload, label }) {
               <div className="flex justify-between items-center  w-full">
                 <span className="text-[11px] font-semibold">Total count:</span>
                 <span className="text-[11px] font-semibold">
-                  {data?.name === "Positive"
-                    ? apiData?.nss?.total_positive
+                  {data?.name === "Promoters"
+                    ? apiData?.nps?.total_promoters
                     : ""}
-                  {data?.name === "Negative"
-                    ? apiData?.nss?.total_negative
+                  {data?.name === "Passives" ? apiData?.nps?.total_passive : ""}
+                  {data?.name === "Detractors"
+                    ? apiData?.nps?.total_detractors
                     : ""}
-                  {data?.name === "Extreme" ? apiData?.nss?.total_extreme : ""}
                 </span>
               </div>
             </div>

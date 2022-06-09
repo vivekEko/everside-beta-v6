@@ -59,6 +59,25 @@ const NPSDashboard = () => {
   const [neutralCommentAtom, setNeutralCommentAtom] =
     useRecoilState(neutralComments);
 
+  useEffect(() => {
+    console.log("positiveCommentAtom");
+    console.log(positiveCommentAtom);
+
+    console.log("negativeCommentAtom");
+    console.log(negativeCommentAtom);
+
+    console.log("extremeCommentAtom");
+    console.log(extremeCommentAtom);
+
+    console.log("neutralCommentAtom");
+    console.log(neutralCommentAtom);
+  }, [
+    positiveCommentAtom,
+    negativeCommentAtom,
+    extremeCommentAtom,
+    neutralCommentAtom,
+  ]);
+
   // const [apiNameVars, setApiNameVars] = useRecoilState(apiNameVar);
   const defaultStartYear = new Date().getFullYear();
   // const defaultStartYear = 2018;
@@ -242,6 +261,9 @@ const NPSDashboard = () => {
     if (sendDataStatus === true) {
       // console.log("total Comments response:");
       // console.log(linksArray[3]);
+      // console.log(linksArray[4]);
+      // console.log(linksArray[5]);
+      // console.log(linksArray[6]);
 
       const nps = await axios.get(linksArray[0]);
       setTimeout(() => setNpsApiData(nps?.data), 50);
@@ -262,16 +284,16 @@ const NPSDashboard = () => {
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
       const postive_comments = await axios.get(linksArray[3]);
-      setTimeout(() => setPositiveCommentAtom(postive_comments), 50);
+      setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
 
       const neutral_comments = await axios.get(linksArray[4]);
-      setTimeout(() => setNeutralCommentAtom(neutral_comments), 50);
+      setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
 
       const negative_comments = await axios.get(linksArray[5]);
-      setTimeout(() => setNegativeCommentAtom(negative_comments), 50);
+      setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
 
       const extreme_comments = await axios.get(linksArray[6]);
-      setTimeout(() => setExtremeCommentAtom(extreme_comments), 50);
+      setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
 
       const allComments = await axios.get(linksArray[7]);
       setTimeout(() => {
@@ -305,6 +327,10 @@ const NPSDashboard = () => {
 
     // ELSE
     else if (sendDataStatus === -1) {
+      // console.log(defaultArray[3]);
+      // console.log(defaultArray[4]);
+      // console.log(defaultArray[5]);
+      // console.log(defaultArray[6]);
       // console.log("total Comments response:");
       // console.log(defaultArray[3]);
 

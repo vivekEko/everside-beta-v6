@@ -187,7 +187,7 @@ const Sidebar = () => {
 
             {/* <EngagementIcon /> */}
 
-            <div className="mb-[30px] invisible">
+            <div className="mb-[30px] ">
               <Link to="/engagementModel">
                 <SidebarLink
                   iconName="/engagementModel"
