@@ -33,42 +33,6 @@ const NSSOverTime = () => {
     sentimentOverTimeApiData
   );
 
-  // useEffect(() => {
-  //   const requestURL =
-  //     baseAPI +
-  //     "nssOverTime?" +
-  //     "start_year=" +
-  //     finalStartDate +
-  //     "&" +
-  //     "start_month=" +
-  //     finalStartMonth +
-  //     "&" +
-  //     "end_year=" +
-  //     finalEndDate +
-  //     "&" +
-  //     "end_month=" +
-  //     finalEndMonth;
-
-  //   if (sendDataStatus === true) {
-  //     // console.log("Requested URL: " + requestURL);
-  //     axios.get(requestURL).then((res) => {
-  //       // console.log(res);
-  //       // console.log(res?.data);
-  //       setApiData(res?.data);
-  //     });
-  //   } else if (sendDataStatus === false) {
-  //     axios
-  //       .get(
-  //         baseAPI +
-  //           "nssOverTime?start_month=1&start_year=2021&end_month=12&end_year=2021"
-  //       )
-  //       .then((res) => {
-  //         setApiData(res?.data);
-  //         // console.log("This is else if data" + res?.data);
-  //       });
-  //   }
-  // }, [sendDataStatus]);
-
   useEffect(() => {
     setApiData(nssOverTimeAPIData);
     // console.log("atom data nss component");
@@ -133,7 +97,7 @@ const NSSOverTime = () => {
                   barSize={20}
                   dataKey="nss"
                   fill="#0094E0"
-                  radius={[20, 20, 0, 0]}
+                  radius={[5, 5, 0, 0]}
                 />
               </BarChart>
             </ResponsiveContainer>

@@ -24,6 +24,18 @@ const AlertComments = () => {
   const [totalFilteredComments, setTotalFilteredComments] = useState();
   const [ascSort, setAscSort] = useState(false);
 
+  const handleInput = (e) => {
+    setInputData(e.target.value);
+
+    setTotalFilteredComments(
+      apiData?.filter((filtered_value) => {
+        return filtered_value?.review
+          ?.toLowerCase()
+          ?.includes(e.target.value?.toLowerCase());
+      }).length
+    );
+  };
+
   //   truncating description if it contains more then desired no. of characters
   function truncate(string, n) {
     return (
@@ -53,20 +65,8 @@ const AlertComments = () => {
     console.log(apiData);
   }, [apiData]);
 
-  const handleInput = (e) => {
-    setInputData(e.target.value);
-
-    setTotalFilteredComments(
-      apiData?.filter((filtered_value) => {
-        return filtered_value?.review
-          ?.toLowerCase()
-          ?.includes(e.target.value?.toLowerCase());
-      }).length
-    );
-  };
-
   return (
-    <div className=" w-[100%] md:w-[50%] p-2 h-[400px] rounded-lg bg-white border ">
+    <div className=" border w-full p-2 h-[810px] rounded-lg bg-white mt-3 ">
       {!apiData && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -108,7 +108,7 @@ const AlertComments = () => {
             </div>
           </div>
 
-          <div className=" h-[340px] overflow-y-scroll scrollbar-hide ">
+          <div className="h-[750px] overflow-y-scroll scrollbar-hide ">
             {apiData?.length === 0 ? (
               <div className="h-full w-full flex justify-center items-center text-gray-400">
                 No Alerts

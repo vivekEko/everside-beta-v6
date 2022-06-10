@@ -245,7 +245,7 @@ const NPSDetailCard = () => {
               {/* Pie graph */}
               <div className="absolute  top-[50%]  left-[50%] translate-x-[-50%] translate-y-[-50%]">
                 <div className="flex flex-col justify-center items-center">
-                  <h1 className="text-[18px] opacity-40">NSS</h1>
+                  <h1 className="text-[15px] opacity-40">Sentiments</h1>
                   <p className="opacity-80 text-[24px] font-semibold  ">
                     <CountUp
                       start={0}

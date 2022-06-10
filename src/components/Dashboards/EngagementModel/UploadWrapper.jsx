@@ -155,7 +155,7 @@ const UploadWrapper = () => {
 
             <div className="p-2 md:p-5    rounded-lg bg-white border flex justify-center md:justify-center items-center w-[60%]">
               <div className="w-full">
-                <h1 className=" font-bold opacity-80 ">Member Percentile</h1>
+                <h1 className=" font-bold opacity-80 ">Member Score</h1>
                 <div className="text-center text-[10px] opacity-80 flex w-full justify-end gap-5 mt-[30px] mb-[10px]">
                   <div className="flex justify-end items-center gap-[4px] ">
                     <div className="bg-red-500 h-[10px] w-[10px] rounded-full"></div>

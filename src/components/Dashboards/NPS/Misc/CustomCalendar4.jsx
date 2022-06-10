@@ -66,10 +66,6 @@ const CustomCalendar4 = () => {
   const [allDataRecievedStatus, setAllDataRecievedStatus] =
     useRecoilState(allDataRecieved);
 
-  const [val, setVal] = useState([
-    new Date().getFullYear(),
-    new Date().getFullYear(),
-  ]);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
   const [endMonthVal, setEndMonthVal] = useState("Apr");
@@ -81,6 +77,8 @@ const CustomCalendar4 = () => {
   const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
   const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
   const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
+
+  const [val, setVal] = useState([finalStartDate, finalEndDate]);
 
   const marks = [
     {
@@ -105,10 +103,10 @@ const CustomCalendar4 = () => {
     setFinalEndDate(val[1]);
   }, [val]);
 
-  useEffect(() => {
-    setFinalStartMonth(1);
-    setFinalEndMonth(4);
-  }, []);
+  // useEffect(() => {
+  //   setFinalStartMonth(1);
+  //   setFinalEndMonth(4);
+  // }, []);
 
   const updateVal = (e, item) => {
     setVal(item);

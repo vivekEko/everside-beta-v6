@@ -20,7 +20,7 @@ import negativeComments from "../../../../recoil/atoms/negativeComments";
 import extremeComments from "../../../../recoil/atoms/extremeComments";
 import neutralComments from "../../../../recoil/atoms/neutralComments";
 
-const NPSallComments = () => {
+const TotalComments2 = () => {
   const [inputData, setInputData] = useState("");
   const [expandComment, setExpandComment] = useState("");
   const [clickCount, setClickCount] = useState(false);
@@ -187,7 +187,7 @@ const NPSallComments = () => {
   }
 
   return (
-    <div className="w-[100%] md:w-[50%] border  p-2 h-[400px] rounded-lg bg-white">
+    <div className="w-[100%] border lg:w-[55%] p-2 h-[900px] rounded-lg bg-white">
       {!apiData && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -231,7 +231,7 @@ const NPSallComments = () => {
               />
             </div>
           </div>
-          <div className=" h-[350px] overflow-y-scroll overflow-x-scroll scrollbar-hide ">
+          <div className=" h-[850px] overflow-y-scroll overflow-x-scroll scrollbar-hide ">
             {apiData?.length === 0 ? (
               <div className="h-full w-full flex justify-center items-center text-gray-400">
                 No Comments
@@ -523,4 +523,4 @@ const NPSallComments = () => {
   );
 };
 
-export default NPSallComments;
+export default TotalComments2;

@@ -15,18 +15,6 @@ const Allalerts = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [totalFilteredComments, setTotalFilteredComments] = useState();
 
-  const handleInput = (e) => {
-    setInputData(e.target.value);
-
-    setTotalFilteredComments(
-      apiData?.filter((filtered_value) => {
-        return filtered_value?.review
-          ?.toLowerCase()
-          ?.includes(e.target.value?.toLowerCase());
-      }).length
-    );
-  };
-
   //   truncating description if it contains more then desired no. of characters
   function truncate(string, n) {
     return (
@@ -56,8 +44,20 @@ const Allalerts = () => {
 
   useEffect(() => {
     console.log("all alerts data:");
-    console.log(apiData);
+    console.log(apiData?.length);
   }, [apiData]);
+
+  const handleInput = (e) => {
+    setInputData(e.target.value);
+
+    setTotalFilteredComments(
+      apiData?.filter((filtered_value) => {
+        return filtered_value?.review
+          ?.toLowerCase()
+          ?.includes(e.target.value?.toLowerCase());
+      }).length
+    );
+  };
 
   return (
     <div className=" border w-full p-2 h-[810px] rounded-lg bg-white mt-3  ">

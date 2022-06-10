@@ -59,31 +59,16 @@ const NPSDashboard = () => {
   const [neutralCommentAtom, setNeutralCommentAtom] =
     useRecoilState(neutralComments);
 
-  useEffect(() => {
-    console.log("positiveCommentAtom");
-    console.log(positiveCommentAtom);
-
-    console.log("negativeCommentAtom");
-    console.log(negativeCommentAtom);
-
-    console.log("extremeCommentAtom");
-    console.log(extremeCommentAtom);
-
-    console.log("neutralCommentAtom");
-    console.log(neutralCommentAtom);
-  }, [
-    positiveCommentAtom,
-    negativeCommentAtom,
-    extremeCommentAtom,
-    neutralCommentAtom,
-  ]);
-
   // const [apiNameVars, setApiNameVars] = useRecoilState(apiNameVar);
-  const defaultStartYear = new Date().getFullYear();
+  // const defaultStartYear = new Date().getFullYear();
+  const defaultStartYear = finalStartDate;
+
   // const defaultStartYear = 2018;
 
   const defaultStartMonth = 1;
-  const defaultEndYear = new Date().getFullYear();
+  // const defaultEndYear = new Date().getFullYear();
+  const defaultEndYear = finalEndDate;
+
   const defaultEndMonth = 4;
 
   // All api data variables
@@ -222,16 +207,16 @@ const NPSDashboard = () => {
         allApiNames[i] +
         "?" +
         "start_year=" +
-        defaultStartYear +
+        finalStartDate +
         "&" +
         "start_month=" +
-        defaultStartMonth +
+        finalStartMonth +
         "&" +
         "end_year=" +
-        defaultEndYear +
+        finalEndDate +
         "&" +
         "end_month=" +
-        defaultEndMonth +
+        finalEndMonth +
         "&region=" +
         "" +
         "&clinic=" +
