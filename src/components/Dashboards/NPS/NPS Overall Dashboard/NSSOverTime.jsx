@@ -95,6 +95,7 @@ const NSSOverTime = () => {
                 <Bar
                   stackId="a"
                   barSize={20}
+                  name="sentiments"
                   dataKey="nss"
                   fill="#0094E0"
                   radius={[5, 5, 0, 0]}

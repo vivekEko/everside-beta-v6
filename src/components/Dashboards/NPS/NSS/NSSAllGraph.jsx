@@ -25,7 +25,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 
 const NPSAllGraph = () => {
   const [filterStatus, setFilterStatus] = useState(false);
-  const [graphName, setGraphName] = useState("NSS Score");
+  const [graphName, setGraphName] = useState("Sentiment Score");
 
   const [spinAnimation, setSpinAnimation] = useState(false);
 
@@ -37,7 +37,7 @@ const NPSAllGraph = () => {
   const npsGraphNames = [
     {
       id: 1,
-      name: "NSS Score",
+      name: "Sentiment Score",
     },
     {
       id: 2,
@@ -222,7 +222,7 @@ const NPSAllGraph = () => {
             </div>
             <div className="flex items-center gap-1">
               <div className="bg-[#009DFF] h-[8px] w-[8px] rounded-full"></div>
-              <div className="text-[12px] opacity-80">NSS Score</div>
+              <div className="text-[12px] opacity-80">Sentiment Score</div>
             </div>
           </div>
 
@@ -299,7 +299,7 @@ const NPSAllGraph = () => {
                 {nssScore && (
                   <Area
                     type="monotone"
-                    name="nss"
+                    name="sentiments"
                     dataKey="nss"
                     stroke="#0094E0 "
                     dot={false}

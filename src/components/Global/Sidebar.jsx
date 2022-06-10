@@ -143,7 +143,7 @@ const Sidebar = () => {
                   <SidebarMiniLink
                     iconName="NSS_Analysis"
                     pageName={activePageValue}
-                    linkName="NSS Analysis"
+                    linkName="Sentiments"
                     onClick={() => {
                       setPageName("/");
                       setComponentNameValue("/");
