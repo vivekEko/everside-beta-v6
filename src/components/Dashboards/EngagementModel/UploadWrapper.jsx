@@ -3,6 +3,7 @@ import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import uploadIcon from "../../../assets/img/global-img/uploadIcon.svg";
 import { PuffLoader } from "react-spinners";
 import CountUp from "react-countup";
+
 import RespondantsIcon from "../../../assets/img/global-img/respondants.svg";
 
 import {
@@ -21,6 +22,8 @@ import {
   YAxis,
 } from "recharts";
 import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import { useRecoilState } from "recoil";
+import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
 
 const UploadWrapper = () => {
   const [selectedFile, setSelectedFile] = useState();
@@ -28,7 +31,7 @@ const UploadWrapper = () => {
   const [loaderStatus, setLoaderStatus] = useState(false);
   // const [rows, setRows] = useState();
   // const [columns, setColumns] = useState();
-  const [apiData, setApiData] = useState();
+  const [apiData, setApiData] = useRecoilState(engagementModelAPI);
   const [graphData, setGraphData] = useState();
   const [percentageData, setPercentageData] = useState();
   const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
@@ -40,23 +43,17 @@ const UploadWrapper = () => {
   useEffect(() => {
     setTimeout(() => {
       setMales(apiData?.gender?.male);
+
       setFemales(apiData?.gender?.female);
       setOthers(apiData?.gender?.other);
     }, 100);
-
-    console.log(apiData?.gender);
   }, [apiData?.gender?.male]);
 
-  useEffect(() => {
-    console.log("Males");
-    console.log(Males);
-  }, [Males]);
-
   const changeHandler = (event) => {
-    // console.log(event.target.files[0]);
     setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
   };
+
   const handleSubmission = () => {
     const formData = new FormData();
     formData.append("file", selectedFile);
@@ -66,7 +63,6 @@ const UploadWrapper = () => {
     })
       .then((response) => response?.json())
       .then((result) => {
-        // console.log("Success:", result);
         if (result?.Message === "TRUE") {
           setLoaderStatus(false);
           setGraphData(result?.graph);
@@ -117,20 +113,7 @@ const UploadWrapper = () => {
       {graphData && (
         <div>
           <div className="flex justify-between items-start gap-2 flex-row-reverse">
-            {/* Total cards */}
-            {/* <div className="flex justify-center items-center gap-10 w-[40%] border">
-            <div className="p-2 text-center bg-white rounded-lg w-[150px] border">
-              <h3 className="opacity-60 mb-2 text-xs">Rows</h3>
-              <h1 className="opacity-80 text-3xl">{rows}</h1>
-            </div>
-
-            <div className="p-2 text-center bg-white rounded-lg w-[150px] border">
-              <h3 className="opacity-60 mb-2 text-xs">Columns</h3>
-              <h1 className="opacity-80 text-3xl">{columns}</h1>
-            </div>
-          </div> */}
-
-            <div className="grid grid-cols-3 w-[40%]  ">
+            <div className="grid grid-cols-3 w-[40%]">
               {apiData?.cards_data?.map((data, index) => (
                 <div
                   key={index}
@@ -151,7 +134,7 @@ const UploadWrapper = () => {
               ))}
             </div>
 
-            {/* Graph */}
+            {/*Member Score Graph */}
 
             <div className="p-2 md:p-5    rounded-lg bg-white border flex justify-center md:justify-center items-center w-[60%]">
               <div className="w-full">
@@ -172,13 +155,7 @@ const UploadWrapper = () => {
                 </div>
 
                 {/* Graph */}
-                <div className="relative ">
-                  {/* <div className=" absolute h-full w-full z-[999] bg-opacity-10 pl-[3%] pr-[1.5%] grid grid-cols-3">
-            <div className="bg-red-500 opacity-10 h-full w-[100%]  mx-auto"></div>
-            <div className="bg-yellow-500 opacity-10 h-full w-[100%]  mx-auto"></div>
-            <div className="bg-green-500 opacity-10 h-full w-[100%]  mx-auto"></div>
-          </div> */}
-
+                <div className="relative">
                   <ResponsiveContainer width="100%" height={220}>
                     <AreaChart
                       data={graphData}
@@ -259,7 +236,7 @@ const UploadWrapper = () => {
           <div className="flex justify-between items-start gap-2 mt-2">
             {/* Age Graph */}
 
-            <div className="p-2 md:p-5    rounded-lg bg-white border flex justify-center md:justify-center items-center w-[50%]">
+            {/* <div className="p-2 md:p-5    rounded-lg bg-white border flex justify-center md:justify-center items-center w-[50%]">
               <div className="w-full">
                 <h1 className=" font-bold opacity-80 ">Age Group</h1>
 
@@ -302,12 +279,14 @@ const UploadWrapper = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
+
+
               </div>
-            </div>
+            </div> */}
 
             {/* Gender */}
 
-            <div className="w-[50%] border rounded-md p-5 h-[317px] ">
+            {/* <div className="w-[50%] border rounded-md p-5 h-[317px] ">
               <div className=" font-bold   flex justify-between gap-2 items-center">
                 <div className="font-bold opacity-80 text-[18px] mb-7  w-full">
                   Gender Classification
@@ -351,8 +330,8 @@ const UploadWrapper = () => {
                         <div className="rounded-full bg-[#000C08] bg-opacity-[6%] h-[24px] mt-1 border-2 border-[#000C08] border-opacity-[8%] flex justify-center items-center ">
                           {apiData?.gender?.male && (
                             <div
-                              className={` ml-auto rounded-full bg-[#39a0ed] transition-all ease-in duration-1000 w-[50%]`}
-                              // style={loaderAnimation}
+                              className={` ml-auto rounded-full bg-[#39a0ed] transition-all ease-in duration-1000 `}
+                              style={loaderAnimation}
                             >
                               <div className="font-semibold  text-white ml-2">
                                 {apiData?.gender?.male < 1 ? (
@@ -462,21 +441,6 @@ const UploadWrapper = () => {
                 </div>
 
                 <div className="relative w-[100%] sm:w-[40%]   ">
-                  <div className="absolute  top-[50%]  left-[50%] translate-x-[-50%] translate-y-[-50%] ">
-                    {/* <div className="flex flex-col justify-center items-center">
-                      <h1 className="text-[18px] opacity-40">NPS</h1>
-                      <p className="opacity-80 text-[24px] font-semibold  ">
-                        <CountUp
-                          start={0}
-                          duration={1}
-                          end={apiData?.nps?.nps_score}
-                          separator=","
-                          suffix="%"
-                        />
-                      </p>
-                    </div> */}
-                  </div>
-
                   <div className=" w-[100%] md:min-w-[110px]">
                     <ResponsiveContainer height={180} width="100%">
                       <PieChart key={apiData?.gender_pie}>
@@ -505,7 +469,7 @@ const UploadWrapper = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -632,8 +596,6 @@ function CustomTooltip2({ active, payload, label }) {
 }
 
 function CustomTooltip3({ active, payload, label }) {
-  console.log("gender payloadddddddddddddddddddddddddd");
-  console.log(payload);
   if (active) {
     return (
       <div className="rounded-md bg-[#fafafa] text-[#1a1a1a] p-[1rem] shadow-2xl shadow-[#000000]">

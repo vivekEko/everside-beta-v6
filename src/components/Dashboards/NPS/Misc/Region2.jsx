@@ -45,18 +45,8 @@ const Region2 = () => {
     setInputData(e.target.value);
   };
 
-  // useEffect(() => {
-  //   console.log("regionLocalStatusAtom:");
-  //   console.log(regionLocalStatusAtom);
-  // }, [regionLocalStatusAtom]);
-
   const [regionCheckLogic, setRegionCheckLogic] = useState([]);
   const [flushRegionValue, setFlushRegionvalue] = useRecoilState(flushRegion);
-
-  // useEffect(() => {
-  //   console.log("regionListValue");
-  //   console.log(regionListValue);
-  // }, [regionListValue]);
 
   // function to remove selected text from array
   function arrayRemove(arr, value) {
@@ -71,11 +61,6 @@ const Region2 = () => {
     setNewRegionLocal(regionListValue?.region);
   }, [regionListValue]);
 
-  // useEffect(() => {
-  //   console.log("regionListValueNew:");
-  //   console.log(newRegionLocal);
-  // }, [newRegionLocal]);
-
   useEffect(() => {
     if (regionLocal?.length) {
       setRegionLocalStatusAtom(true);
@@ -83,21 +68,6 @@ const Region2 = () => {
       setRegionLocalStatusAtom(false);
     }
   }, [regionLocal]);
-
-  // useEffect(() => {
-  //   console.log("regionCheckLogic");
-  //   console.log(regionCheckLogic);
-  // }, [regionCheckLogic]);
-
-  //   useEffect(() => {
-  //    (data) => {
-  //     setRegionCheckLogic((regionCheckLogic) => [ {
-  //         "regionName" :  data,
-  //         "regionChecked": "FALSE"
-  //     }])
-  //    }
-
-  //   }, [third])
 
   const [runClinicAPI, setRunClinicAPI] = useState(true);
   const [regionStatusLocal, setRegionStatusoLocal] = useState(false);
@@ -138,10 +108,6 @@ const Region2 = () => {
       );
 
       setClinicAPIDataValue(clinicData?.data);
-      // console.log(
-      //   "clinic////////////////////////////////////////////////////////"
-      // );
-      // console.log(clinicData);
     }
   }, [runClinicAPI]);
 
@@ -149,14 +115,7 @@ const Region2 = () => {
     if (flushRegionValue === true) {
       setRegionLocal([]);
     }
-
-    // console.log("region flush value:");
-    // console.log(flushRegionValue);
   }, [flushRegionValue]);
-
-  // useEffect(() => {
-  //   console.log(regionShowStatus);
-  // }, [regionShowStatus]);
 
   const closeToggle = () => {
     setRegionShowStatus(false);
@@ -172,12 +131,6 @@ const Region2 = () => {
       ])
     );
   }
-
-  // useEffect(() => {
-  //   if (flushClinicStatus === true) {
-  //     setGoStatus(!goStatus);
-  //   }
-  // }, [flushClinicStatus]);
 
   return (
     <div
@@ -334,38 +287,12 @@ const Region2 = () => {
                               }
                             }}
                           >
-                            {/* {data.substr(data.indexOf(",") + 1)} */}
                             {data?.split(",")[0]}
                           </label>
                         </div>
                       );
                     })}
                 </div>
-
-                {/* <div>
-                  {newRegionLocal?.map((data) => {
-                    if (
-                      data?.name
-                        ?.toLowerCase()
-                        ?.includes(inputData?.toLowerCase())
-                    ) {
-                      // console.log("map clg:");
-                      // console.log(data);
-                      return (
-                        <div key={Math.random()}>
-                          <input
-                            type="checkbox"
-                            name={data?.name}
-                            id={data?.name}
-                            defaultChecked={
-                              regionLocal?.includes(data?.name) ? true : false
-                            }
-                          />
-                        </div>
-                      );
-                    }
-                  })}
-                </div> */}
               </div>
             </div>
 
