@@ -160,7 +160,7 @@ const NPSDashboard = () => {
   useEffect(async () => {
     // Region
     if (callRegion === true) {
-      const regionData = await axios.get(
+      const regionData = await axios.post(
         baseAPI +
           "filterRegion?start_month=" +
           finalStartMonth +
@@ -173,7 +173,15 @@ const NPSDashboard = () => {
           "&region=" +
           newRegionGlobal +
           "&clinic=" +
-          selectedClinicValue
+          selectedClinicValue,
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
       );
       setRegionListValue(regionData?.data);
 
@@ -253,14 +261,13 @@ const NPSDashboard = () => {
       // console.log(linksArray[5]);
       // console.log(linksArray[6]);
 
-      const nps = await axios.get(
+      const nps = await axios.post(
         linksArray[0],
-        {
-          token: sessionStorage.getItem("token"),
-        },
+        formdata,
+
         {
           headers: {
-            authorization: "jhasgbdhasvbdua234as54ascasjchb",
+            authorization: sessionStorage.getItem("token"),
             Accept: "application/json",
           },
         }
@@ -273,51 +280,191 @@ const NPSDashboard = () => {
       // console.log(nps?.data);
       // console.log(linksArray[0]);
 
-      const nss = await axios.get(linksArray[1]);
+      const nss = await axios.post(
+        linksArray[1],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNssApiData(nss?.data), 50);
 
-      const totalCards = await axios.get(linksArray[2]);
+      const totalCards = await axios.post(
+        linksArray[2],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setTotalCardsAPIDatas(totalCards?.data), 50);
 
-      // const topComments = await axios.get(linksArray[3]);
+      // const topComments = await axios.post(linksArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const postive_comments = await axios.get(linksArray[3]);
+      const postive_comments = await axios.post(
+        linksArray[3],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
 
-      const neutral_comments = await axios.get(linksArray[4]);
+      const neutral_comments = await axios.post(
+        linksArray[4],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
 
-      const negative_comments = await axios.get(linksArray[5]);
+      const negative_comments = await axios.post(
+        linksArray[5],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
 
-      const extreme_comments = await axios.get(linksArray[6]);
+      const extreme_comments = await axios.post(
+        linksArray[6],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
 
-      const allComments = await axios.get(linksArray[7]);
+      const allComments = await axios.post(
+        linksArray[7],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(linksArray[8]);
+      const alerts = await axios.post(
+        linksArray[8],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(linksArray[9]);
+      const npsOverTime = await axios.post(
+        linksArray[9],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(linksArray[10]);
+      const nssOverTime = await axios.post(
+        linksArray[10],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
 
-      const npsVsSentiment = await axios.get(linksArray[11]);
+      const npsVsSentiment = await axios.post(
+        linksArray[11],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(linksArray[12]);
+      const providers = await axios.post(
+        linksArray[12],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(linksArray[13]);
+      const clinics = await axios.post(
+        linksArray[13],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(linksArray[14]);
+      const clients = await axios.post(
+        linksArray[14],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => {
         setClientApiAtom(clients?.data);
         setAllDataRecievedStatus(true);
@@ -326,13 +473,6 @@ const NPSDashboard = () => {
 
     // ELSE
     else if (sendDataStatus === -1) {
-      // console.log(defaultArray[3]);
-      // console.log(defaultArray[4]);
-      // console.log(defaultArray[5]);
-      // console.log(defaultArray[6]);
-      // console.log("total Comments response:");
-      // console.log(defaultArray[3]);
-
       const nps = await axios.post(
         defaultArray[0],
         formdata,
@@ -346,51 +486,191 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsApiData(nps?.data), 50);
 
-      const nss = await axios.get(defaultArray[1]);
+      const nss = await axios.post(
+        defaultArray[1],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNssApiData(nss?.data), 50);
 
-      const totalCards = await axios.get(defaultArray[2]);
+      const totalCards = await axios.post(
+        defaultArray[2],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setTotalCardsAPIDatas(totalCards?.data), 50);
 
-      // const topComments = await axios.get(defaultArray[3]);
+      // const topComments = await axios.post(defaultArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const postive_comments = await axios.get(defaultArray[3]);
+      const postive_comments = await axios.post(
+        defaultArray[3],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
 
-      const neutral_comments = await axios.get(defaultArray[4]);
+      const neutral_comments = await axios.post(
+        defaultArray[4],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
 
-      const negative_comments = await axios.get(defaultArray[5]);
+      const negative_comments = await axios.post(
+        defaultArray[5],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
 
-      const extreme_comments = await axios.get(defaultArray[6]);
+      const extreme_comments = await axios.post(
+        defaultArray[6],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
 
-      const allComments = await axios.get(defaultArray[7]);
+      const allComments = await axios.post(
+        defaultArray[7],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(defaultArray[8]);
+      const alerts = await axios.post(
+        defaultArray[8],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(defaultArray[9]);
+      const npsOverTime = await axios.post(
+        defaultArray[9],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(defaultArray[10]);
+      const nssOverTime = await axios.post(
+        defaultArray[10],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
 
-      const npsVsSentiment = await axios.get(defaultArray[11]);
+      const npsVsSentiment = await axios.post(
+        defaultArray[11],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(defaultArray[12]);
+      const providers = await axios.post(
+        defaultArray[12],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(defaultArray[13]);
+      const clinics = await axios.post(
+        defaultArray[13],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(defaultArray[14]);
+      const clients = await axios.post(
+        defaultArray[14],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => {
         setClientApiAtom(clients?.data);
         setAllDataRecievedStatus(true);
