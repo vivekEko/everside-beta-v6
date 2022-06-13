@@ -47,15 +47,18 @@ const Auth = () => {
     formData.append("password", userPassword);
 
     fetch(baseAPI + "userLogin", {
+      mode: "cors",
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        authorization: "jhasgbdhasvbdua234as54ascasjchb",
+        Accept: "application/json",
+      },
       body: formData,
     })
       .then((response) => response.json())
       .then((result) => {
-        // console.log("Status:", result.Message);
+        console.log("Result:");
+        console.log(result);
         if (result.Message === "TRUE") {
           //   setUser(true);
           // console.log("status is trueeeeeeeeeeee");
@@ -63,6 +66,8 @@ const Auth = () => {
           setUserIsValid(true);
 
           sessionStorage.setItem("useStatus", result.Message);
+          sessionStorage.setItem("username", result.username);
+          sessionStorage.setItem("token", result.token);
         } else if (result.Message === "FALSE") {
           // history("/");
           setUserIsValid(false);

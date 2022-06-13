@@ -3,6 +3,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Label,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -15,7 +16,7 @@ const AgeGroupGraph = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
 
   return (
-    <div className="p-2 md:p-5    rounded-lg bg-white border flex justify-center md:justify-center items-center w-[50%]">
+    <div className="p-2 md:p-5  w-full  rounded-lg bg-white border flex justify-center md:justify-center items-center ">
       <div className="w-full">
         <h1 className=" font-bold opacity-80 ">Age Group</h1>
 
@@ -23,7 +24,7 @@ const AgeGroupGraph = () => {
           <ResponsiveContainer width="100%" height={250}>
             <BarChart
               data={apiData?.age_graph}
-              margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
+              margin={{ top: 0, right: 10, left: 10, bottom: 8 }}
             >
               <CartesianGrid
                 vertical={false}
@@ -38,15 +39,29 @@ const AgeGroupGraph = () => {
                 tickCount={10}
                 angle={0}
                 textAnchor="middle"
-              />
+              >
+                <Label
+                  value="Age Category"
+                  offset={-6}
+                  position="insideBottom"
+                  className="text-xs"
+                />
+              </XAxis>
               <YAxis
                 axisLine={false}
                 tickLine={false}
                 fontSize={10}
                 tickCount={4}
                 tickFormatter={(number) => `${number}`}
-                margin={{ right: 20 }}
-              />
+              >
+                <Label
+                  value="No. Of Members"
+                  offset={0}
+                  angle={90}
+                  position="insideLeft"
+                  className="text-xs"
+                />
+              </YAxis>
               <Tooltip cursor={false} content={<CustomTooltip2 />} />
 
               <Bar

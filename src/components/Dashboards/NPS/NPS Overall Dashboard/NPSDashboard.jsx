@@ -154,6 +154,9 @@ const NPSDashboard = () => {
     "filterClinic",
   ];
 
+  const formdata = new FormData();
+  formdata.append("username", sessionStorage.getItem("username"));
+
   useEffect(async () => {
     // Region
     if (callRegion === true) {
@@ -250,7 +253,18 @@ const NPSDashboard = () => {
       // console.log(linksArray[5]);
       // console.log(linksArray[6]);
 
-      const nps = await axios.get(linksArray[0]);
+      const nps = await axios.get(
+        linksArray[0],
+        {
+          token: sessionStorage.getItem("token"),
+        },
+        {
+          headers: {
+            authorization: "jhasgbdhasvbdua234as54ascasjchb",
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsApiData(nps?.data), 50);
 
       // console.log("nps if");
@@ -319,7 +333,17 @@ const NPSDashboard = () => {
       // console.log("total Comments response:");
       // console.log(defaultArray[3]);
 
-      const nps = await axios.get(defaultArray[0]);
+      const nps = await axios.post(
+        defaultArray[0],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
       setTimeout(() => setNpsApiData(nps?.data), 50);
 
       const nss = await axios.get(defaultArray[1]);

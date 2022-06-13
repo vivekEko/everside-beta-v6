@@ -16,7 +16,6 @@ const AlertComments = () => {
   const [apiData, setApiData] = useState();
   const [alertCommentsAPIData, setAlertCommentsAPIData] =
     useRecoilState(alertCommentsApiData);
-
   const [inputData, setInputData] = useState("");
   const [expandComment, setExpandComment] = useState("");
   const [clickCount, setClickCount] = useState(false);

@@ -27,7 +27,7 @@ const GenderClassification = () => {
   };
 
   return (
-    <div className="w-[50%] border rounded-md p-5 h-[317px] ">
+    <div className=" border rounded-md p-5 lg:h-[317px] w-full">
       <div className=" font-bold   flex justify-between gap-2 items-center">
         <div className="font-bold opacity-80 text-[18px] mb-7  w-full">
           Gender Classification
