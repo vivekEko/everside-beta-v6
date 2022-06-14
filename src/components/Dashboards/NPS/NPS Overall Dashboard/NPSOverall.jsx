@@ -18,6 +18,8 @@ import NSSAllGraph from "../NSS/NSSAllGraph";
 import TotalComments from "../Comments/TotalComments";
 import NPSallComments from "./NPSallComments";
 import CustomCalendar4 from "../Misc/CustomCalendar4";
+import NPSallComments2 from "./NPSallComments2";
+import NPSallComments3 from "./NPSallComments3";
 
 const NPSOverall = () => {
   return (
@@ -30,7 +32,7 @@ const NPSOverall = () => {
         <TotalCard />
       </section>
       <section className="my-[8px]  flex flex-col md:flex-row justify-center gap-2">
-        <NPSallComments />
+        <NPSallComments3 />
         <AlertComments />
       </section>
       <section className="my-[8px]  flex flex-col xl:flex-row justify-center gap-2">

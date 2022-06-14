@@ -89,14 +89,12 @@ const Region2 = () => {
 
   useEffect(async () => {
     const text = regionLocal.join("-");
-
     setRegionValue(text);
-
     setNewRegionGlobal(text);
 
     // Clinic
     if (runClinicAPI === true) {
-      const clinicData = await axios.post(
+      const clinicData = await axios.get(
         baseAPI +
           "filterClinic?start_month=" +
           finalStartMonth +

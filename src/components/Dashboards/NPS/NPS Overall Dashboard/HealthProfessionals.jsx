@@ -40,8 +40,8 @@ const HealthProfessionals = () => {
               <div className="">Name</div>
             </div>
             <div className="w-[30%] flex ml-auto">
-              <div className="flex-1 text-center">NPS</div>
-              <div className="flex-1 text-center">Rating</div>
+              <div className="flex-1 text-center ">NPS</div>
+              <div className="flex-1 text-center hidden">Rating</div>
             </div>
           </div>
           <div className=" h-[85%] overflow-y-scroll scrollbar-hide   ">
@@ -67,7 +67,9 @@ const HealthProfessionals = () => {
                       <div className=" flex-1 text-center">
                         {data?.average_nps}
                       </div>
-                      <div className=" flex-1 text-center">{data?.rating}</div>
+                      <div className=" flex-1 text-center hidden">
+                        {data?.rating}
+                      </div>
                     </div>
                   </div>
                 );

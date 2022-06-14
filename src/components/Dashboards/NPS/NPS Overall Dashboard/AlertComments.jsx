@@ -43,14 +43,7 @@ const AlertComments = () => {
 
   useEffect(() => {
     setApiData(alertCommentsAPIData?.data);
-    console.log("alert atom data");
-    console.log(alertCommentsAPIData?.data);
   }, [alertCommentsAPIData]);
-
-  useEffect(() => {
-    console.log("ApiDataaaaaaaaaaaaaaaaaaaa");
-    console.log(apiData);
-  }, [apiData]);
 
   const handleInput = (e) => {
     setInputData(e.target.value);

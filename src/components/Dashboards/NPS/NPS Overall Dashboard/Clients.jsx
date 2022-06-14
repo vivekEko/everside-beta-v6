@@ -39,9 +39,6 @@ const Clients = () => {
   }
 
   useEffect(() => {
-    console.log("selectedParentClient");
-    console.log(selectedParentClient);
-
     let arr = [];
 
     apiData?.data?.map((data) => {
@@ -49,7 +46,6 @@ const Clients = () => {
         arr = [...arr, ...[data]];
       }
     });
-    console.log(arr);
 
     setApiData2({
       data: arr,
@@ -60,10 +56,6 @@ const Clients = () => {
       setApiData2(clienApiDatavalue);
     }
   }, [selectedParentClient]);
-
-  useEffect(() => {
-    console.log(apiData);
-  }, [apiData]);
 
   function handleSelectAll() {
     let arr = apiData?.parent_client_names;
@@ -229,7 +221,7 @@ const Clients = () => {
                 </div>
                 <div className="w-[30%] flex ml-auto">
                   <div className="flex-1 text-center">NPS</div>
-                  <div className="flex-1 text-center">Rating</div>
+                  <div className="flex-1 text-center hidden">Rating</div>
                 </div>
               </div>
               <div className=" h-[85%] overflow-y-scroll scrollbar-hide">
@@ -262,7 +254,7 @@ const Clients = () => {
                           <div className=" flex-1 text-center">
                             {data?.average_nps}
                           </div>
-                          <div className=" flex-1 text-center">
+                          <div className=" flex-1 text-center hidden">
                             {data?.rating}
                           </div>
                         </div>
