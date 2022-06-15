@@ -236,7 +236,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        <div className=" absolute top-[calc(100vh-100px)] left-0 right-0 h-[50px] ">
+        <div className=" absolute top-[calc(100vh-100px)] left-0 right-0 h-[50px] hidden ">
           <div
             className=" bg-[#f1f0f0] rounded-lg  cursor-pointer flex justify-between p-5 mx-auto items-center gap-2 h-full "
             onClick={() => {

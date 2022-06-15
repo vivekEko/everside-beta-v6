@@ -28,8 +28,6 @@ const Clients = () => {
   useEffect(() => {
     setApiData(clienApiDatavalue);
     setApiData2(clienApiDatavalue);
-    // console.log("clienApiDatavalue");
-    // console.log(clienApiDatavalue);
   }, [clienApiDatavalue]);
 
   function arrayRemove(arr, value) {

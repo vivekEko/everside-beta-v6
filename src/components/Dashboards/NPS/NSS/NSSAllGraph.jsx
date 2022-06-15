@@ -292,7 +292,7 @@ const NPSAllGraph = () => {
                   tickLine={false}
                   fontSize={12}
                   tickCount={4}
-                  tickFormatter={(number) => `${number}%`}
+                  tickFormatter={(number) => `${number}`}
                   margin={{ right: 20 }}
                 />
                 <Tooltip cursor={false} content={<CustomTooltip />} />
@@ -372,9 +372,7 @@ function CustomTooltip({ active, payload, label }) {
                 <span className="capitalize mr-2 text-[11px] font-semibold">
                   {data?.name}:
                 </span>
-                <span className="text-[11px] font-semibold">
-                  {data?.value} %
-                </span>
+                <span className="text-[11px] font-semibold">{data?.value}</span>
               </div>
             </div>
           </div>

@@ -37,7 +37,7 @@ function App() {
 
   return (
     <div>
-      <div
+      {/* <div
         className={`p-2 bg-green-200 transition-all md:hidden h-[40px] z-[999] ${
           showToast
             ? "translate-y-0 ease-in h-[40px]"
@@ -58,7 +58,8 @@ function App() {
             onClick={() => setShowToast(false)}
           />
         </div>
-      </div>
+      </div> */}
+
       <div className={` cursor-default relative  `}>
         {/*Calendar Overlay */}
         <div

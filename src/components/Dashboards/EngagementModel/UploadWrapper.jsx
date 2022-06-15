@@ -53,9 +53,17 @@ const UploadWrapper = () => {
     setIsFilePicked(true);
   };
 
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
   const handleSubmission = () => {
     const formData = new FormData();
+    formData.append("username", usernameLocal);
     formData.append("file", selectedFile);
+
     fetch(baseAPI + "egMemberPercentile", {
       method: "POST",
       body: formData,
@@ -108,8 +116,8 @@ const UploadWrapper = () => {
   return (
     <div>
       <div>
-        <div className="w-[100%] px-5 p-3 py-5  rounded-lg bg-white mb-5">
-          <h1 className=" text-left font-bold  text-lg mb-5  opacity-80 text-[#000C08]">
+        <div className="w-[100%] mb-2  rounded-lg bg-white ">
+          {/* <h1 className=" text-left font-bold  text-lg mb-5  opacity-80 text-[#000C08]">
             Upload File
           </h1>
           <form>
@@ -134,8 +142,33 @@ const UploadWrapper = () => {
                   />
                   <p className="opacity-40">Click to upload your files here </p>
                 </div>
+
+              
               )}
             </div>
+          </form> */}
+
+          <form className="cursor-pointer flex justify-end">
+            <label
+              htmlFor="file-upload"
+              className="p-2 bg-[#00ac69] text-center w-[130px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
+            >
+              <input
+                type="file"
+                name="file"
+                id="file-upload"
+                onChange={changeHandler}
+                accept={".csv"}
+                placeholder="upload"
+                className="absolute top-0 bottom-0 left-0 right-0 w-full opacity-0 z-[-100] cursor-pointer "
+              />
+
+              <span className="mr-2 cursor-pointer">Upload</span>
+              <CloudUploadOutlinedIcon
+                fontSize="medium"
+                className="cursor-pointer"
+              />
+            </label>
           </form>
         </div>
       </div>

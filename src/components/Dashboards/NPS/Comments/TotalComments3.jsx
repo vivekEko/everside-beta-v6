@@ -20,13 +20,14 @@ import negativeComments from "../../../../recoil/atoms/negativeComments";
 import extremeComments from "../../../../recoil/atoms/extremeComments";
 import neutralComments from "../../../../recoil/atoms/neutralComments";
 
-const NPSallComments3 = () => {
+const TotalComments3 = () => {
   const [inputData, setInputData] = useState("");
   const [expandComment, setExpandComment] = useState("");
   const [clickCount, setClickCount] = useState(false);
   const [searchStatus, setSearchStatus] = useState(false);
   const [totalViewedComments, setTotalViewedComments] = useState(49);
   const [totalNoComments, setTotalNoComments] = useRecoilState(totalComments);
+
   const [ascSort, setAscSort] = useState(false);
   const [showSentiments, setShowSentiments] = useState(false);
   const [selectedSentiments, setSelectedSentiments] = useState([]);
@@ -458,4 +459,4 @@ const NPSallComments3 = () => {
   );
 };
 
-export default NPSallComments3;
+export default TotalComments3;

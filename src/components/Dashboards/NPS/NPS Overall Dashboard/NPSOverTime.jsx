@@ -133,8 +133,8 @@ const NPSOverTime = () => {
                 <Tooltip cursor={false} content={<CustomTooltip />} />
                 <Area
                   type="monotone"
-                  name="nps"
-                  dataKey="nps"
+                  name="NPS"
+                  dataKey="NPS"
                   stroke="#0094E0 "
                   dot={false}
                   strokeWidth={4}
@@ -166,7 +166,7 @@ function CustomTooltip({ active, payload, label }) {
                 className={`h-[5px] w-[5px] rounded-full mr-2 `}
               ></div>
               <div className="flex justify-between items-center  w-full">
-                <span className="capitalize mr-2 text-[11px] font-semibold">
+                <span className="uppercase mr-2 text-[11px] font-semibold">
                   {data?.name}:
                 </span>
                 <span className="text-[11px] font-semibold">{data?.value}</span>

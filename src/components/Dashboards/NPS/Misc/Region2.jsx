@@ -84,8 +84,11 @@ const Region2 = () => {
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
 
-  const formdata = new FormData();
-  formdata.append("username", sessionStorage.getItem("username"));
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
 
   useEffect(async () => {
     const text = regionLocal.join("-");
@@ -93,8 +96,11 @@ const Region2 = () => {
     setNewRegionGlobal(text);
 
     // Clinic
-    if (runClinicAPI === true) {
-      const clinicData = await axios.get(
+    if (runClinicAPI === true && usernameLocal) {
+      const formdata = new FormData();
+      formdata.append("username", usernameLocal);
+
+      const clinicData = await axios.post(
         baseAPI +
           "filterClinic?start_month=" +
           finalStartMonth +

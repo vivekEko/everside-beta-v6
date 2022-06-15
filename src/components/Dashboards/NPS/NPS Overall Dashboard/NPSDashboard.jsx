@@ -132,6 +132,17 @@ const NPSDashboard = () => {
   //   console.log(neutralCommentAtom);
   // }, [allDataRecievedStatus]);
 
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
+  useEffect(() => {
+    console.log("npsApiData:");
+    console.log(npsApiData);
+  }, [npsApiData]);
+
   const allApiNames = [
     "netPromoterScore",
     "netSentimentScore",
@@ -155,12 +166,13 @@ const NPSDashboard = () => {
   ];
 
   const formdata = new FormData();
-  formdata.append("username", sessionStorage.getItem("username"));
+  console.log(usernameLocal);
+  formdata.append("username", usernameLocal);
 
   useEffect(async () => {
     // Region
-    if (callRegion === true) {
-      const regionData = await axios.get(
+    if (callRegion === true && usernameLocal) {
+      const regionData = await axios.post(
         baseAPI +
           "filterRegion?start_month=" +
           finalStartMonth +
@@ -188,7 +200,7 @@ const NPSDashboard = () => {
       // console.log("region address:");
       // console.log(regionData);
     }
-  }, [callRegion]);
+  }, [callRegion, usernameLocal]);
 
   useEffect(async () => {
     // API url creation
@@ -254,14 +266,14 @@ const NPSDashboard = () => {
     // console.log(sendDataStatus);
 
     // API Calls
-    if (sendDataStatus === true) {
+    if (sendDataStatus === true && usernameLocal) {
       // console.log("total Comments response:");
       // console.log(linksArray[3]);
       // console.log(linksArray[4]);
       // console.log(linksArray[5]);
       // console.log(linksArray[6]);
 
-      const nps = await axios.get(
+      const nps = await axios.post(
         linksArray[0],
         formdata,
 
@@ -280,7 +292,7 @@ const NPSDashboard = () => {
       // console.log(nps?.data);
       // console.log(linksArray[0]);
 
-      const nss = await axios.get(
+      const nss = await axios.post(
         linksArray[1],
         formdata,
 
@@ -293,7 +305,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNssApiData(nss?.data), 50);
 
-      const totalCards = await axios.get(
+      const totalCards = await axios.post(
         linksArray[2],
         formdata,
 
@@ -306,10 +318,10 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setTotalCardsAPIDatas(totalCards?.data), 50);
 
-      // const topComments = await axios.get(linksArray[3]);
+      // const topComments = await axios.post(linksArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const postive_comments = await axios.get(
+      const postive_comments = await axios.post(
         linksArray[3],
         formdata,
 
@@ -322,7 +334,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
 
-      const neutral_comments = await axios.get(
+      const neutral_comments = await axios.post(
         linksArray[4],
         formdata,
 
@@ -335,7 +347,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
 
-      const negative_comments = await axios.get(
+      const negative_comments = await axios.post(
         linksArray[5],
         formdata,
 
@@ -348,7 +360,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
 
-      const extreme_comments = await axios.get(
+      const extreme_comments = await axios.post(
         linksArray[6],
         formdata,
 
@@ -361,7 +373,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
 
-      const allComments = await axios.get(
+      const allComments = await axios.post(
         linksArray[7],
         formdata,
 
@@ -376,7 +388,7 @@ const NPSDashboard = () => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(
+      const alerts = await axios.post(
         linksArray[8],
         formdata,
 
@@ -389,7 +401,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(
+      const npsOverTime = await axios.post(
         linksArray[9],
         formdata,
 
@@ -402,7 +414,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(
+      const nssOverTime = await axios.post(
         linksArray[10],
         formdata,
 
@@ -415,7 +427,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
 
-      const npsVsSentiment = await axios.get(
+      const npsVsSentiment = await axios.post(
         linksArray[11],
         formdata,
 
@@ -428,7 +440,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(
+      const providers = await axios.post(
         linksArray[12],
         formdata,
 
@@ -441,7 +453,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(
+      const clinics = await axios.post(
         linksArray[13],
         formdata,
 
@@ -454,7 +466,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(
+      const clients = await axios.post(
         linksArray[14],
         formdata,
 
@@ -472,8 +484,8 @@ const NPSDashboard = () => {
     }
 
     // ELSE
-    else if (sendDataStatus === -1) {
-      const nps = await axios.get(
+    else if (sendDataStatus === -1 && usernameLocal) {
+      const nps = await axios.post(
         defaultArray[0],
         formdata,
 
@@ -486,7 +498,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsApiData(nps?.data), 50);
 
-      const nss = await axios.get(
+      const nss = await axios.post(
         defaultArray[1],
         formdata,
 
@@ -499,7 +511,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNssApiData(nss?.data), 50);
 
-      const totalCards = await axios.get(
+      const totalCards = await axios.post(
         defaultArray[2],
         formdata,
 
@@ -512,10 +524,10 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setTotalCardsAPIDatas(totalCards?.data), 50);
 
-      // const topComments = await axios.get(defaultArray[3]);
+      // const topComments = await axios.post(defaultArray[3]);
       // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
-      const postive_comments = await axios.get(
+      const postive_comments = await axios.post(
         defaultArray[3],
         formdata,
 
@@ -528,7 +540,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setPositiveCommentAtom(postive_comments?.data), 50);
 
-      const neutral_comments = await axios.get(
+      const neutral_comments = await axios.post(
         defaultArray[4],
         formdata,
 
@@ -541,7 +553,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNeutralCommentAtom(neutral_comments?.data), 50);
 
-      const negative_comments = await axios.get(
+      const negative_comments = await axios.post(
         defaultArray[5],
         formdata,
 
@@ -554,7 +566,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNegativeCommentAtom(negative_comments?.data), 50);
 
-      const extreme_comments = await axios.get(
+      const extreme_comments = await axios.post(
         defaultArray[6],
         formdata,
 
@@ -567,7 +579,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setExtremeCommentAtom(extreme_comments?.data), 50);
 
-      const allComments = await axios.get(
+      const allComments = await axios.post(
         defaultArray[7],
         formdata,
 
@@ -582,7 +594,7 @@ const NPSDashboard = () => {
         setAllCommentsAPIData(allComments?.data);
       }, 50);
 
-      const alerts = await axios.get(
+      const alerts = await axios.post(
         defaultArray[8],
         formdata,
 
@@ -595,7 +607,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setAlertCommentsAPIData(alerts?.data), 50);
 
-      const npsOverTime = await axios.get(
+      const npsOverTime = await axios.post(
         defaultArray[9],
         formdata,
 
@@ -608,7 +620,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
 
-      const nssOverTime = await axios.get(
+      const nssOverTime = await axios.post(
         defaultArray[10],
         formdata,
 
@@ -621,7 +633,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
 
-      const npsVsSentiment = await axios.get(
+      const npsVsSentiment = await axios.post(
         defaultArray[11],
         formdata,
 
@@ -634,7 +646,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setNpsVsSentiAPIData(npsVsSentiment?.data), 50);
 
-      const providers = await axios.get(
+      const providers = await axios.post(
         defaultArray[12],
         formdata,
 
@@ -647,7 +659,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setProviderApiAtom(providers), 50);
 
-      const clinics = await axios.get(
+      const clinics = await axios.post(
         defaultArray[13],
         formdata,
 
@@ -660,7 +672,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => setClinicsAPIData(clinics?.data), 50);
 
-      const clients = await axios.get(
+      const clients = await axios.post(
         defaultArray[14],
         formdata,
 
@@ -678,7 +690,7 @@ const NPSDashboard = () => {
 
       // console.log("default all comments");
     }
-  }, [goStatus]);
+  }, [goStatus, usernameLocal]);
 
   // let history = useNavigate();
 

@@ -155,7 +155,6 @@ const NSSCard = () => {
                       duration={1}
                       end={apiData?.nss?.nss_score}
                       separator=","
-                      suffix="%"
                     />
                   </p>
                 </div>

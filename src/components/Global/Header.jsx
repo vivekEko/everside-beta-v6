@@ -1,11 +1,14 @@
 import React from "react";
 import CompanyImage from "../../assets/img/global-img/everside_logo.svg";
-import Avatar from "../../assets/img/avatar/avatar4.jpg";
+import logout from "../../assets/img/global-img/logout.svg";
 import { useRecoilState } from "recoil";
 import hamburgerStatusRecoil from "../../recoil/atoms/HamburgerAtom";
 import DateFilterStatus from "../../recoil/atoms/DateFilterStatusAtom";
+import UserValidity from "../../recoil/atoms/UserValidity";
 
 const Header = () => {
+  const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
+
   const [hamburgerStatus, setHamburgerStatus] = useRecoilState(
     hamburgerStatusRecoil
   );
@@ -55,12 +58,17 @@ const Header = () => {
         </div>
 
         {/* User Avatar */}
-        <div className="hidden lg:flex justify-between items-center">
-          <div className="text-[14px] font-semibold md:font-bold mr-[8px]">
-            {/* Katrina */}
-          </div>
-          <img src={Avatar} alt="avatar" className="w-[30px] rounded-full" />
-        </div>
+
+        <img
+          src={logout}
+          alt="logout"
+          className="w-[20px] cursor-pointer"
+          onClick={() => {
+            sessionStorage.clear();
+            // history("/");
+            setUserIsValid(false);
+          }}
+        />
       </div>
     </header>
   );

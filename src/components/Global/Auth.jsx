@@ -49,16 +49,16 @@ const Auth = () => {
     fetch(baseAPI + "userLogin", {
       mode: "cors",
       method: "POST",
-      headers: {
-        authorization: "jhasgbdhasvbdua234as54ascasjchb",
-        Accept: "application/json",
-      },
+      // headers: {
+      //   authorization: "jhasgbdhasvbdua234as54ascasjchb",
+      //   Accept: "application/json",
+      // },
       body: formData,
     })
       .then((response) => response.json())
       .then((result) => {
-        // console.log("Result:");
-        // console.log(result);
+        console.log("Result:");
+        console.log(result);
         if (result.Message === "TRUE") {
           //   setUser(true);
           // console.log("status is trueeeeeeeeeeee");

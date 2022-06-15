@@ -124,16 +124,6 @@ const NPSAllGraph = () => {
                     key={data?.id}
                     className={` flex justify-end flex-row-reverse items-center gap-5 p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
                     onClick={() => {
-                      // if (data?.id === 1) {
-                      //   setPromoters(!promoters);
-                      // } else if (data?.id === 2) {
-                      //   setPassives(!passives);
-                      // } else if (data?.id === 3) {
-                      //   setDetractors(!detractors);
-                      // } else if (data?.id === 4) {
-                      //   setNpsScore(!npsScore);
-                      // }
-
                       // new logic
                       if (promoters || passives || detractors || npsScore) {
                         if (data.id === 1) {
@@ -299,8 +289,8 @@ const NPSAllGraph = () => {
                 {npsScore && (
                   <Area
                     type="monotone"
-                    name="nps"
-                    dataKey="nps"
+                    name="NPS"
+                    dataKey="NPS"
                     stroke="#0094E0 "
                     dot={false}
                     strokeWidth={4}

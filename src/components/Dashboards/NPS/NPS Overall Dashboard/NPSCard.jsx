@@ -152,7 +152,6 @@ const NPSCard = () => {
                       // end={MockApiNPSData.nps.nps_score}
                       end={apiData?.nps?.nps_score}
                       separator=","
-                      suffix="%"
                     />
                   </p>
                 </div>
@@ -220,7 +219,7 @@ function CustomTooltip({ active, payload, label }) {
 
                 <div
                   style={{ background: data.payload.color }}
-                  className={`h-[8px] w-[8px] rounded-full  `}
+                  className={`h-[8px] w-[8px] rounded-full `}
                 ></div>
               </div>
 
