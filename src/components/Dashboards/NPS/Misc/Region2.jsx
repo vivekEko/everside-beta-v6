@@ -90,6 +90,11 @@ const Region2 = () => {
     setUsernameLocal(sessionStorage?.getItem("username"));
   }, [sessionStorage?.getItem("username")]);
 
+  useEffect(() => {
+    console.log("usernameLocal:");
+    console.log(usernameLocal);
+  }, [usernameLocal]);
+
   useEffect(async () => {
     const text = regionLocal.join("-");
     setRegionValue(text);
@@ -122,9 +127,11 @@ const Region2 = () => {
         }
       );
 
+      console.log("Clinic Data:");
+      console.log(clinicData?.data);
       setClinicAPIDataValue(clinicData?.data);
     }
-  }, [runClinicAPI]);
+  }, [runClinicAPI, usernameLocal]);
 
   useEffect(() => {
     if (flushRegionValue === true) {

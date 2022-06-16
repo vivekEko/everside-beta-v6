@@ -16,6 +16,7 @@ import EKO from "../../../assets/img/global-img/ekoLogo.png";
 import { BASE_API_LINK } from "../../../utils/BaseAPILink";
 import UserValidity from "../../../recoil/atoms/UserValidity";
 import Auth from "../../Global/Auth";
+import USMap from "./USMap";
 
 const EngagementModel = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
@@ -80,6 +81,10 @@ const EngagementModel = () => {
                   <div className="flex-1">
                     <GenderClassification />
                   </div>
+                </div>
+
+                <div className="mt-2 rounded-md ">
+                  <USMap />
                 </div>
               </div>
             )}

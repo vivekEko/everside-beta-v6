@@ -16,6 +16,7 @@ import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact
 import EngagementIcon from "../Sidebar/IconContainer/EngagementIcon";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import DateFilterStatus from "../../recoil/atoms/DateFilterStatusAtom";
+import logout from "../../assets/img/global-img/logout.svg";
 
 const Sidebar = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
@@ -236,8 +237,8 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-        <div className=" absolute top-[calc(100vh-100px)] left-0 right-0 h-[50px] hidden ">
-          <div
+        <div className=" absolute top-[calc(100vh-100px)] left-0 right-0 h-[50px]  ">
+          {/* <div
             className=" bg-[#f1f0f0] rounded-lg  cursor-pointer flex justify-between p-5 mx-auto items-center gap-2 h-full "
             onClick={() => {
               sessionStorage.clear();
@@ -252,7 +253,17 @@ const Sidebar = () => {
                 fontSize="small"
               />
             </div>
-          </div>
+          </div> */}
+          <img
+            src={logout}
+            alt="logout"
+            className="w-[25px] cursor-pointer lg:hidden mx-auto"
+            onClick={() => {
+              sessionStorage.clear();
+              // history("/");
+              setUserIsValid(false);
+            }}
+          />
         </div>
       </div>
     </div>

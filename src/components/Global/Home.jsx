@@ -27,7 +27,7 @@ const Home = () => {
         {userIsValid ? <NPSDashboard /> : <Auth />}
       </div> */}
       <div className="">{userIsValid ? <NPSDashboard /> : <Auth />}</div>
-      <div className="flex justify-center items py-5">
+      <div className="flex justify-center items py-2">
         <div className="flex items-center gap-2">
           <span className="text-gray-400 italic text-xs">Powered by</span>
           <a

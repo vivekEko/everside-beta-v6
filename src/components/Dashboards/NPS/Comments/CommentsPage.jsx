@@ -9,6 +9,7 @@ import Allalerts from "./Allalerts";
 import { PuffLoader } from "react-spinners";
 import TotalComments2 from "./TotalComments2";
 import Allalerts2 from "./Allalerts2";
+import TotalComments4 from "./TotalComments4";
 
 const TotalComments = React.lazy(() => import("./TotalComments"));
 
@@ -25,7 +26,7 @@ const CommentsPage = () => {
           <TotalComments />
         </Suspense> */}
 
-        <TotalComments2 />
+        <TotalComments4 />
 
         <div className=" lg:w-[45%]">
           <CommentsTotalcards />

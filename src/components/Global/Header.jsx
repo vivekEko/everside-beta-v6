@@ -62,7 +62,7 @@ const Header = () => {
         <img
           src={logout}
           alt="logout"
-          className="w-[20px] cursor-pointer"
+          className="w-[20px] cursor-pointer hidden lg:block"
           onClick={() => {
             sessionStorage.clear();
             // history("/");
