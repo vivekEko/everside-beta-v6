@@ -72,7 +72,7 @@ const TotalComments4 = () => {
             </span>
           </span>
         )}
-        {string?.length < n && <span>{string}</span>}
+        {string?.length <= n && <span>{string}</span>}
       </span>
     );
   }

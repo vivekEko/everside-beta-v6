@@ -43,6 +43,11 @@ const NPSallComments3 = () => {
   const [neutralCommentAtom, setNeutralCommentAtom] =
     useRecoilState(neutralComments);
 
+  useEffect(() => {
+    console.log("totalViewedComments");
+    console.log(totalViewedComments);
+  }, [totalViewedComments]);
+
   function handleLoadMore() {
     setTotalViewedComments(totalViewedComments + 50);
   }
@@ -72,7 +77,7 @@ const NPSallComments3 = () => {
             </span>
           </span>
         )}
-        {string?.length < n && <span>{string}</span>}
+        {string?.length <= n && <span>{string}</span>}
       </span>
     );
   }
@@ -359,70 +364,69 @@ const NPSallComments3 = () => {
                       })
                       .map((data, index) => {
                         return (
-                          <div key={index} className="w-full ">
+                          <div key={data?.id} className="w-full ">
                             {index <= totalViewedComments && (
-                              <>
-                                <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_80px] gap-2 items-center  border-b py-2 min-h-[60px] min-w-[500px]">
-                                  <div className="  text-gray-400  capitalize  font-normal text-[12px]  ">
-                                    {data?.timestamp}
-                                  </div>
-
-                                  <div className=" text-gray-400   text-left font-normal  ">
-                                    <div
-                                      className="w-full text-[#000c08b3] text-[12px] font-semibold"
-                                      onClick={() => {
-                                        setExpandComment(data.id);
-                                        setClickCount(!clickCount);
-                                      }}
-                                    >
-                                      {expandComment == data?.id && clickCount
-                                        ? data?.review
-                                        : truncate(data?.review, 100)}
-                                    </div>
-                                  </div>
-
-                                  <div className=" text-gray-400    font-normal ">
-                                    {data?.clinic}
-                                  </div>
-
-                                  {data?.label == "Positive" && (
-                                    <div className=" font-normal    text-gray-400 capitalize  ">
-                                      <img
-                                        src={PositiveIcon}
-                                        alt="Positive"
-                                        className="mx-auto "
-                                      />
-                                    </div>
-                                  )}
-                                  {data?.label == "Negative" && (
-                                    <div className="  font-normal    text-gray-400 capitalize  ">
-                                      <img
-                                        src={NegativeIcon}
-                                        alt="Negative"
-                                        className="mx-auto "
-                                      />
-                                    </div>
-                                  )}
-                                  {data?.label == "Neutral" && (
-                                    <div className="  font-normal    text-gray-400 capitalize  ">
-                                      <img
-                                        src={NeutralIcon}
-                                        alt="Neutral"
-                                        className=" mx-auto  "
-                                      />
-                                    </div>
-                                  )}
-                                  {data?.label == "Extreme" && (
-                                    <div className="  font-normal    text-gray-400 capitalize   ">
-                                      <img
-                                        src={ExtremeIcon}
-                                        alt="Extreme"
-                                        className="mx-auto "
-                                      />
-                                    </div>
-                                  )}
+                              <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_80px] gap-2 items-center  border-b py-2 min-h-[60px] min-w-[500px]">
+                                <div className="  text-gray-400  capitalize  font-normal text-[12px]  ">
+                                  {data?.timestamp}
                                 </div>
-                              </>
+
+                                <div className=" text-gray-400   text-left font-normal  ">
+                                  {/* {data?.review} */}
+                                  <div
+                                    className="w-full text-[#000c08b3] text-[12px] font-semibold"
+                                    onClick={() => {
+                                      setExpandComment(data?.id);
+                                      setClickCount(!clickCount);
+                                    }}
+                                  >
+                                    {expandComment == data?.id && clickCount
+                                      ? data?.review
+                                      : truncate(data?.review, 100)}
+                                  </div>
+                                </div>
+
+                                <div className=" text-gray-400    font-normal ">
+                                  {data?.clinic}
+                                </div>
+
+                                {data?.label == "Positive" && (
+                                  <div className=" font-normal    text-gray-400 capitalize  ">
+                                    <img
+                                      src={PositiveIcon}
+                                      alt="Positive"
+                                      className="mx-auto "
+                                    />
+                                  </div>
+                                )}
+                                {data?.label == "Negative" && (
+                                  <div className="  font-normal    text-gray-400 capitalize  ">
+                                    <img
+                                      src={NegativeIcon}
+                                      alt="Negative"
+                                      className="mx-auto "
+                                    />
+                                  </div>
+                                )}
+                                {data?.label == "Neutral" && (
+                                  <div className="  font-normal    text-gray-400 capitalize  ">
+                                    <img
+                                      src={NeutralIcon}
+                                      alt="Neutral"
+                                      className=" mx-auto  "
+                                    />
+                                  </div>
+                                )}
+                                {data?.label == "Extreme" && (
+                                  <div className="  font-normal    text-gray-400 capitalize   ">
+                                    <img
+                                      src={ExtremeIcon}
+                                      alt="Extreme"
+                                      className="mx-auto "
+                                    />
+                                  </div>
+                                )}
+                              </div>
                             )}
                           </div>
                         );

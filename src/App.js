@@ -37,29 +37,6 @@ function App() {
 
   return (
     <div>
-      {/* <div
-        className={`p-2 bg-green-200 transition-all md:hidden h-[40px] z-[999] ${
-          showToast
-            ? "translate-y-0 ease-in h-[40px]"
-            : "translate-y-[-100%] ease-out hidden"
-        } `}
-      >
-        <div
-          className={`   flex transition-all items-center opacity-70 text-sm `}
-        >
-          <div className="flex items-center gap-2">
-            <ErrorOutlineIcon fontSize="small" className="opacity-50" />
-            <div className="text-xs">
-              For better experience visit this website in PC/Laptop
-            </div>
-          </div>
-          <CloseRoundedIcon
-            className="opacity-50 ml-auto cursor-pointer"
-            onClick={() => setShowToast(false)}
-          />
-        </div>
-      </div> */}
-
       <div className={` cursor-default relative  `}>
         {/*Calendar Overlay */}
         <div
@@ -80,7 +57,7 @@ function App() {
         <main className="bg-white ">
           <Router>
             <Sidebar />
-            <div className="lg:pl-[170px] p-[8px]  ">
+            <div className="lg:pl-[170px] p-[8px]">
               {/* <Filter /> */}
               <Routes>
                 <Route path="*" element={<Navigate replace to="/" />} />

@@ -3,9 +3,7 @@ import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import uploadIcon from "../../../assets/img/global-img/uploadIcon.svg";
 import { PuffLoader } from "react-spinners";
 import CountUp from "react-countup";
-
 import RespondantsIcon from "../../../assets/img/global-img/respondants.svg";
-
 import {
   Area,
   AreaChart,
@@ -24,6 +22,7 @@ import {
 import { BASE_API_LINK } from "../../../utils/BaseAPILink";
 import { useRecoilState } from "recoil";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
+import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 
 const UploadWrapper = () => {
   const [selectedFile, setSelectedFile] = useState();
@@ -39,6 +38,11 @@ const UploadWrapper = () => {
   const [Males, setMales] = useState(0);
   const [Females, setFemales] = useState(0);
   const [Others, setOthers] = useState(0);
+
+  useEffect(() => {
+    console.log("selectedFile:");
+    console.log(selectedFile);
+  }, [selectedFile]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -94,14 +98,27 @@ const UploadWrapper = () => {
         setApiData(result);
       })
       .catch((error) => {
-        // console.error("Error:", error);
+        alert("Something went wrong, please try again.");
       });
   };
 
   useEffect(() => {
-    // console.log("selected file: ");
-    // console.log(selectedFile);
-    // console.log(isFilePicked);
+    console.log("file name:");
+    console.log(apiData?.file_name);
+
+    if (apiData?.file_name > 1000000) {
+      console.log("file name in MB:");
+      console.log((apiData?.file_size / 1000000).toFixed(2) + " MB");
+    } else {
+      console.log("file name in KB:");
+      console.log(Math.round(apiData?.file_size / 1000) + " KB");
+    }
+
+    console.log("file size:");
+    console.log(apiData?.file_size);
+  }, [apiData]);
+
+  useEffect(() => {
     if (selectedFile) {
       handleSubmission();
       setLoaderStatus(true);
@@ -116,39 +133,26 @@ const UploadWrapper = () => {
   return (
     <div>
       <div>
-        <div className="w-[100%] mb-2  rounded-lg bg-white ">
-          {/* <h1 className=" text-left font-bold  text-lg mb-5  opacity-80 text-[#000C08]">
-            Upload File
-          </h1>
-          <form>
-            <div className="border-[2px] border-dashed border-[#00ac69]  rounded-2xl  w-full flex justify-center items-center h-[250px] relative">
-              {loaderStatus ? (
-                <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
-                  <PuffLoader color="#00ac69" size={50} width={100} />
-                </div>
-              ) : (
-                <div>
-                  <input
-                    type="file"
-                    name="file"
-                    onChange={changeHandler}
-                    accept={".csv"}
-                    className="absolute top-0 bottom-0 left-0 right-0 w-full opacity-0"
-                  />
-                  <img
-                    src={uploadIcon}
-                    alt="upload"
-                    className="w-[80px] mx-auto text-center"
-                  />
-                  <p className="opacity-40">Click to upload your files here </p>
-                </div>
+        <div className="w-[100%] mb-2  rounded-lg bg-white flex justify-between ">
+          <div
+            className={` ${
+              !apiData?.file_name ? "invisible" : "flex"
+            } items-center gap-2 `}
+          >
+            <AttachFileRoundedIcon fontSize="small" className="text-gray-400" />
+            <div className="text-gray-400">{apiData?.file_name}</div>
+            {apiData?.file_size > 1000000 ? (
+              <div className="text-gray-400">
+                {"(" + (apiData?.file_size / 1000000).toFixed(2) + " MB)"}
+              </div>
+            ) : (
+              <div className="text-gray-400">
+                {"(" + Math.round(apiData?.file_size / 1000) + " KB)"}
+              </div>
+            )}
+          </div>
 
-              
-              )}
-            </div>
-          </form> */}
-
-          <form className="cursor-pointer flex justify-end">
+          <form className=" flex   w-fit">
             <label
               htmlFor="file-upload"
               className="p-2 bg-[#00ac69] text-center w-[130px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
@@ -160,7 +164,7 @@ const UploadWrapper = () => {
                 onChange={changeHandler}
                 accept={".csv"}
                 placeholder="upload"
-                className="absolute top-0 bottom-0 left-0 right-0 w-full opacity-0 z-[-100] cursor-pointer "
+                className="absolute -top-2 -bottom-2 -left-2 -right-2 w-full opacity-0 z-[-100] cursor-pointer "
               />
 
               <span className="mr-2 cursor-pointer">Upload</span>

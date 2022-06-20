@@ -49,7 +49,7 @@ const AlertComments = () => {
             </span>
           </span>
         )}
-        {string?.length < n && <span>{string}</span>}
+        {string?.length <= n && <span>{string}</span>}
       </span>
     );
   }

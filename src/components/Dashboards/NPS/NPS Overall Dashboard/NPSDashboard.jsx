@@ -69,7 +69,7 @@ const NPSDashboard = () => {
   // const defaultEndYear = new Date().getFullYear();
   const defaultEndYear = finalEndDate;
 
-  const defaultEndMonth = 4;
+  const defaultEndMonth = 5;
 
   // All api data variables
   // const [atomName, setAtomName] = useState();
@@ -386,6 +386,7 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
+        console.log(allComments?.data);
       }, 50);
 
       const alerts = await axios.post(
@@ -592,6 +593,8 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
+
+        console.log(allComments?.data);
       }, 50);
 
       const alerts = await axios.post(

@@ -68,8 +68,8 @@ const CustomCalendar4 = () => {
 
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState("Apr");
-  const [endMonthNumVal, setEndMonthNumVal] = useState(4);
+  const [endMonthVal, setEndMonthVal] = useState("May");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(5);
 
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
