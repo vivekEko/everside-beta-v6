@@ -23,6 +23,10 @@ import { BASE_API_LINK } from "../../../utils/BaseAPILink";
 import { useRecoilState } from "recoil";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
 import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
+import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { Link } from "react-router-dom";
 
 const UploadWrapper = () => {
   const [selectedFile, setSelectedFile] = useState();
@@ -75,6 +79,9 @@ const UploadWrapper = () => {
       .then((response) => response?.json())
       .then((result) => {
         if (result?.Message === "TRUE") {
+          console.log("Total Cards Data:", result);
+          setApiData(result);
+
           setLoaderStatus(false);
           setGraphData(result?.graph);
           setPercentageData(result?.percentage);
@@ -85,21 +92,22 @@ const UploadWrapper = () => {
         }
       })
       .catch((error) => {
+        alert("Something went wrong , please try again!");
         console.error("Error:", error);
       });
 
-    fetch(baseAPI + "egMemberPercentile", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response?.json())
-      .then((result) => {
-        console.log("Total Cards Data:", result);
-        setApiData(result);
-      })
-      .catch((error) => {
-        alert("Something went wrong, please try again.");
-      });
+    // fetch(baseAPI + "egMemberPercentile", {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((response) => response?.json())
+    //   .then((result) => {
+    //     console.log("Total Cards Data:", result);
+    //     setApiData(result);
+    //   })
+    //   .catch((error) => {
+    //     alert("Something went wrong, please try again.");
+    //   });
   };
 
   useEffect(() => {
@@ -134,10 +142,40 @@ const UploadWrapper = () => {
     <div>
       <div>
         <div className="w-[100%] mb-2  rounded-lg bg-white flex justify-between ">
+          <div className="flex items-center gap-2 w-[33.33%]  justify-start">
+            <form className=" flex   w-fit">
+              <label
+                htmlFor="file-upload"
+                className="p-2 bg-[#00ac69] text-center w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
+              >
+                <input
+                  type="file"
+                  name="file"
+                  id="file-upload"
+                  onChange={changeHandler}
+                  accept={".csv"}
+                  placeholder="upload"
+                  className="absolute -top-2 -bottom-2 -left-2 -right-2 w-full opacity-0 z-[-100] cursor-pointer "
+                />
+
+                {/* <span className="mr-2 cursor-pointer">Upload</span> */}
+
+                <FileUploadOutlinedIcon
+                  fontSize="medium"
+                  className="cursor-pointer"
+                />
+              </label>
+            </form>
+
+            <div className="mr-2  text-gray-400 text-xs">
+              Max file size: 25 MB
+            </div>
+          </div>
+
           <div
             className={` ${
               !apiData?.file_name ? "invisible" : "flex"
-            } items-center gap-2 `}
+            } items-center gap-2  w-[33.33%]  text-center justify-center   `}
           >
             <AttachFileRoundedIcon fontSize="small" className="text-gray-400" />
             <div className="text-gray-400">{apiData?.file_name}</div>
@@ -152,12 +190,10 @@ const UploadWrapper = () => {
             )}
           </div>
 
-          <form className=" flex   w-fit">
-            <label
-              htmlFor="file-upload"
-              className="p-2 bg-[#00ac69] text-center w-[130px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
-            >
-              <input
+          <div className=" flex  w-[33.33%]   justify-end ">
+            <a href={baseAPI + "fileDownload?" + "username=" + usernameLocal}>
+              <div className="p-2 bg-[#00ac69] text-center w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative ">
+                {/* <input
                 type="file"
                 name="file"
                 id="file-upload"
@@ -165,15 +201,16 @@ const UploadWrapper = () => {
                 accept={".csv"}
                 placeholder="upload"
                 className="absolute -top-2 -bottom-2 -left-2 -right-2 w-full opacity-0 z-[-100] cursor-pointer "
-              />
+              /> */}
 
-              <span className="mr-2 cursor-pointer">Upload</span>
-              <CloudUploadOutlinedIcon
-                fontSize="medium"
-                className="cursor-pointer"
-              />
-            </label>
-          </form>
+                {/* <span className="mr-2 cursor-pointer">Download</span> */}
+                <FileDownloadOutlinedIcon
+                  fontSize="medium"
+                  className="cursor-pointer"
+                />
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
