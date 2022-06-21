@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import CompanyLogo from "../../assets/img/global-img/everside_logo.svg";
 import UserAuthAtom from "../../recoil/atoms/UserAuthAtom";
-import { useNavigate } from "react-router-dom";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import goButtonStatus from "../../recoil/atoms/goButtonStatus";
@@ -15,8 +14,6 @@ const Auth = () => {
 
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
-  let history = useNavigate();
-
   const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
 
   useEffect(() => {
@@ -27,21 +24,11 @@ const Auth = () => {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const formData = new FormData();
 
-  // useEffect(() => {
-  //   if (sessionStorage.getItem("useStatus")) {
-  //     history("/");
-  //     console.log("it is TRUUUUUUUUUe");
-  //   }
-  // }, []);
-
-  //   Signin and SignUp handlers
+  //   Signin handler
   const signInHandler = (e) => {
     e.preventDefault();
     const userEmail = signInEmailRef.current.value;
     const userPassword = signInPasswordRef.current.value;
-
-    // console.log("userEmail: " + userEmail);
-    // console.log("userPassword: " + userPassword);
 
     formData.append("username", userEmail);
     formData.append("password", userPassword);
@@ -49,10 +36,7 @@ const Auth = () => {
     fetch(baseAPI + "userLogin", {
       mode: "cors",
       method: "POST",
-      // headers: {
-      //   authorization: "jhasgbdhasvbdua234as54ascasjchb",
-      //   Accept: "application/json",
-      // },
+
       body: formData,
     })
       .then((response) => response.json())
@@ -60,16 +44,12 @@ const Auth = () => {
         console.log("Result:");
         console.log(result);
         if (result.Message === "TRUE") {
-          //   setUser(true);
-          // console.log("status is trueeeeeeeeeeee");
-          // history("/");
           setUserIsValid(true);
 
           sessionStorage.setItem("useStatus", result.Message);
           sessionStorage.setItem("username", result.username);
           sessionStorage.setItem("token", result.token);
         } else if (result.Message === "FALSE") {
-          // history("/");
           setUserIsValid(false);
           alert("Incorrect credentials, please try again.");
         }

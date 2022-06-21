@@ -87,11 +87,6 @@ const Filter = () => {
     setDatePickerStatus(false);
   };
 
-  // useEffect(() => {
-  //   console.log("clinicsAPIData");
-  //   console.log(clinicsAPIData);
-  // }, [clinicsAPIData]);
-
   const ref = useDetectClickOutside({ onTriggered: closeToggle });
 
   const [clearFilterVar, setClearFilterVar] = useState(false);
@@ -185,15 +180,6 @@ const Filter = () => {
             className="text-[#00ac69]"
           />
           Clear Filters
-        </div>
-      </div>
-
-      <div className="hidden">
-        <div className=" p-2 bg-white px-2 rounded-lg flex justify-center items-center cursor-pointer">
-          <img src={ExportIcon} alt="date selector" />
-          <span className="text-[10px] sm:text-[12px] text-[#000C08] ml-[8px] opacity-70">
-            Export
-          </span>
         </div>
       </div>
     </div>

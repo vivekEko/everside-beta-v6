@@ -26,7 +26,7 @@ import AttachFileRoundedIcon from "@mui/icons-material/AttachFileRounded";
 import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import { Link } from "react-router-dom";
+import FilePresentOutlinedIcon from "@mui/icons-material/FilePresentOutlined";
 
 const UploadWrapper = () => {
   const [selectedFile, setSelectedFile] = useState();
@@ -93,38 +93,9 @@ const UploadWrapper = () => {
       })
       .catch((error) => {
         alert("Something went wrong , please try again!");
-        console.error("Error:", error);
+        // console.error("Error:", error);
       });
-
-    // fetch(baseAPI + "egMemberPercentile", {
-    //   method: "POST",
-    //   body: formData,
-    // })
-    //   .then((response) => response?.json())
-    //   .then((result) => {
-    //     console.log("Total Cards Data:", result);
-    //     setApiData(result);
-    //   })
-    //   .catch((error) => {
-    //     alert("Something went wrong, please try again.");
-    //   });
   };
-
-  useEffect(() => {
-    console.log("file name:");
-    console.log(apiData?.file_name);
-
-    if (apiData?.file_name > 1000000) {
-      console.log("file name in MB:");
-      console.log((apiData?.file_size / 1000000).toFixed(2) + " MB");
-    } else {
-      console.log("file name in KB:");
-      console.log(Math.round(apiData?.file_size / 1000) + " KB");
-    }
-
-    console.log("file size:");
-    console.log(apiData?.file_size);
-  }, [apiData]);
 
   useEffect(() => {
     if (selectedFile) {
@@ -146,7 +117,7 @@ const UploadWrapper = () => {
             <form className=" flex   w-fit">
               <label
                 htmlFor="file-upload"
-                className="p-2 bg-[#00ac69] text-center w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
+                className="p-2 bg-[#00ac69] text-center sm:w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
               >
                 <input
                   type="file"
@@ -175,24 +146,29 @@ const UploadWrapper = () => {
           <div
             className={` ${
               !apiData?.file_name ? "invisible" : "flex"
-            } items-center gap-2  w-[33.33%]  text-center justify-center   `}
+            } items-center gap-2  w-[40%] sm:w-[33.33%]  text-center justify-center   `}
           >
-            <AttachFileRoundedIcon fontSize="small" className="text-gray-400" />
-            <div className="text-gray-400">{apiData?.file_name}</div>
+            <FilePresentOutlinedIcon
+              fontSize="medium"
+              className="text-gray-400"
+            />
+            <div className="text-gray-400 text-xs sm:text-sm">
+              {apiData?.file_name}
+            </div>
             {apiData?.file_size > 1000000 ? (
-              <div className="text-gray-400">
+              <div className="text-gray-400 text-xs">
                 {"(" + (apiData?.file_size / 1000000).toFixed(2) + " MB)"}
               </div>
             ) : (
-              <div className="text-gray-400">
+              <div className="text-gray-400 text-xs">
                 {"(" + Math.round(apiData?.file_size / 1000) + " KB)"}
               </div>
             )}
           </div>
 
-          <div className=" flex  w-[33.33%]   justify-end ">
+          <div className=" flex  w-[26.67%] sm:w-[33.33%]   justify-end items-center">
             <a href={baseAPI + "fileDownload?" + "username=" + usernameLocal}>
-              <div className="p-2 bg-[#00ac69] text-center w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative ">
+              <div className="p-2 bg-[#00ac69] text-center sm:w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative ">
                 {/* <input
                 type="file"
                 name="file"

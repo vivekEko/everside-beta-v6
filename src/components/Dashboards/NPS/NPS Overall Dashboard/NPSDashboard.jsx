@@ -7,11 +7,9 @@ import sendData from "../../../../recoil/atoms/sendDatesValueAtom";
 import startDateValue from "../../../../recoil/atoms/StartDateAtom";
 import startMonthValue from "../../../../recoil/atoms/StartMonthAtom";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
-// import CustomCalendar from "../Misc/CustomCalendar";
 import Filter from "../Misc/Filter";
 import npsAPIdata from "../../../../recoil/atoms/npsAPIdata";
 import nssAPIdata from "../../../../recoil/atoms/nssAPIdata";
-import apiNameVar from "../../../../recoil/atoms/apiNameVar";
 import totalCardsApiData from "../../../../recoil/atoms/totalCardsApiData";
 import npsOverTimeApiData from "../../../../recoil/atoms/npsOverTimeApiData";
 import sentimentOverTimeApiData from "../../../../recoil/atoms/sentimentOverTimeApiData";
@@ -26,7 +24,6 @@ import NSSAnalysisPage from "../NSS/NSSAnalysisPage";
 import CommentsPage from "../Comments/CommentsPage";
 import activeInnerPage from "../../../../recoil/atoms/activeInnerPage";
 import largeDateAtom from "../../../../recoil/atoms/largeDateAtom";
-import { useNavigate } from "react-router-dom";
 import regionStatus from "../../../../recoil/atoms/regionStatus";
 import regionList from "../../../../recoil/atoms/regionList";
 import goButtonStatus from "../../../../recoil/atoms/goButtonStatus";
@@ -59,20 +56,13 @@ const NPSDashboard = () => {
   const [neutralCommentAtom, setNeutralCommentAtom] =
     useRecoilState(neutralComments);
 
-  // const [apiNameVars, setApiNameVars] = useRecoilState(apiNameVar);
-  // const defaultStartYear = new Date().getFullYear();
   const defaultStartYear = finalStartDate;
 
-  // const defaultStartYear = 2018;
-
   const defaultStartMonth = 1;
-  // const defaultEndYear = new Date().getFullYear();
   const defaultEndYear = finalEndDate;
 
   const defaultEndMonth = 5;
 
-  // All api data variables
-  // const [atomName, setAtomName] = useState();
   const [providerApiAtom, setProviderApiAtom] =
     useRecoilState(providersApiData);
   const [npsApiData, setNpsApiData] = useRecoilState(npsAPIdata);
@@ -96,63 +86,36 @@ const NPSDashboard = () => {
     useRecoilState(totalCommentsApiData);
   const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
   const [largeDate, setLargeDate] = useRecoilState(largeDateAtom);
-
   const [callRegion, setCallRegion] = useRecoilState(regionStatus);
   const [regionListValue, setRegionListValue] = useRecoilState(regionList);
   const [regionValue, setRegionValue] = useRecoilState(regionSelectedValue);
-
   const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
-
   const [callClinicValue, setCallClinicValue] = useRecoilState(callClinics);
   const [clinicsAPIdataValue, setClinicAPIDataValue] =
     useRecoilState(clinicsApiData);
-
   const linksArray = [];
   const defaultArray = [];
-
   const [selectedClinicValue, setSelectedClinicValue] =
     useRecoilState(ClinicValue);
-
   const [newRegionGlobal, setNewRegionGlobal] =
     useRecoilState(newRegionGlobalValue);
-
   const [allDataRecievedStatus, setAllDataRecievedStatus] =
     useRecoilState(allDataRecieved);
-
   const [clientApiAtom, setClientApiAtom] = useRecoilState(clientApidata);
-
-  // useEffect(() => {
-  //   console.log("positiveCommentAtom");
-  //   console.log(positiveCommentAtom);
-  //   console.log("negativeCommentAtom");
-  //   console.log(negativeCommentAtom);
-  //   console.log("extremeCommentAtom");
-  //   console.log(extremeCommentAtom);
-  //   console.log("neutralCommentAtom");
-  //   console.log(neutralCommentAtom);
-  // }, [allDataRecievedStatus]);
-
   const [usernameLocal, setUsernameLocal] = useState();
 
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
   }, [sessionStorage?.getItem("username")]);
 
-  useEffect(() => {
-    console.log("npsApiData:");
-    console.log(npsApiData);
-  }, [npsApiData]);
-
   const allApiNames = [
     "netPromoterScore",
     "netSentimentScore",
     "totalCards",
-
     "positiveComments",
     "neutralComments",
     "negativeComments",
     "extremeComments",
-
     "totalComments",
     "alertComments",
     "npsOverTime",
@@ -166,7 +129,6 @@ const NPSDashboard = () => {
   ];
 
   const formdata = new FormData();
-  console.log(usernameLocal);
   formdata.append("username", usernameLocal);
 
   useEffect(async () => {
@@ -694,12 +656,6 @@ const NPSDashboard = () => {
       // console.log("default all comments");
     }
   }, [goStatus, usernameLocal]);
-
-  // let history = useNavigate();
-
-  // if (sessionStorage.getItem("useStatus") === null) {
-  //   history("/");
-  // }
 
   return (
     <div className="relative">

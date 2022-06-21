@@ -70,30 +70,6 @@ const Sidebar = () => {
       <div className="   ">
         <div className="pt-[65px] relative ">
           <div>
-            {/* <div className="mb-[30px] hidden">
-              <Link to="/">
-                <SidebarLink
-                  iconName="/"
-                  pageName={pageName}
-                  linkName="Dashboard"
-                  onClick={() => {
-                    setPageName("/");
-                    setComponentNameValue("/");
-                    setHamburgerStatus(!hamburgerStatus);
-                    setActivePageValue(null);
-                  }}
-                  icon={
-                    <DashboardIcon
-                      bgColor={bgColorValue}
-                      strokeColor={strokeColor}
-                      iconName="/"
-                      pageName={pageName}
-                    />
-                  }
-                />
-              </Link>
-            </div> */}
-
             <div className="mb-[30px]">
               <Link to="/">
                 <SidebarLink
@@ -238,22 +214,6 @@ const Sidebar = () => {
           </div>
         </div>
         <div className=" absolute top-[calc(100vh-100px)] left-0 right-0 h-[50px]  ">
-          {/* <div
-            className=" bg-[#f1f0f0] rounded-lg  cursor-pointer flex justify-between p-5 mx-auto items-center gap-2 h-full "
-            onClick={() => {
-              sessionStorage.clear();
-              // history("/");
-              setUserIsValid(false);
-            }}
-          >
-            <div className="opacity-80 text-base">Logout</div>
-            <div>
-              <LogoutIcon
-                className="opacity-100 text-[#00ac69]"
-                fontSize="small"
-              />
-            </div>
-          </div> */}
           <img
             src={logout}
             alt="logout"

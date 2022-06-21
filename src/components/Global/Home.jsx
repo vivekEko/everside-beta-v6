@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import NPSDashboard from "../Dashboards/NPS/NPS Overall Dashboard/NPSDashboard";
@@ -8,24 +8,8 @@ import EKO from "../../assets/img/global-img/ekoLogo.png";
 const Home = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
-  // useEffect(() => {
-  //   console.log("validity of user:");
-  //   // console.log(userIsValid);
-  // }, [userIsValid]);
-
   return (
     <div>
-      {/* <div>
-        <button
-          className="p-5 bg-white rounded-md"
-          onClick={() => setUserIsValid(!userIsValid)}
-        >
-          {userIsValid}
-        </button>
-      </div> */}
-      {/* <div className="relative">
-        {userIsValid ? <NPSDashboard /> : <Auth />}
-      </div> */}
       <div className="">{userIsValid ? <NPSDashboard /> : <Auth />}</div>
       <div className="flex justify-center items py-2">
         <div className="flex items-center gap-2">
