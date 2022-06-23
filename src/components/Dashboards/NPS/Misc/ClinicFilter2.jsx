@@ -79,10 +79,10 @@ const ClinicFilter2 = () => {
   const [clinicLocalStatusAtom, setClinicLocalStatusAtom] =
     useRecoilState(clinicLocalStatus);
 
-  // useEffect(() => {
-  //   console.log("clinicLocalStatusAtom:");
-  //   console.log(clinicLocalStatusAtom);
-  // }, [clinicLocalStatusAtom]);
+  useEffect(() => {
+    console.log("clinicsAPIdataValueeeeeeeeeeeeeeeeee:");
+    console.log(clinicsAPIdataValue);
+  }, [clinicsAPIdataValue]);
 
   useEffect(() => {
     if (clinicLocal.length) {

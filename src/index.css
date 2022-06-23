@@ -35,6 +35,20 @@ code {
   transition: all;
 }
 
+.modal-animation {
+  animation: engagementError 0.1s ease-in;
+}
+
+@keyframes engagementError {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes startDateStartAnimation {
   0% {
     transform: translateX(100%);
@@ -68,4 +82,30 @@ code {
 .leaflet-container {
   width: 100%;
   height: 400px;
+}
+
+.error {
+  animation: errorAnimation 0.5s ease-in-out;
+}
+
+@keyframes errorAnimation {
+  0% {
+    transform: translateX(-20px);
+  }
+
+  25% {
+    transform: translateX(15px);
+  }
+
+  50% {
+    transform: translateX(-10px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
 }

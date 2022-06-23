@@ -33,6 +33,7 @@ import regionLocalStatus from "../../../../recoil/atoms/regionLocalStatus";
 import clinicLocalStatus from "../../../../recoil/atoms/clinicLocalStatus";
 import flushClinic from "../../../../recoil/atoms/flushClinic";
 import CustomCalendar4 from "./CustomCalendar4";
+import activeInnerPage from "../../../../recoil/atoms/activeInnerPage";
 
 const Filter = () => {
   const [flushClinicStatus, setFlushClinicStatus] = useRecoilState(flushClinic);
@@ -99,8 +100,14 @@ const Filter = () => {
     setTimeout(setGoStatus(!goStatus), 5000);
   }, [clearFilterVar]);
 
+  const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
+
   return (
-    <div className="flex justify-between items-center  relative   ">
+    <div
+      className={` ${
+        activePageValue === "Engagement_Model" ? "hidden" : "block"
+      } flex justify-between items-center  relative  `}
+    >
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2  w-full ">
         {/* Calendar */}
 

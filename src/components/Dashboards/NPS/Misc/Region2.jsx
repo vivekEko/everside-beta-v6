@@ -59,6 +59,9 @@ const Region2 = () => {
 
   useEffect(() => {
     setNewRegionLocal(regionListValue?.region);
+
+    console.log("region listttttttttttttttt");
+    console.log(regionListValue?.region);
   }, [regionListValue]);
 
   useEffect(() => {
@@ -127,8 +130,6 @@ const Region2 = () => {
         }
       );
 
-      console.log("Clinic Data:");
-      console.log(clinicData?.data);
       setClinicAPIDataValue(clinicData?.data);
     }
   }, [runClinicAPI, usernameLocal]);

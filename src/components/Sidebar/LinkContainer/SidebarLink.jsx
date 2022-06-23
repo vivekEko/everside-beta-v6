@@ -4,7 +4,7 @@ const SidebarLink = (props) => {
   return (
     <div
       onClick={props.onClick}
-      className={`  flex justify-start items-center mx-[8px] transition-all `}
+      className={` cursor-pointer  flex justify-start items-center mx-[8px] transition-all `}
     >
       {props.icon}
       <div className="text-[#000C08]  text-[12.5px] leading-[15px] ml-[10px] mr-2 font-medium opacity-70">

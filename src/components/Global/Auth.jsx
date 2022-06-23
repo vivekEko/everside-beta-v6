@@ -5,6 +5,8 @@ import UserAuthAtom from "../../recoil/atoms/UserAuthAtom";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import goButtonStatus from "../../recoil/atoms/goButtonStatus";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const signInEmailRef = useRef(null);
@@ -24,40 +26,61 @@ const Auth = () => {
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const formData = new FormData();
 
+  const navigate = useNavigate();
+
   //   Signin handler
   const signInHandler = (e) => {
     e.preventDefault();
-    const userEmail = signInEmailRef.current.value;
-    const userPassword = signInPasswordRef.current.value;
+    setLoginErrorMessage(null);
 
-    formData.append("username", userEmail);
-    formData.append("password", userPassword);
+    if (
+      signInEmailRef?.current?.value?.length > 0 &&
+      signInPasswordRef?.current?.value?.length > 0
+    ) {
+      const userEmail = signInEmailRef.current.value?.toLowerCase();
+      const userPassword = signInPasswordRef.current.value;
 
-    fetch(baseAPI + "userLogin", {
-      mode: "cors",
-      method: "POST",
+      formData.append("username", userEmail);
+      formData.append("password", userPassword);
 
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Result:");
-        console.log(result);
-        if (result.Message === "TRUE") {
-          setUserIsValid(true);
-
-          sessionStorage.setItem("useStatus", result.Message);
-          sessionStorage.setItem("username", result.username);
-          sessionStorage.setItem("token", result.token);
-        } else if (result.Message === "FALSE") {
-          setUserIsValid(false);
-          alert("Incorrect credentials, please try again.");
-        }
+      fetch(baseAPI + "userLogin", {
+        mode: "cors",
+        method: "POST",
+        body: formData,
       })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Something went wrong, please try again.");
-      });
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.Message === "TRUE") {
+            setLoginErrorMessage(null);
+            sessionStorage.setItem("useStatus", result.Message);
+            sessionStorage.setItem("username", result.username);
+            sessionStorage.setItem("token", result.token);
+            setUserIsValid("TRUE");
+            navigate("/");
+            window.location.reload(false);
+          } else if (result.Message === "FALSE") {
+            setUserIsValid(null);
+            setLoginErrorMessage(null);
+            // setLoginErrorMessage("Incorrect credentials, please try again.");
+
+            setTimeout(() => {
+              setLoginErrorMessage("Incorrect credentials, please try again.");
+            }, 1);
+          }
+        })
+        .catch((error) => {
+          setLoginErrorMessage(null);
+          setTimeout(() => {
+            setLoginErrorMessage("Something went wrong, please try again.");
+          }, 1);
+        });
+    } else {
+      setLoginErrorMessage(null);
+
+      setTimeout(() => {
+        setLoginErrorMessage("Please fill all the fields.");
+      }, 1);
+    }
   };
 
   return (
@@ -85,9 +108,18 @@ const Auth = () => {
               type="password"
               placeholder="Password"
               required
-              className="h-12 w-full outline-none px-5 mb-5 bg-[#00000025] text-black border-b-2 border-opacity-0 focus:border-opacity-100 border-[#359b73] rounded "
+              className={` ${
+                loginErrorMessage ? "mb-3" : "mb-9"
+              } h-12 w-full outline-none px-5  bg-[#00000025] text-black border-b-2 border-opacity-0 focus:border-opacity-100 border-[#359b73] rounded `}
             />
-            <p className="my-5 text-sm text-red-500">{loginErrorMessage}</p>
+            <p
+              className={`mb-2 text-[10px] text-left text-red-500 flex justify-start items-center gap-2 error ${
+                loginErrorMessage ? "block" : "hidden"
+              }`}
+            >
+              <ErrorOutlineRoundedIcon fontSize="small" />
+              {loginErrorMessage}
+            </p>
             <button
               className="bg-[#359b73] text-white hover:bg-opacity-80 w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md active:scale-95"
               variant="outlined"

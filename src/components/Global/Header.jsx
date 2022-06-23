@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import hamburgerStatusRecoil from "../../recoil/atoms/HamburgerAtom";
 import DateFilterStatus from "../../recoil/atoms/DateFilterStatusAtom";
 import UserValidity from "../../recoil/atoms/UserValidity";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
@@ -14,6 +15,8 @@ const Header = () => {
   );
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
+
+  const navigate = useNavigate();
 
   return (
     <header
@@ -65,7 +68,7 @@ const Header = () => {
           className="w-[20px] cursor-pointer hidden lg:block"
           onClick={() => {
             sessionStorage.clear();
-            // history("/");
+            navigate("/");
             setUserIsValid(false);
           }}
         />

@@ -27,8 +27,15 @@ import CloudDownloadOutlinedIcon from "@mui/icons-material/CloudDownloadOutlined
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import FilePresentOutlinedIcon from "@mui/icons-material/FilePresentOutlined";
+import engagementErrorAtom from "../../../recoil/atoms/engagementErrorAtom";
+import engagementErrorMessage from "../../../recoil/atoms/engagementErrorMessage";
 
 const UploadWrapper = () => {
+  const [engagementError, setEngagementError] =
+    useRecoilState(engagementErrorAtom);
+  const [engagementErrorMessages, setEngagementErrorMessages] = useRecoilState(
+    engagementErrorMessage
+  );
   const [selectedFile, setSelectedFile] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [loaderStatus, setLoaderStatus] = useState(false);
@@ -88,11 +95,15 @@ const UploadWrapper = () => {
         }
         if (result?.Message === "FALSE") {
           setLoaderStatus(false);
-          alert("Invalid file");
+          // alert("Invalid file");
+          setEngagementErrorMessages("Invalid file uploaded.");
+          setEngagementError(true);
         }
       })
       .catch((error) => {
-        alert("Something went wrong , please try again!");
+        // alert("Something went wrong , please try again!");
+        setEngagementError(true);
+        setEngagementErrorMessages("Something went wrong , please try again!");
         // console.error("Error:", error);
       });
   };

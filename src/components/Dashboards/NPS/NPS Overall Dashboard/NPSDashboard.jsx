@@ -38,6 +38,7 @@ import positiveComments from "../../../../recoil/atoms/positiveComments";
 import negativeComments from "../../../../recoil/atoms/negativeComments";
 import extremeComments from "../../../../recoil/atoms/extremeComments";
 import neutralComments from "../../../../recoil/atoms/neutralComments";
+import EngagementModel from "../../EngagementModel/EngagementModel";
 
 const NPSDashboard = () => {
   const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
@@ -158,9 +159,6 @@ const NPSDashboard = () => {
         }
       );
       setRegionListValue(regionData?.data);
-
-      // console.log("region address:");
-      // console.log(regionData);
     }
   }, [callRegion, usernameLocal]);
 
@@ -224,17 +222,8 @@ const NPSDashboard = () => {
     setProviderApiAtom(null);
     setClientApiAtom(null);
 
-    // console.log("fron nps dashboard send data status:");
-    // console.log(sendDataStatus);
-
     // API Calls
     if (sendDataStatus === true && usernameLocal) {
-      // console.log("total Comments response:");
-      // console.log(linksArray[3]);
-      // console.log(linksArray[4]);
-      // console.log(linksArray[5]);
-      // console.log(linksArray[6]);
-
       const nps = await axios.post(
         linksArray[0],
         formdata,
@@ -247,12 +236,6 @@ const NPSDashboard = () => {
         }
       );
       setTimeout(() => setNpsApiData(nps?.data), 50);
-
-      // console.log("nps if");
-      // console.log(nps?.data);
-      // console.log("nps if");
-      // console.log(nps?.data);
-      // console.log(linksArray[0]);
 
       const nss = await axios.post(
         linksArray[1],
@@ -279,9 +262,6 @@ const NPSDashboard = () => {
         }
       );
       setTimeout(() => setTotalCardsAPIDatas(totalCards?.data), 50);
-
-      // const topComments = await axios.post(linksArray[3]);
-      // setTimeout(() => setTopCommentsAPIData(topComments?.data), 50);
 
       const postive_comments = await axios.post(
         linksArray[3],
@@ -348,7 +328,6 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
-        console.log(allComments?.data);
       }, 50);
 
       const alerts = await axios.post(
@@ -555,8 +534,6 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setAllCommentsAPIData(allComments?.data);
-
-        console.log(allComments?.data);
       }, 50);
 
       const alerts = await axios.post(
@@ -652,8 +629,6 @@ const NPSDashboard = () => {
         setClientApiAtom(clients?.data);
         setAllDataRecievedStatus(true);
       });
-
-      // console.log("default all comments");
     }
   }, [goStatus, usernameLocal]);
 
@@ -666,6 +641,7 @@ const NPSDashboard = () => {
       {activePageValue === "NPS_Analysis" ? <NPSAnalysisPage /> : ""}
       {activePageValue === "NSS_Analysis" ? <NSSAnalysisPage /> : ""}
       {activePageValue === "Comments" ? <CommentsPage /> : ""}
+      {activePageValue === "Engagement_Model" ? <EngagementModel /> : ""}
     </div>
   );
 };

@@ -11,11 +11,20 @@ import { BASE_API_LINK } from "../../../utils/BaseAPILink";
 import UserValidity from "../../../recoil/atoms/UserValidity";
 import Auth from "../../Global/Auth";
 import USMap from "./USMap";
+import engagementErrorAtom from "../../../recoil/atoms/engagementErrorAtom";
+import engagementErrorMessage from "../../../recoil/atoms/engagementErrorMessage";
 
 const EngagementModel = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
   const [usernameLocal, setUsernameLocal] = useState();
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
+
+  const [engagementError, setEngagementError] =
+    useRecoilState(engagementErrorAtom);
+
+  const [engagementErrorMessages, setEngagementErrorMessages] = useRecoilState(
+    engagementErrorMessage
+  );
 
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
@@ -36,6 +45,7 @@ const EngagementModel = () => {
         })
         .catch((error) => {
           console.log(error);
+          // setEngagementError(true);
         });
     }
   }, [usernameLocal]);
@@ -73,7 +83,7 @@ const EngagementModel = () => {
               </div>
             )}
           </div>
-          <div className="flex justify-center items py-5">
+          {/* <div className="flex justify-center items py-5">
             <div className="flex items-center gap-2">
               <span className="text-gray-400 italic text-xs">Powered by</span>
               <a
@@ -88,7 +98,7 @@ const EngagementModel = () => {
                 />
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </>
