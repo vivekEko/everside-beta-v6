@@ -109,3 +109,56 @@ code {
     transform: translateX(0px);
   }
 }
+
+.upload-animation {
+  animation: upload 0.7s infinite ease-in-out;
+}
+
+@keyframes upload {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  10% {
+    transform: translateY(-2px);
+    opacity: 0.8;
+  }
+  20% {
+    transform: translateY(-4px);
+    opacity: 0.6;
+  }
+  30% {
+    transform: translateY(-6px);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-8px);
+    opacity: 0.2;
+  }
+
+  50% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  60% {
+    transform: translateY(-12px);
+    opacity: 0.2;
+  }
+  70% {
+    transform: translateY(-14px);
+    opacity: 0.4;
+  }
+  80% {
+    transform: translateY(-16px);
+    opacity: 0.6;
+  }
+  90% {
+    transform: translateY(-18px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+}

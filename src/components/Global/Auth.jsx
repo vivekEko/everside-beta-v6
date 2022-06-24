@@ -7,16 +7,17 @@ import UserValidity from "../../recoil/atoms/UserValidity";
 import goButtonStatus from "../../recoil/atoms/goButtonStatus";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import { useNavigate } from "react-router-dom";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
+import { SyncLoader } from "react-spinners";
 
 const Auth = () => {
   const signInEmailRef = useRef(null);
   const signInPasswordRef = useRef(null);
   const [user, setUser] = useRecoilState(UserAuthAtom);
   const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
-
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
-
   const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     setGoStatus(!goStatus);
@@ -25,13 +26,13 @@ const Auth = () => {
   //   States
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const formData = new FormData();
-
   const navigate = useNavigate();
 
   //   Signin handler
   const signInHandler = (e) => {
     e.preventDefault();
     setLoginErrorMessage(null);
+    setLoader(true);
 
     if (
       signInEmailRef?.current?.value?.length > 0 &&
@@ -58,13 +59,16 @@ const Auth = () => {
             setUserIsValid("TRUE");
             navigate("/");
             window.location.reload(false);
+            setLoader(false);
           } else if (result.Message === "FALSE") {
             setUserIsValid(null);
             setLoginErrorMessage(null);
+
             // setLoginErrorMessage("Incorrect credentials, please try again.");
 
             setTimeout(() => {
               setLoginErrorMessage("Incorrect credentials, please try again.");
+              setLoader(false);
             }, 1);
           }
         })
@@ -72,13 +76,14 @@ const Auth = () => {
           setLoginErrorMessage(null);
           setTimeout(() => {
             setLoginErrorMessage("Something went wrong, please try again.");
+            setLoader(false);
           }, 1);
         });
     } else {
       setLoginErrorMessage(null);
-
       setTimeout(() => {
         setLoginErrorMessage("Please fill all the fields.");
+        setLoader(false);
       }, 1);
     }
   };
@@ -121,11 +126,15 @@ const Auth = () => {
               {loginErrorMessage}
             </p>
             <button
-              className="bg-[#359b73] text-white hover:bg-opacity-80 w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md active:scale-95"
+              className="bg-[#359b73] text-white hover:bg-opacity-80 w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md active:scale-95 flex justify-center items-center"
               variant="outlined"
               onClick={signInHandler}
             >
-              Sign in
+              {loader ? (
+                <SyncLoader speedMultiplier={0.7} color="#fff" size={5} />
+              ) : (
+                <span>Log in</span>
+              )}
             </button>
           </form>
         </div>

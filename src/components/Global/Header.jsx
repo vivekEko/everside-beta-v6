@@ -6,8 +6,11 @@ import hamburgerStatusRecoil from "../../recoil/atoms/HamburgerAtom";
 import DateFilterStatus from "../../recoil/atoms/DateFilterStatusAtom";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import { useNavigate } from "react-router-dom";
+import activeInnerPage from "../../recoil/atoms/activeInnerPage";
 
 const Header = () => {
+  const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
+
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
   const [hamburgerStatus, setHamburgerStatus] = useRecoilState(
@@ -68,6 +71,7 @@ const Header = () => {
           className="w-[20px] cursor-pointer hidden lg:block"
           onClick={() => {
             sessionStorage.clear();
+            setActivePageValue("NPS_Overall");
             navigate("/");
             setUserIsValid(false);
           }}
