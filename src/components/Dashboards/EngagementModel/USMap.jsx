@@ -11,10 +11,10 @@ import { useState } from "react";
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
-  //   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  //   iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  iconRetinaUrl: require("../../../assets/img/global-img/everside_marker_big.png"),
-  iconUrl: require("../../../assets/img/global-img/everside_marker_big.png"),
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  // iconRetinaUrl: require("../../../assets/img/global-img/everside_marker_big.png"),
+  // iconUrl: require("../../../assets/img/global-img/everside_marker_big.png"),
 
   iconSize: [30, 30],
 

@@ -49,10 +49,10 @@ const UploadWrapper = () => {
   const [Females, setFemales] = useState(0);
   const [Others, setOthers] = useState(0);
 
-  useEffect(() => {
-    console.log("selectedFile:");
-    console.log(selectedFile);
-  }, [selectedFile]);
+  // useEffect(() => {
+  //   console.log("selectedFile:");
+  //   console.log(selectedFile);
+  // }, [selectedFile]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -64,18 +64,9 @@ const UploadWrapper = () => {
 
   const changeHandler = (event) => {
     console.log("reached change handler");
-    console.log(event?.target?.files[0]);
+    console.log(event?.target?.files[0]?.name);
     setSelectedFile(event?.target?.files[0]);
     setIsFilePicked(true);
-
-    if (selectedFile) {
-      console.log("reached here");
-      if (selectedFile !== "noFiles") {
-        handleSubmission();
-        setLoaderStatus(true);
-        console.log("use effect run ...................");
-      }
-    }
   };
 
   const [usernameLocal, setUsernameLocal] = useState();
@@ -122,16 +113,14 @@ const UploadWrapper = () => {
       });
   };
 
-  // useEffect(() => {
-  //   if (selectedFile) {
-  //     console.log("reached here");
-  //     if (selectedFile !== "noFiles") {
-  //       handleSubmission();
-  //       setLoaderStatus(true);
-  //       console.log("use effect run ...................");
-  //     }
-  //   }
-  // }, [selectedFile]);
+  useEffect(() => {
+    if (selectedFile) {
+      if (selectedFile !== "noFiles") {
+        handleSubmission();
+        setLoaderStatus(true);
+      }
+    }
+  }, [selectedFile]);
 
   useEffect(() => {
     if (engagementErrorMessages) {
@@ -153,7 +142,8 @@ const UploadWrapper = () => {
                   type="file"
                   name="file"
                   id="file-upload"
-                  onClick={changeHandler}
+                  onChange={changeHandler}
+                  onClick={(event) => (event.target.value = "")}
                   accept={".csv"}
                   placeholder="upload"
                   className="absolute -top-2 -bottom-2 -left-2 -right-2 w-full opacity-0 z-[-100] cursor-pointer "
