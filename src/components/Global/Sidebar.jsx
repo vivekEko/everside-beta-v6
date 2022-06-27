@@ -25,6 +25,9 @@ const Sidebar = () => {
     hamburgerStatusRecoil
   );
 
+  // const [componentNameValue, setComponentNameValue] =
+  //   useRecoilState(componentName);
+
   const [componentNameValue, setComponentNameValue] =
     useRecoilState(componentName);
 
@@ -34,6 +37,10 @@ const Sidebar = () => {
 
   const [pageName, setPageName] = useState("/");
   const location = useLocation();
+
+  // useEffect(() => {
+  //   setPageName("/");
+  // }, [pageName]);
 
   useEffect(() => {
     if (pageName === componentNameValue) {

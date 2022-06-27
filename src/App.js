@@ -19,6 +19,7 @@ import Home from "./components/Global/Home";
 import NPSDashboard from "./components/Dashboards/NPS/NPS Overall Dashboard/NPSDashboard";
 import engagementErrorAtom from "./recoil/atoms/engagementErrorAtom";
 import engagementErrorMessage from "./recoil/atoms/engagementErrorMessage";
+import activeInnerPage from "./recoil/atoms/activeInnerPage";
 
 function App() {
   const [datePickerStatus, setDatePickerStatus] =
@@ -27,6 +28,8 @@ function App() {
   const [hamburgerStatus, setHamburgerStatus] = useRecoilState(
     hamburgerStatusRecoil
   );
+
+  const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
 
   useEffect(() => {
     console.log("sessionStorage?.getItem");
@@ -39,6 +42,15 @@ function App() {
   const [engagementErrorMessages, setEngagementErrorMessages] = useRecoilState(
     engagementErrorMessage
   );
+
+  useEffect(() => {
+    setActivePageValue("NPS_Overall");
+  }, []);
+
+  useEffect(() => {
+    console.log("activePageValue .................................");
+    console.log(activePageValue);
+  }, [activePageValue]);
 
   return (
     <div>

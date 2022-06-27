@@ -74,6 +74,7 @@ const Header = () => {
             setActivePageValue("NPS_Overall");
             navigate("/");
             setUserIsValid(false);
+            window.location.reload(false);
           }}
         />
       </div>

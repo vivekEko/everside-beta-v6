@@ -9,6 +9,7 @@ import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import { useNavigate } from "react-router-dom";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { SyncLoader } from "react-spinners";
+import activeInnerPage from "../../recoil/atoms/activeInnerPage";
 
 const Auth = () => {
   const signInEmailRef = useRef(null);
@@ -18,6 +19,7 @@ const Auth = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
   const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
   const [loader, setLoader] = useState(false);
+  const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
 
   useEffect(() => {
     setGoStatus(!goStatus);
@@ -58,7 +60,8 @@ const Auth = () => {
             sessionStorage.setItem("token", result.token);
             setUserIsValid("TRUE");
             navigate("/");
-            window.location.reload(false);
+            setActivePageValue("NPS_Overall");
+            // window.location.reload(false);
             setLoader(false);
           } else if (result.Message === "FALSE") {
             setUserIsValid(null);
