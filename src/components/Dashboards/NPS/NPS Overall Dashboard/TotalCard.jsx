@@ -70,7 +70,7 @@ const TotalCard = () => {
   // }, [sendDataStatus]);
 
   return (
-    <div className=" w-full xl:w-[33%] xl:ml-3 2xl:ml-0   transition-all  flex  justify-center items-center max-w-[320px] sm:max-w-none  ">
+    <div className=" w-full xl:w-[30%]   2xl:ml-0   transition-all  flex  justify-center items-center sm:max-w-none  ">
       {!apiData?.card_data && (
         <div className="min-h-[170px] w-full bg-[#ffffff] z-[0] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -78,8 +78,8 @@ const TotalCard = () => {
       )}
 
       {apiData?.card_data && (
-        <div className="grid  grid-cols-3 xs:grid-cols-2 sm:grid-cols-6   xl:grid-cols-3  justify-between  w-full h-full place-items-center items-center gap-5 ">
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md border    w-full h-full text-center flex justify-center items-center">
+        <div className="grid  grid-cols-3  sm:grid-cols-6   xl:grid-cols-3 2xl:grid-cols-3  justify-between  w-full h-full place-items-center items-center gap-2 ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3  bg-white text-gray-600 rounded-md border    w-full h-full text-center flex justify-center items-center">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[14px]">
                 Surveyed
@@ -95,7 +95,7 @@ const TotalCard = () => {
             </div>
           </div>
 
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[14px]">
                 Comments
@@ -111,7 +111,7 @@ const TotalCard = () => {
             </div>
           </div>
 
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[14px]">
                 Alerts
@@ -127,7 +127,7 @@ const TotalCard = () => {
             </div>
           </div>
 
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[12px]">
                 Health Centers
@@ -143,7 +143,7 @@ const TotalCard = () => {
             </div>
           </div>
 
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[14px]">
                 Providers
@@ -159,7 +159,7 @@ const TotalCard = () => {
             </div>
           </div>
 
-          <div className="p-2 xs:p-5 md:p-2 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
+          <div className="p-2 xs:p-5 md:p-2 xl:py-3 bg-white text-gray-600 rounded-md w-full h-full text-center flex justify-center items-center border   ">
             <div>
               <p className=" text-[#000C08] opacity-40 text-[10px] md:text-[14px]">
                 Clients

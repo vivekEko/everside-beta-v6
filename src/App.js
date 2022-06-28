@@ -95,12 +95,10 @@ function App() {
                 />
               </svg>
               <h1 className="text-5xl text-red-600 font-extrabold mb-4">
-                {" "}
                 Error
               </h1>
 
               <h1 className="text-lg text-gray-600 border p-2 bg-gray-100 rounded-lg">
-                {" "}
                 {engagementErrorMessages}
               </h1>
             </div>
@@ -110,7 +108,6 @@ function App() {
         <main className="bg-white ">
           <Router>
             <Header />
-
             <Sidebar />
             <div className="lg:pl-[170px] p-[8px]">
               {/* <Filter /> */}

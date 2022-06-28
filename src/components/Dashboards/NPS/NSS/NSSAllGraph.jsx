@@ -30,6 +30,7 @@ const NPSAllGraph = () => {
   const [spinAnimation, setSpinAnimation] = useState(false);
 
   const [positives, setPositive] = useState(false);
+  const [neutrals, setNeutrals] = useState(false);
   const [negative, setNegative] = useState(false);
   const [extreme, setExtreme] = useState(false);
   const [nssScore, setNssScore] = useState(true);
@@ -45,10 +46,14 @@ const NPSAllGraph = () => {
     },
     {
       id: 3,
-      name: "Negative",
+      name: "Neutral",
     },
     {
       id: 4,
+      name: "Negative",
+    },
+    {
+      id: 5,
       name: "Extreme",
     },
   ];
@@ -81,6 +86,7 @@ const NPSAllGraph = () => {
   function handleReset() {
     setFilterStatus(false);
     setPositive(false);
+    setNeutrals(false);
     setNegative(false);
     setExtreme(false);
     setNssScore(true);
@@ -114,7 +120,7 @@ const NPSAllGraph = () => {
                     spinAnimation ? "animate-spin" : ""
                   } opacity-80 p-2 cursor-pointer active:scale-95   transition duration-75  hover:bg-gray-100 rounded-full`}
                   onClick={handleReset}
-                />{" "}
+                />
               </div>
               {/* Dropdown */}
               <div
@@ -140,37 +146,52 @@ const NPSAllGraph = () => {
                     key={data?.id}
                     className={`flex flex-row-reverse justify-end items-center gap-5  p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
                     onClick={() => {
-                      if (positives || negative || extreme || nssScore) {
+                      if (
+                        positives ||
+                        negative ||
+                        extreme ||
+                        nssScore ||
+                        neutrals
+                      ) {
                         if (data.id === 1) {
                           if (
-                            (positives || negative || extreme) &&
+                            (positives || negative || extreme || neutrals) &&
                             nssScore === true
                           ) {
                             setNssScore(false);
                           } else {
                             setNssScore(true);
                           }
+                        } else if (data.id === 3) {
+                          if (
+                            (negative || extreme || nssScore || positives) &&
+                            neutrals === true
+                          ) {
+                            setNeutrals(false);
+                          } else {
+                            setNeutrals(true);
+                          }
                         } else if (data.id === 2) {
                           if (
-                            (negative || extreme || nssScore) &&
+                            (negative || extreme || nssScore || neutrals) &&
                             positives === true
                           ) {
                             setPositive(false);
                           } else {
                             setPositive(true);
                           }
-                        } else if (data.id === 3) {
+                        } else if (data.id === 4) {
                           if (
-                            (positives || extreme || nssScore) &&
+                            (positives || extreme || nssScore || neutrals) &&
                             negative === true
                           ) {
                             setNegative(false);
                           } else {
                             setNegative(true);
                           }
-                        } else if (data.id === 4) {
+                        } else if (data.id === 5) {
                           if (
-                            (positives || negative || nssScore) &&
+                            (positives || negative || nssScore || neutrals) &&
                             extreme === true
                           ) {
                             setExtreme(false);
@@ -189,15 +210,18 @@ const NPSAllGraph = () => {
                       ${
                         nssScore && data?.id === 1 ? "bg-[#009DFF]" : "bg-white"
                       }
+                      ${
+                        neutrals && data?.id === 3 ? "bg-[#939799]" : "bg-white"
+                      }
                         ${
                           positives && data?.id === 2
                             ? "bg-[#00AC69]"
                             : "bg-white"
                         }
                       ${
-                        negative && data?.id === 3 ? "bg-[#EE6123]" : "bg-white"
+                        negative && data?.id === 4 ? "bg-[#EE6123]" : "bg-white"
                       }
-                      ${extreme && data?.id === 4 ? "bg-[#DB2B39]" : "bg-white"}
+                      ${extreme && data?.id === 5 ? "bg-[#DB2B39]" : "bg-white"}
                    
                       rounded-full`}
                     ></div>
@@ -207,11 +231,17 @@ const NPSAllGraph = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-5 justify-end mb-2">
+          <div className=" items-center gap-5 justify-end mb-2 hidden sm:flex ">
             <div className="flex items-center gap-1">
               <div className="bg-[#00AC69] h-[8px] w-[8px] rounded-full"></div>
               <div className="text-[12px] opacity-80">Positive</div>
             </div>
+
+            <div className="flex items-center gap-1">
+              <div className="bg-[#939799] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Neutral</div>
+            </div>
+
             <div className="flex items-center gap-1">
               <div className="bg-[#EE6123] h-[8px] w-[8px] rounded-full"></div>
               <div className="text-[12px] opacity-80">Negative</div>
@@ -220,6 +250,35 @@ const NPSAllGraph = () => {
               <div className="bg-[#DB2B39] h-[8px] w-[8px] rounded-full"></div>
               <div className="text-[12px] opacity-80">Extreme</div>
             </div>
+            <div className="flex items-center gap-1">
+              <div className="bg-[#009DFF] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Sentiment Score</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-5 justify-end mb-2 sm:hidden">
+            <div className="flex items-center gap-1">
+              <div className="bg-[#00AC69] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Positive</div>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <div className="bg-[#939799] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Neutral</div>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <div className="bg-[#EE6123] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Negative</div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-5 justify-end mb-2 sm:hidden">
+            <div className="flex items-center gap-1">
+              <div className="bg-[#DB2B39] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Extreme</div>
+            </div>
+
             <div className="flex items-center gap-1">
               <div className="bg-[#009DFF] h-[8px] w-[8px] rounded-full"></div>
               <div className="text-[12px] opacity-80">Sentiment Score</div>
@@ -249,6 +308,17 @@ const NPSAllGraph = () => {
                   >
                     <stop offset="5%" stopColor="#00AC69" stopOpacity={0.8} />
                     <stop offset="95%" stopColor="#00AC69" stopOpacity={0.05} />
+                  </linearGradient>
+
+                  <linearGradient
+                    id="neutralGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor="#939799" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#939799" stopOpacity={0.05} />
                   </linearGradient>
 
                   <linearGradient
@@ -317,6 +387,18 @@ const NPSAllGraph = () => {
                     dot={false}
                     strokeWidth={4}
                     fill="url(#positiveGradient)"
+                  />
+                )}
+
+                {neutrals && (
+                  <Area
+                    type="monotone"
+                    name="neutral"
+                    dataKey="neutral"
+                    stroke="#939799 "
+                    dot={false}
+                    strokeWidth={4}
+                    fill="url(#neutralGradient)"
                   />
                 )}
 

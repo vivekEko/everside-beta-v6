@@ -22,12 +22,14 @@ const NPSDetailCard = () => {
   const [positive, setPositive] = useState(0);
   const [negative, setNegative] = useState(0);
   const [extreme, setExtreme] = useState(0);
+  const [neutral, setNeutral] = useState(0);
 
   useEffect(() => {
     setTimeout(() => {
       setPositive(apiData?.nss?.positive);
       setNegative(apiData?.nss?.negative);
       setExtreme(apiData?.nss?.extreme);
+      setNeutral(apiData?.nss?.neutral);
     }, 100);
   }, [apiData?.nss?.positive]);
 
@@ -104,7 +106,7 @@ const NPSDetailCard = () => {
           <div className="flex gap-5 items-center flex-col-reverse sm:flex-row">
             <div className="w-[90%] md:w-[60%]   ">
               <div className=" w-[100%] md:w-[80%] ml-auto">
-                {/* Promoters */}
+                {/* Positives */}
                 <div>
                   <div className="flex items-center px-3">
                     <div className="w-full text-[14px] opacity-80 font-medium">
@@ -149,7 +151,52 @@ const NPSDetailCard = () => {
                   </div>
                 </div>
 
-                {/* Passives */}
+                {/* Neutrals */}
+                <div className="my-4">
+                  <div className="flex items-center px-3">
+                    <div className="w-full text-[14px] opacity-80 font-medium">
+                      Neutrals
+                    </div>
+
+                    <div className="mx-2 opacity-80 font-bold">
+                      <CountUp
+                        start={0}
+                        duration={1}
+                        end={apiData?.nss?.total_neutral}
+                        separator=","
+                      />
+                    </div>
+                    <img src={RespondantsIcon} alt="number of promoters" />
+                  </div>
+                  <div>
+                    {/* Fake graph */}
+                    <div className="rounded-full bg-[#000C08] bg-opacity-[6%] h-[24px] mt-1 border-2 border-[#000C08] border-opacity-[8%] flex justify-center items-center">
+                      <div
+                        className={` ml-auto rounded-full bg-[#939799] transition-all ease-in duration-500`}
+                        style={{
+                          width: neutral + "%",
+                          minWidth: "5%",
+                        }}
+                      >
+                        <div className="font-semibold  text-white ml-2">
+                          {apiData?.nss?.neutral < 1 ? (
+                            apiData?.nss?.neutral + "%"
+                          ) : (
+                            <CountUp
+                              start={0}
+                              duration={1}
+                              end={apiData?.nss?.neutral}
+                              separator=","
+                              suffix="%"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Negative */}
                 <div className="my-4">
                   <div className="flex items-center px-3">
                     <div className="w-full text-[14px] opacity-80 font-medium">
@@ -194,7 +241,7 @@ const NPSDetailCard = () => {
                   </div>
                 </div>
 
-                {/* Detractors */}
+                {/* Extremes */}
                 <div>
                   <div className="flex items-center px-3">
                     <div className="w-full text-[14px] opacity-80 font-medium">
@@ -334,6 +381,7 @@ function CustomTooltip({ active, payload, label }) {
                   {data?.name === "Negative"
                     ? apiData?.nss?.total_negative
                     : ""}
+                  {data?.name === "Neutral" ? apiData?.nss?.total_neutral : ""}
                   {data?.name === "Extreme" ? apiData?.nss?.total_extreme : ""}
                 </span>
               </div>

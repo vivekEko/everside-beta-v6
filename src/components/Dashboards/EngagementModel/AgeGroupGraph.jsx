@@ -65,7 +65,7 @@ const AgeGroupGraph = () => {
               <Tooltip cursor={false} content={<CustomTooltip2 />} />
 
               <Bar
-                barSize={60}
+                barSize={20}
                 dataKey="groupValue"
                 fill="#0094E0"
                 radius={[5, 5, 0, 0]}

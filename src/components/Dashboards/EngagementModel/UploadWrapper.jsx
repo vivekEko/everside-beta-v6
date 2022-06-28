@@ -87,8 +87,10 @@ const UploadWrapper = () => {
     })
       .then((response) => response?.json())
       .then((result) => {
+        console.log("response after upload:");
+        console.log(result);
         if (result?.Message === "TRUE") {
-          console.log("Total Cards Data:", result);
+          // console.log("Total Cards Data:", result);
           setApiData(result);
 
           setLoaderStatus(false);

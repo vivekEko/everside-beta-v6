@@ -13,6 +13,7 @@ import Auth from "../../Global/Auth";
 import USMap from "./USMap";
 import engagementErrorAtom from "../../../recoil/atoms/engagementErrorAtom";
 import engagementErrorMessage from "../../../recoil/atoms/engagementErrorMessage";
+import AverageTable from "./AverageTable";
 
 const EngagementModel = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
@@ -45,7 +46,6 @@ const EngagementModel = () => {
         })
         .catch((error) => {
           console.log(error);
-          // setEngagementError(true);
         });
     }
   }, [usernameLocal]);
@@ -69,36 +69,22 @@ const EngagementModel = () => {
                     <MemberScoreGraph />
                   </div>
                 </div>
-                <div className="lg:flex items-center w-full gap-2 ">
-                  <div className="flex-1 mb-[8px] lg:mb-0">
+                <div className="lg:flex items-start w-full gap-2 ">
+                  <div className="w-[40%] mb-[8px] lg:mb-0">
                     <AgeGroupGraph />
                   </div>
-                  <div className="flex-1">
-                    <GenderClassification />
+                  <div className="w-[60%] mb-[8px] lg:mb-0">
+                    <AverageTable />
                   </div>
+
+                  {/* <div className="flex-1">
+                    <GenderClassification />
+                  </div> */}
                 </div>
-                <div className="mt-2 rounded-md ">
-                  <USMap />
-                </div>
+                <div className="mt-2 rounded-md ">{/* <USMap /> */}</div>
               </div>
             )}
           </div>
-          {/* <div className="flex justify-center items py-5">
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 italic text-xs">Powered by</span>
-              <a
-                href="https://www.ekoinfomatics.com"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <img
-                  src={EKO}
-                  alt="EKO INFOMATICS"
-                  className="inline-block w-[50px]"
-                />
-              </a>
-            </div>
-          </div> */}
         </div>
       )}
     </>

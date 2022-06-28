@@ -24,8 +24,8 @@ import NPSallComments3 from "./NPSallComments3";
 const NPSOverall = () => {
   return (
     <div>
-      <section className="mt-[8px] flex justify-between items-center gap-2 flex-col xs:flex-row sm:flex-col  xl:flex-row xl:gap-5">
-        <div className="flex items-center  flex-col sm:flex-row gap-2 sm:w-full xl:w-[66%]">
+      <section className="mt-[8px] flex justify-between items-center gap-2 flex-col  sm:flex-col  xl:flex-row xl:gap-2">
+        <div className="flex items-start  flex-col sm:flex-row gap-2 w-full xl:w-[70%] ">
           <NPSCard />
           <NSSCard />
         </div>

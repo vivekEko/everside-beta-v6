@@ -23,7 +23,7 @@ const NPSCard = () => {
   }, [npsApiData]);
 
   return (
-    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center relative ">
+    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center relative  ">
       {!apiData?.nps && (
         <div className="min-h-[130px] bg-[#ffffff] z-[00] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -83,9 +83,11 @@ const NPSCard = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-start sm:justify-between   gap-3 md:gap-5  ">
-            <div className="flex justify-start items-center gap-3 md:gap-5">
-              <div className="text-center flex flex-col justify-start items-center gap-2">
+          <div className="flex  justify-between   gap-3 md:gap-5  ">
+            {/* <div className="flex justify-start items-center gap-3 md:gap-5"> */}
+
+            <div className="grid grid-cols-3 gap-8">
+              <div className="text-center flex flex-col justify-center items-center gap-2">
                 <img src={PromoterIcon} alt="promoters" />
                 <h1 className="text-sm md:text-xl font-medium opacity-80">
                   {apiData?.nps?.promoters < 1 ? (
