@@ -15,7 +15,7 @@ const Header = () => {
 
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
-  const [logoutStatus, setLogoutStatus] = useState();
+  const [logoutStatus, setLogoutStatus] = useState(false);
 
   const [hamburgerStatus, setHamburgerStatus] = useRecoilState(
     hamburgerStatusRecoil
@@ -32,9 +32,11 @@ const Header = () => {
   }, [sessionStorage?.getItem("username")]);
 
   useEffect(() => {
-    axios.get(BASE_API_LINK + "logout?" + "username=" + usernameLocal);
+    if (logoutStatus === true) {
+      axios.get(BASE_API_LINK + "logout?" + "username=" + usernameLocal);
 
-    console.log(BASE_API_LINK + "logout?" + "username=" + usernameLocal);
+      sessionStorage.clear();
+    }
   }, [logoutStatus]);
 
   return (
@@ -87,7 +89,7 @@ const Header = () => {
           className="w-[20px] cursor-pointer hidden lg:block"
           onClick={() => {
             setLogoutStatus(!logoutStatus);
-            sessionStorage.clear();
+
             setActivePageValue("NPS_Overall");
             navigate("/");
             setUserIsValid(false);
