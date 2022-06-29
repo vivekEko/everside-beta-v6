@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CompanyImage from "../../assets/img/global-img/everside_logo.svg";
 import logout from "../../assets/img/global-img/logout.svg";
 import { useRecoilState } from "recoil";
@@ -7,11 +7,15 @@ import DateFilterStatus from "../../recoil/atoms/DateFilterStatusAtom";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import { useNavigate } from "react-router-dom";
 import activeInnerPage from "../../recoil/atoms/activeInnerPage";
+import { BASE_API_LINK } from "../../utils/BaseAPILink";
+import axios from "axios";
 
 const Header = () => {
   const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
 
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
+
+  const [logoutStatus, setLogoutStatus] = useState();
 
   const [hamburgerStatus, setHamburgerStatus] = useRecoilState(
     hamburgerStatusRecoil
@@ -20,6 +24,18 @@ const Header = () => {
     useRecoilState(DateFilterStatus);
 
   const navigate = useNavigate();
+
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
+  useEffect(() => {
+    axios.get(BASE_API_LINK + "logout?" + "username=" + usernameLocal);
+
+    console.log(BASE_API_LINK + "logout?" + "username=" + usernameLocal);
+  }, [logoutStatus]);
 
   return (
     <header
@@ -64,12 +80,13 @@ const Header = () => {
         </div>
 
         {/* User Avatar */}
-
+        {/* <a href={BASE_API_LINK + "logout?" + "username=" + usernameLocal}> */}
         <img
           src={logout}
           alt="logout"
           className="w-[20px] cursor-pointer hidden lg:block"
           onClick={() => {
+            setLogoutStatus(!logoutStatus);
             sessionStorage.clear();
             setActivePageValue("NPS_Overall");
             navigate("/");
@@ -77,6 +94,7 @@ const Header = () => {
             window.location.reload(false);
           }}
         />
+        {/* </a> */}
       </div>
     </header>
   );

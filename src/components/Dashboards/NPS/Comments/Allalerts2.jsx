@@ -7,10 +7,17 @@ import { useRecoilState } from "recoil";
 import PuffLoader from "react-spinners/PuffLoader";
 import SearchIcons from "../../../../assets/img/global-img/searchIcon.svg";
 // import ErrorIcon from "../../../../assets/img/global-img/Error.svg";
-// import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
+import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import alertCommentsApiData from "../../../../recoil/atoms/alertCommentsApiData";
 import ExtremeIcon from "../../../../assets/img/NPS Dashboard/Extreme.svg";
 import chevron from "../../../../assets/img/NPS Dashboard/chevron.svg";
+import startDateValue from "../../../../recoil/atoms/StartDateAtom";
+import startMonthValue from "../../../../recoil/atoms/StartMonthAtom";
+import endDateValue from "../../../../recoil/atoms/EndDateAtom";
+import endMonthValue from "../../../../recoil/atoms/EndMonth";
+import ClinicValue from "../../../../recoil/atoms/ClinicValue";
+import newRegionGlobalValue from "../../../../recoil/atoms/newRegionGlobalValue";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 const AlertComments = () => {
   const [apiData, setApiData] = useState();
@@ -56,14 +63,22 @@ const AlertComments = () => {
 
   useEffect(() => {
     setApiData(alertCommentsAPIData?.data);
-    console.log("alert atom data");
-    console.log(alertCommentsAPIData?.data);
   }, [alertCommentsAPIData]);
 
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
+  const [selectedClinicValue, setSelectedClinicValue] =
+    useRecoilState(ClinicValue);
+  const [newRegionGlobal, setNewRegionGlobal] =
+    useRecoilState(newRegionGlobalValue);
+
   useEffect(() => {
-    console.log("ApiDataaaaaaaaaaaaaaaaaaaa");
-    console.log(apiData);
-  }, [apiData]);
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
 
   return (
     <div className=" border w-full p-2 h-[810px] rounded-lg bg-white mt-3 ">
@@ -86,25 +101,57 @@ const AlertComments = () => {
                 {totalFilteredComments}
               </span>
             </h1>
-            <div className=" rounded-md  flex justify-end items-center ">
-              <input
-                type="text"
-                placeholder="Search.."
-                className={` outline-none  transition-all pl-2 text-xs  pb-1 w-[80px] sm:w-[100px] ${
-                  searchStatus
-                    ? "xl:w-[100%] ease-in  xl:border-b-[1px]"
-                    : "xl:w-[0%] ease-out"
-                }`}
-                onChange={handleInput}
-                value={inputData}
-              />
 
-              <img
-                src={SearchIcons}
-                alt="searchIcon"
-                className="px-2 cursor-pointer"
-                onClick={() => setSearchStatus(!searchStatus)}
-              />
+            <div className="flex items-center gap-2  ">
+              <div className=" rounded-md  flex justify-end items-center ">
+                <input
+                  type="text"
+                  placeholder="Search.."
+                  className={` outline-none  transition-all pl-2 text-xs  pb-1 w-[80px] sm:w-[100px] ${
+                    searchStatus
+                      ? "xl:w-[100%] ease-in  xl:border-b-[1px]"
+                      : "xl:w-[0%] ease-out"
+                  }`}
+                  onChange={handleInput}
+                  value={inputData}
+                />
+
+                <img
+                  src={SearchIcons}
+                  alt="searchIcon"
+                  className="px-2 cursor-pointer"
+                  onClick={() => setSearchStatus(!searchStatus)}
+                />
+              </div>
+
+              <a
+                href={
+                  BASE_API_LINK +
+                  "alertCommentsDownload?" +
+                  "username=" +
+                  usernameLocal +
+                  "&start_year=" +
+                  finalStartDate +
+                  "&" +
+                  "start_month=" +
+                  finalStartMonth +
+                  "&" +
+                  "end_year=" +
+                  finalEndDate +
+                  "&" +
+                  "end_month=" +
+                  finalEndMonth +
+                  "&region=" +
+                  newRegionGlobal +
+                  "&clinic=" +
+                  selectedClinicValue
+                }
+              >
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="cursor-pointer text-gray-400"
+                />
+              </a>
             </div>
           </div>
 

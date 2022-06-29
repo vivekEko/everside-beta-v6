@@ -138,7 +138,7 @@ const UploadWrapper = () => {
             <form className=" flex   w-fit">
               <label
                 htmlFor="file-upload"
-                className="p-2 bg-[#00ac69] text-center sm:w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
+                className="p-2 py-3 bg-[#00ac69] text-center sm:w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative "
               >
                 <input
                   type="file"
@@ -242,17 +242,6 @@ const UploadWrapper = () => {
           <div className=" flex  w-[26.67%] sm:w-[33.33%]   justify-end items-center">
             <a href={baseAPI + "fileDownload?" + "username=" + usernameLocal}>
               <div className="p-2 bg-[#00ac69] text-center sm:w-[50px] rounded-md  text-white transition-all active:scale-95 cursor-pointer relative ">
-                {/* <input
-                type="file"
-                name="file"
-                id="file-upload"
-                onChange={changeHandler}
-                accept={".csv"}
-                placeholder="upload"
-                className="absolute -top-2 -bottom-2 -left-2 -right-2 w-full opacity-0 z-[-100] cursor-pointer "
-              /> */}
-
-                {/* <span className="mr-2 cursor-pointer">Download</span> */}
                 <FileDownloadOutlinedIcon
                   fontSize="medium"
                   className="cursor-pointer"

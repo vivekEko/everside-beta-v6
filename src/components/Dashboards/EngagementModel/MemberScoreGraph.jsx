@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -10,6 +10,13 @@ import {
 } from "recharts";
 import { useRecoilState } from "recoil";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
+// import ReactToPrint from "react-to-print";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPDF,
+  exportComponentAsPNG,
+} from "react-component-export-image";
 
 const MemberScoreGraph = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
@@ -23,10 +30,39 @@ const MemberScoreGraph = () => {
     console.log(apiData);
   }, [apiData]);
 
+  const MemberScoreGraphRef = useRef();
+
   return (
-    <div className="p-2 md:p-5   rounded-lg bg-white border flex justify-center md:justify-center items-center ">
+    <div
+      className="p-2 md:p-5   rounded-lg bg-white border flex justify-center md:justify-center items-center "
+      ref={MemberScoreGraphRef}
+    >
       <div className="w-full">
-        <h1 className=" font-bold opacity-80 ">Member Score</h1>
+        <div className="flex justify-between items-center">
+          <h1 className=" font-bold opacity-80 ">Member Score</h1>
+
+          {/* <ReactToPrint
+            trigger={() => (
+              <button>
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="text-gray-500"
+                />
+              </button>
+            )}
+            content={() => MemberScoreGraphRef.current}
+            documentTitle="Engagement-Score-Graph"
+          /> */}
+
+          <button onClick={() => exportComponentAsPNG(MemberScoreGraphRef)}>
+            {" "}
+            <FileDownloadOutlinedIcon
+              fontSize="small"
+              className="text-gray-500"
+            />
+          </button>
+        </div>
+
         <div className="text-center text-[10px] opacity-80 flex w-full justify-end gap-5 mt-[30px] mb-[10px]">
           <div className="flex justify-end items-center gap-[4px] ">
             <div className="bg-red-500 h-[10px] w-[10px] rounded-full"></div>

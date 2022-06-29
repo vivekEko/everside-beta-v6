@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -20,14 +20,11 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import sentimentOverTimeApiData from "../../../../recoil/atoms/sentimentOverTimeApiData";
 
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
+
 const NSSOverTime = () => {
-  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
-  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
-  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
-  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
-  const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
   const [apiData, setApiData] = useState();
-  const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
 
   const [nssOverTimeAPIData, setNssOverTimeAPIData] = useRecoilState(
     sentimentOverTimeApiData
@@ -35,12 +32,15 @@ const NSSOverTime = () => {
 
   useEffect(() => {
     setApiData(nssOverTimeAPIData);
-    // console.log("atom data nss component");
-    // console.log(nssOverTimeAPIData);
   }, [nssOverTimeAPIData]);
 
+  const NSSOverTimeComponent = useRef();
+
   return (
-    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center ">
+    <div
+      className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center "
+      ref={NSSOverTimeComponent}
+    >
       {!apiData && (
         <div className="min-h-[170px] w-full bg-[#ffffff] z-[0] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -49,16 +49,19 @@ const NSSOverTime = () => {
 
       {apiData && (
         <div className="w-full">
-          <h1 className=" font-bold opacity-80 ">Sentiment Over Time</h1>
-          <div className="text-center text-[10px] opacity-80 flex w-full justify-between mb-[10px]">
-            <div></div>
-            <div className="justify-self-center">
-              <span className="invisible">2020</span>
-            </div>
-            <div className="flex justify-end items-center gap-[4px] ">
-              <div className="bg-[#0094E0] h-[10px] w-[10px] rounded-full"></div>
-              <p>Sentiments</p>
-            </div>
+          <div className="flex justify-between items-center mb-2">
+            <h1 className=" font-bold opacity-80 ">Sentiment Over Time</h1>
+            <button onClick={() => exportComponentAsPNG(NSSOverTimeComponent)}>
+              <FileDownloadOutlinedIcon
+                fontSize="small"
+                className="text-gray-400"
+              />
+            </button>
+          </div>
+
+          <div className="flex justify-end items-center gap-[4px] ">
+            <div className="bg-[#0094E0] h-[10px] w-[10px] rounded-full"></div>
+            <p className="text-[10px]">Sentiments</p>
           </div>
 
           {/* Graph */}

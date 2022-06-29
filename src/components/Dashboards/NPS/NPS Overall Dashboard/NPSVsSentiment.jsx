@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -22,64 +22,27 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import npsVsSentimentApiData from "../../../../recoil/atoms/npsVsSentimentApiData";
 
-const NPSvsSentiment = () => {
-  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
-  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
-  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
-  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
-  const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
 
+const NPSvsSentiment = () => {
   const [apiData, setApiData] = useState();
-  const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
 
   const [npsVsSentiAPIData, setNpsVsSentiAPIData] = useRecoilState(
     npsVsSentimentApiData
   );
 
-  // useEffect(() => {
-  //   const requestURL =
-  //     baseAPI +
-  //     "npsVsSentiments?" +
-  //     "start_year=" +
-  //     finalStartDate +
-  //     "&" +
-  //     "start_month=" +
-  //     finalStartMonth +
-  //     "&" +
-  //     "end_year=" +
-  //     finalEndDate +
-  //     "&" +
-  //     "end_month=" +
-  //     finalEndMonth;
-
-  //   if (sendDataStatus === true) {
-  //     // console.log("Requested URL: " + requestURL);
-  //     axios.get(requestURL).then((res) => {
-  //       // console.log(res);
-  //       // console.log(res?.data);
-  //       setApiData(res?.data.data);
-  //     });
-  //   } else if (sendDataStatus === false) {
-  //     axios
-  //       .get(
-  //         baseAPI +
-  //           "npsVsSentiments?start_month=1&start_year=2021&end_month=12&end_year=2021"
-  //       )
-  //       .then((res) => {
-  //         setApiData(res?.data.data);
-  //         // console.log("This is else if data" + res?.data);
-  //       });
-  //   }
-  // }, [sendDataStatus]);
-
   useEffect(() => {
     setApiData(npsVsSentiAPIData);
-    // console.log("atom data nps vs senti component");
-    // console.log(npsVsSentiAPIData);
   }, [npsVsSentiAPIData]);
 
+  const NPSvsSentimentsComponent = useRef();
+
   return (
-    <div className="p-5 rounded-lg border bg-white transition-all w-[100%] ] h-[300px] ">
+    <div
+      className="p-5 rounded-lg border bg-white transition-all w-[100%] ] h-[300px] "
+      ref={NPSvsSentimentsComponent}
+    >
       {!apiData && (
         <div className="h-full w-[100%] bg-[#ffff] z-[200] rounded-lg flex justify-center items-center ">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -88,8 +51,18 @@ const NPSvsSentiment = () => {
 
       {apiData && (
         <div>
-          <h1 className=" font-bold mb-5 opacity-80">Nps Vs Sentiment</h1>
-          {/* <h1 className="invisible">2020</h1> */}
+          <div className="flex justify-between items-center">
+            <h1 className=" font-bold mb-5 opacity-80">Nps Vs Sentiment</h1>
+
+            <button
+              onClick={() => exportComponentAsPNG(NPSvsSentimentsComponent)}
+            >
+              <FileDownloadOutlinedIcon
+                fontSize="small"
+                className="text-gray-400"
+              />
+            </button>
+          </div>
 
           <div className="text-xs text-center text-gray-500 font-medium mb-2 flex justify-between items-center">
             <div className="flex justify-between  items-center ">

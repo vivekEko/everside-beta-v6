@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Bar,
   BarChart,
@@ -11,14 +11,30 @@ import {
 } from "recharts";
 import { useRecoilState } from "recoil";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
+import { exportComponentAsPNG } from "react-component-export-image";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 const AgeGroupGraph = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
 
+  const AgeGroupGraphRef = useRef();
+
   return (
-    <div className="p-2 md:p-5  w-full  rounded-lg bg-white border flex justify-center md:justify-center items-center ">
+    <div
+      className="p-2 md:p-5  w-full  rounded-lg bg-white border flex justify-center md:justify-center items-center"
+      ref={AgeGroupGraphRef}
+    >
       <div className="w-full">
-        <h1 className=" font-bold opacity-80 ">Age Group</h1>
+        <div className="flex justify-between items-center">
+          <h1 className=" font-bold opacity-80 ">Age Group</h1>
+
+          <button onClick={() => exportComponentAsPNG(AgeGroupGraphRef)}>
+            <FileDownloadOutlinedIcon
+              fontSize="small"
+              className="text-gray-500"
+            />
+          </button>
+        </div>
 
         <div className="relative ">
           <ResponsiveContainer width="100%" height={250}>

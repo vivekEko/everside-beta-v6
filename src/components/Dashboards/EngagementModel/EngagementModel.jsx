@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
 import AgeGroupGraph from "./AgeGroupGraph";
@@ -62,18 +62,18 @@ const EngagementModel = () => {
             {apiData?.Message === "TRUE" && (
               <div className="w-full mb-2">
                 <div className="lg:flex items-center w-full gap-2 mb-2 lg:flex-row-reverse">
-                  <div className="lg:flex-[0.3] mb-[8px] lg:mb-0">
+                  <div className="lg:flex-[0.2] mb-[8px] lg:mb-0">
                     <ENgagementTotalCards />
                   </div>
-                  <div className="lg:flex-[0.7] ">
+                  <div className="lg:flex-[0.8] ">
                     <MemberScoreGraph />
                   </div>
                 </div>
                 <div className="lg:flex items-start w-full gap-2 ">
-                  <div className="w-[40%] mb-[8px] lg:mb-0">
+                  <div className=" w-full lg:w-[40%] mb-[8px] lg:mb-0">
                     <AgeGroupGraph />
                   </div>
-                  <div className="w-[60%] mb-[8px] lg:mb-0">
+                  <div className="w-full lg:w-[60%] mb-[8px] lg:mb-0">
                     <AverageTable />
                   </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // import MockApiNPSData from "../../../../mock_API/NPS/NPS Main Dashboard/NPSCard.json";
 import CountUp from "react-countup";
 import PromoterIcon from "../../../../assets/img/NPS Dashboard/greenMan.svg";
@@ -10,6 +10,8 @@ import PuffLoader from "react-spinners/PuffLoader";
 import npsAPIdata from "../../../../recoil/atoms/npsAPIdata";
 import LoaderStatus from "../../../../recoil/atoms/Loader";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
 
 const NPSCard = () => {
   const [npsApiData, setNpsApiData] = useRecoilState(npsAPIdata);
@@ -22,8 +24,13 @@ const NPSCard = () => {
     setApiData(npsApiData);
   }, [npsApiData]);
 
+  const NPSComponent = useRef();
+
   return (
-    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center relative  ">
+    <div
+      className="p-2 md:p-5  w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center relative  "
+      ref={NPSComponent}
+    >
       {!apiData?.nps && (
         <div className="min-h-[130px] bg-[#ffffff] z-[00] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -34,59 +41,61 @@ const NPSCard = () => {
         <div className="w-full  relative ">
           <div className=" font-bold  flex justify-between gap-2 items-center">
             <div className="opacity-80">Net Promoter Score</div>
-            <div
-              className="relative  "
-              onMouseEnter={() => setShowInfoNps(!showInfoNps)}
-              onMouseLeave={() => setShowInfoNps(!showInfoNps)}
-            >
-              <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
 
-              {/* NPS explanation */}
+            <div className="flex items-center flex-row-reverse gap-2">
               <div
-                className={` ${
-                  showInfoNps ? "block" : "hidden"
-                } absolute top-[100%] right-0  bg-gray-50 z-[100] opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                className="relative  "
+                onMouseEnter={() => setShowInfoNps(!showInfoNps)}
+                onMouseLeave={() => setShowInfoNps(!showInfoNps)}
               >
-                <h1 className="mb-2">How is NPS calculated ?</h1>
-                <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
-                  <div className="flex justify-between items-center w-full gap-2">
-                    <div className="flex justify-center items-center flex-col ">
-                      <img
-                        src={PromoterIcon}
-                        alt="Promoter"
-                        className="w-[20px] "
-                      />
-                      <div className="opacity-70 text-[10px]">Promoters%</div>
+                <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
+
+                {/* NPS explanation */}
+                <div
+                  className={` ${
+                    showInfoNps ? "block" : "hidden"
+                  } absolute top-[100%] right-0  bg-gray-50 z-[100] opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                >
+                  <h1 className="mb-2">How is NPS calculated ?</h1>
+                  <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
+                    <div className="flex justify-between items-center w-full gap-2">
+                      <div className="flex justify-center items-center flex-col ">
+                        <img
+                          src={PromoterIcon}
+                          alt="Promoter"
+                          className="w-[20px] "
+                        />
+                        <div className="opacity-70 text-[10px]">Promoters%</div>
+                      </div>
+                      <div className="text-xl">-</div>
+
+                      <div className="flex justify-center items-center flex-col">
+                        <img
+                          src={DetractorIcon}
+                          alt="Promoter"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px] ">
+                          Detractors%
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-xl">-</div>
-                    {/* <div className="text-2xl">(</div> */}
-                    {/* <div className="flex justify-center items-center flex-col">
-                      <img
-                        src={PassiveIcon}
-                        alt="Promoter"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px]">Passives%</div>
-                    </div> */}
-                    {/* <div className="text-xl">+</div> */}
-                    <div className="flex justify-center items-center flex-col">
-                      <img
-                        src={DetractorIcon}
-                        alt="Promoter"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px] ">Detractors%</div>
-                    </div>
-                    {/* <div className="text-2xl">)</div> */}
                   </div>
                 </div>
               </div>
+
+              <button onClick={() => exportComponentAsPNG(NPSComponent)}>
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="text-gray-400"
+                />
+              </button>
             </div>
           </div>
           <div className="flex  justify-between   gap-3 md:gap-5  ">
             {/* <div className="flex justify-start items-center gap-3 md:gap-5"> */}
 
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-3 gap-8 ">
               <div className="text-center flex flex-col justify-center items-center gap-2">
                 <img src={PromoterIcon} alt="promoters" />
                 <h1 className="text-sm md:text-xl font-medium opacity-80">

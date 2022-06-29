@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RespondantsIcon from "../../../../assets/img/global-img/respondants.svg";
 // import mockdata from "../../../../mock_API/NPS/NPS Main Dashboard/NSSCard.json";
 
@@ -12,6 +12,9 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import PositiveIcon from "../../../../assets/img/NPS Dashboard/Positive.svg";
 import NegativeIcon from "../../../../assets/img/NPS Dashboard/Negative.svg";
 import ExtremeIcon from "../../../../assets/img/NPS Dashboard/Extreme.svg";
+
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
 
 const NPSDetailCard = () => {
   const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
@@ -39,8 +42,13 @@ const NPSDetailCard = () => {
     // console.log(nssApiData);
   }, [nssApiData]);
 
+  const NPSDetailedCard = useRef();
+
   return (
-    <div className="p-2 md:p-5 w-full border   rounded-lg bg-white flex justify-center md:justify-center items-start relative ">
+    <div
+      ref={NPSDetailedCard}
+      className="p-4  md:p-5 md:pb-10 w-full border   rounded-lg bg-white flex justify-center md:justify-center items-start relative "
+    >
       {!apiData && (
         <div className="min-h-[240px] bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -53,50 +61,60 @@ const NPSDetailCard = () => {
             <div className="font-bold opacity-80 text-[18px] mb-7">
               Sentiments
             </div>
-            <div
-              className="relative z-[200] "
-              onMouseEnter={() => setShowInfoNss(!showInfoNss)}
-              onMouseLeave={() => setShowInfoNss(!showInfoNss)}
-            >
-              <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
 
-              {/* NPS explanation */}
+            <div className="flex items-center gap-2">
+              <button onClick={() => exportComponentAsPNG(NPSDetailedCard)}>
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="text-gray-400"
+                />
+              </button>
+
               <div
-                className={` ${
-                  showInfoNss ? "block" : "hidden"
-                } absolute top-[100%] right-0  bg-gray-50 opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                className="relative z-[200] "
+                onMouseEnter={() => setShowInfoNss(!showInfoNss)}
+                onMouseLeave={() => setShowInfoNss(!showInfoNss)}
               >
-                <h1 className="mb-2">How is Sentiments calculated ?</h1>
-                <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
-                  <div className="flex justify-between items-center w-full gap-2">
-                    <div className="flex justify-center items-center flex-col ">
-                      <img
-                        src={PositiveIcon}
-                        alt="Positive"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px]">Positive%</div>
+                <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
+
+                {/* NPS explanation */}
+                <div
+                  className={` ${
+                    showInfoNss ? "block" : "hidden"
+                  } absolute top-[100%] right-0  bg-gray-50 opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                >
+                  <h1 className="mb-2">How is Sentiments calculated ?</h1>
+                  <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
+                    <div className="flex justify-between items-center w-full gap-2">
+                      <div className="flex justify-center items-center flex-col ">
+                        <img
+                          src={PositiveIcon}
+                          alt="Positive"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px]">Positive%</div>
+                      </div>
+                      <div className="text-xl">-</div>
+                      <div className="text-2xl">(</div>
+                      <div className="flex justify-center items-center flex-col">
+                        <img
+                          src={NegativeIcon}
+                          alt="Negative"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px]">Negative%</div>
+                      </div>
+                      <div className="text-xl">+</div>
+                      <div className="flex justify-center items-center flex-col">
+                        <img
+                          src={ExtremeIcon}
+                          alt="Extreme"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px] ">Extreme%</div>
+                      </div>
+                      <div className="text-2xl">)</div>
                     </div>
-                    <div className="text-xl">-</div>
-                    <div className="text-2xl">(</div>
-                    <div className="flex justify-center items-center flex-col">
-                      <img
-                        src={NegativeIcon}
-                        alt="Negative"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px]">Negative%</div>
-                    </div>
-                    <div className="text-xl">+</div>
-                    <div className="flex justify-center items-center flex-col">
-                      <img
-                        src={ExtremeIcon}
-                        alt="Extreme"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px] ">Extreme%</div>
-                    </div>
-                    <div className="text-2xl">)</div>
                   </div>
                 </div>
               </div>

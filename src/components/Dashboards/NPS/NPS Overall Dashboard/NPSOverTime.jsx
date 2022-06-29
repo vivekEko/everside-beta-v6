@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -22,61 +22,25 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import npsOverTimeApiData from "../../../../recoil/atoms/npsOverTimeApiData";
 
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
+
 const NPSOverTime = () => {
-  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
-  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
-  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
-  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
-  const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
   const [apiData, setApiData] = useState();
-  const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
   const [npsOverTimeAPIData, setNpsOverTimeAPIData] =
     useRecoilState(npsOverTimeApiData);
-
-  // console.log(baseURLs);
-
-  // useEffect(() => {
-  //   const requestURL =
-  //     baseAPI +
-  //     "npsOverTime?" +
-  //     "start_year=" +
-  //     finalStartDate +
-  //     "&" +
-  //     "start_month=" +
-  //     finalStartMonth +
-  //     "&" +
-  //     "end_year=" +
-  //     finalEndDate +
-  //     "&" +
-  //     "end_month=" +
-  //     finalEndMonth;
-
-  //   if (sendDataStatus === true) {
-  //     // console.log("Requested URL: " + requestURL);
-  //     axios.get(requestURL).then((res) => {
-  //       // console.log(res);
-  //       // console.log(res?.data);
-  //       setApiData(res?.data);
-  //     });
-  //   } else if (sendDataStatus === false) {
-  //     axios
-  //       .get(
-  //         baseAPI +
-  //           "npsOverTime?start_month=1&start_year=2021&end_month=12&end_year=2021"
-  //       )
-  //       .then((res) => {
-  //         setApiData(res?.data);
-  //         // console.log("This is else if data" + res?.data);
-  //       });
-  //   }
-  // }, [sendDataStatus]);
 
   useEffect(() => {
     setApiData(npsOverTimeAPIData);
   }, [npsOverTimeAPIData]);
 
+  const NPSOverTimeComponent = useRef();
+
   return (
-    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center ">
+    <div
+      className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center"
+      ref={NPSOverTimeComponent}
+    >
       {!apiData && (
         <div className="min-h-[170px] w-full bg-[#ffffff] z-[00] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -85,14 +49,19 @@ const NPSOverTime = () => {
 
       {apiData && (
         <div className="w-full">
-          <h1 className=" font-bold opacity-80 ">NPS Over Time</h1>
-          <div className="text-center text-[10px] opacity-80 flex w-full justify-between mt-[0px] mb-[10px]">
-            <div></div>
-            <div className="justify-self-center"></div>
-            <div className="flex justify-end items-center gap-[4px] ">
-              <div className="bg-[#0094E0] h-[10px] w-[10px] rounded-full"></div>
-              <p>Net Promoter Score</p>
-            </div>
+          <div className="flex justify-between items-center mb-2">
+            <h1 className=" font-bold opacity-80 ">NPS Over Time</h1>
+            <button onClick={() => exportComponentAsPNG(NPSOverTimeComponent)}>
+              <FileDownloadOutlinedIcon
+                fontSize="small"
+                className="text-gray-400"
+              />
+            </button>
+          </div>
+
+          <div className="flex justify-end items-center gap-[4px] ">
+            <div className="bg-[#0094E0] h-[10px] w-[10px] rounded-full"></div>
+            <p className="text-[10px]">Net Promoter Score</p>
           </div>
 
           {/* Graph */}

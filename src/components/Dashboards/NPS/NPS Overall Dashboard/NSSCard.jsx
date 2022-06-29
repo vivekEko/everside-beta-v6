@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CountUp from "react-countup";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import PositiveIcon from "../../../../assets/img/NPS Dashboard/Positive.svg";
@@ -10,6 +10,8 @@ import { useRecoilState } from "recoil";
 import PuffLoader from "react-spinners/PuffLoader";
 import nssAPIdata from "../../../../recoil/atoms/nssAPIdata";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
 
 const NSSCard = () => {
   const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
@@ -21,14 +23,13 @@ const NSSCard = () => {
     setApiData(nssApiData);
   }, [nssApiData]);
 
-  useEffect(() => {
-    console.log("nss card apiData");
-    console.log(apiData);
-    // console.log(apiData?.nss?.extreme);
-  }, [apiData]);
+  const NPSComponent = useRef();
 
   return (
-    <div className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white ">
+    <div
+      className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white "
+      ref={NPSComponent}
+    >
       {!apiData?.nss && (
         <div className="min-h-[130px] bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -39,50 +40,60 @@ const NSSCard = () => {
         <div>
           <div className=" font-bold  flex justify-between gap-2 items-center">
             <div className="opacity-80">Sentiments</div>
-            <div
-              className="relative "
-              onMouseEnter={() => setShowInfoNss(!showInfoNss)}
-              onMouseLeave={() => setShowInfoNss(!showInfoNss)}
-            >
-              <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
 
-              {/* NPS explanation */}
+            <div className="flex items-center gap-2">
+              <button onClick={() => exportComponentAsPNG(NPSComponent)}>
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="text-gray-400"
+                />
+              </button>
+
               <div
-                className={` ${
-                  showInfoNss ? "block" : "hidden"
-                } absolute top-[100%] right-0  z-[100] bg-gray-50 opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                className="relative "
+                onMouseEnter={() => setShowInfoNss(!showInfoNss)}
+                onMouseLeave={() => setShowInfoNss(!showInfoNss)}
               >
-                <h1 className="mb-2">How is Sentiments calculated ?</h1>
-                <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
-                  <div className="flex justify-between items-center w-full gap-2">
-                    <div className="flex justify-center items-center flex-col gap-1 ">
-                      <img
-                        src={PositiveIcon}
-                        alt="Positive"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px]">Positive%</div>
+                <InfoRoundedIcon className="text-gray-300 opacity-80 hover:opacity-100" />
+
+                {/* NPS explanation */}
+                <div
+                  className={` ${
+                    showInfoNss ? "block" : "hidden"
+                  } absolute top-[100%] right-0  z-[100] bg-gray-50 opacity-100 text-[10px] text-gray-500 p-4 rounded-lg shadow-lg`}
+                >
+                  <h1 className="mb-2">How is Sentiments calculated ?</h1>
+                  <div className="flex justify-center items-center  mx-auto  gap-2 h-full">
+                    <div className="flex justify-between items-center w-full gap-2">
+                      <div className="flex justify-center items-center flex-col gap-1 ">
+                        <img
+                          src={PositiveIcon}
+                          alt="Positive"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px]">Positive%</div>
+                      </div>
+                      <div className="text-xl">-</div>
+                      <div className="text-2xl">(</div>
+                      <div className="flex justify-center items-center flex-col gap-1">
+                        <img
+                          src={NegativeIcon}
+                          alt="Negative"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px]">Negative%</div>
+                      </div>
+                      <div className="text-xl">+</div>
+                      <div className="flex justify-center items-center flex-col gap-1">
+                        <img
+                          src={ExtremeIcon}
+                          alt="Extreme"
+                          className="w-[20px]"
+                        />
+                        <div className="opacity-70 text-[10px] ">Extreme%</div>
+                      </div>
+                      <div className="text-2xl">)</div>
                     </div>
-                    <div className="text-xl">-</div>
-                    <div className="text-2xl">(</div>
-                    <div className="flex justify-center items-center flex-col gap-1">
-                      <img
-                        src={NegativeIcon}
-                        alt="Negative"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px]">Negative%</div>
-                    </div>
-                    <div className="text-xl">+</div>
-                    <div className="flex justify-center items-center flex-col gap-1">
-                      <img
-                        src={ExtremeIcon}
-                        alt="Extreme"
-                        className="w-[20px]"
-                      />
-                      <div className="opacity-70 text-[10px] ">Extreme%</div>
-                    </div>
-                    <div className="text-2xl">)</div>
                   </div>
                 </div>
               </div>
@@ -101,7 +112,7 @@ const NSSCard = () => {
                     <CountUp
                       start={0}
                       duration={1}
-                      end={apiData?.nss?.neutral}
+                      end={apiData?.nss?.positive}
                       separator=","
                       suffix="%"
                     />

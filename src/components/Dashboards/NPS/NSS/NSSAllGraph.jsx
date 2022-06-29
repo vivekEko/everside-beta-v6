@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -22,6 +22,9 @@ import { PuffLoader } from "react-spinners";
 import sentimentOverTimeApiData from "../../../../recoil/atoms/sentimentOverTimeApiData";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import RefreshIcon from "@mui/icons-material/Refresh";
+
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { exportComponentAsPNG } from "react-component-export-image";
 
 const NPSAllGraph = () => {
   const [filterStatus, setFilterStatus] = useState(false);
@@ -94,8 +97,13 @@ const NPSAllGraph = () => {
     setTimeout(() => setSpinAnimation(false), 1000);
   }
 
+  const NPSAllGraphComponent = useRef();
+
   return (
-    <div className="p-2 md:p-5 w-full border  rounded-lg bg-white  relative min-h-[300px]">
+    <div
+      ref={NPSAllGraphComponent}
+      className="p-2 md:p-5 w-full border  rounded-lg bg-white  relative min-h-[300px]"
+    >
       {!apiData && (
         <div className="min-h-[130px] bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -109,104 +117,114 @@ const NPSAllGraph = () => {
               Sentiment Plot
             </h1>
 
-            <div
-              className="relative flex flex-row-reverse gap-5 items-center"
-              ref={ref}
-            >
-              <div>
-                <RefreshIcon
-                  fontSize="large"
-                  className={` ${
-                    spinAnimation ? "animate-spin" : ""
-                  } opacity-80 p-2 cursor-pointer active:scale-95   transition duration-75  hover:bg-gray-100 rounded-full`}
-                  onClick={handleReset}
-                />
-              </div>
-              {/* Dropdown */}
-              <div
-                className="bg-gray-100 bg-opacity-[100%] p-2 w-[120px] rounded-lg flex justify-between items-center cursor-pointer"
-                onClick={() => setFilterStatus(!filterStatus)}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => exportComponentAsPNG(NPSAllGraphComponent)}
               >
-                <div className="text-[12px] opacity-70">Select Graph</div>
-                <img
-                  src={chevron}
-                  alt="open options arrow"
-                  className={` ${
-                    filterStatus ? "rotate-180" : "rotate-0"
-                  } transition-all`}
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="text-gray-400"
                 />
-              </div>
+              </button>
+
               <div
-                className={`bg-gray-100  z-[50] ${
-                  filterStatus ? "h-auto block" : "h-0 hidden"
-                }   w-[120px] rounded-lg absolute top-[120%] left-0`}
+                className="relative flex flex-row-reverse gap-5 items-center"
+                ref={ref}
               >
-                {npsGraphNames.map((data) => (
-                  <div
-                    key={data?.id}
-                    className={`flex flex-row-reverse justify-end items-center gap-5  p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
-                    onClick={() => {
-                      if (
-                        positives ||
-                        negative ||
-                        extreme ||
-                        nssScore ||
-                        neutrals
-                      ) {
-                        if (data.id === 1) {
-                          if (
-                            (positives || negative || extreme || neutrals) &&
-                            nssScore === true
-                          ) {
-                            setNssScore(false);
-                          } else {
-                            setNssScore(true);
-                          }
-                        } else if (data.id === 3) {
-                          if (
-                            (negative || extreme || nssScore || positives) &&
-                            neutrals === true
-                          ) {
-                            setNeutrals(false);
-                          } else {
-                            setNeutrals(true);
-                          }
-                        } else if (data.id === 2) {
-                          if (
-                            (negative || extreme || nssScore || neutrals) &&
-                            positives === true
-                          ) {
-                            setPositive(false);
-                          } else {
-                            setPositive(true);
-                          }
-                        } else if (data.id === 4) {
-                          if (
-                            (positives || extreme || nssScore || neutrals) &&
-                            negative === true
-                          ) {
-                            setNegative(false);
-                          } else {
-                            setNegative(true);
-                          }
-                        } else if (data.id === 5) {
-                          if (
-                            (positives || negative || nssScore || neutrals) &&
-                            extreme === true
-                          ) {
-                            setExtreme(false);
-                          } else {
-                            setExtreme(true);
+                <div>
+                  <RefreshIcon
+                    fontSize="large"
+                    className={` ${
+                      spinAnimation ? "animate-spin" : ""
+                    } opacity-80 p-2 cursor-pointer active:scale-95   transition duration-75  hover:bg-gray-100 rounded-full`}
+                    onClick={handleReset}
+                  />
+                </div>
+                {/* Dropdown */}
+                <div
+                  className="bg-gray-100 bg-opacity-[100%] p-2 w-[120px] rounded-lg flex justify-between items-center cursor-pointer"
+                  onClick={() => setFilterStatus(!filterStatus)}
+                >
+                  <div className="text-[12px] opacity-70">Select Graph</div>
+                  <img
+                    src={chevron}
+                    alt="open options arrow"
+                    className={` ${
+                      filterStatus ? "rotate-180" : "rotate-0"
+                    } transition-all`}
+                  />
+                </div>
+                <div
+                  className={`bg-gray-100  z-[50] ${
+                    filterStatus ? "h-auto block" : "h-0 hidden"
+                  }   w-[120px] rounded-lg absolute top-[120%] left-0`}
+                >
+                  {npsGraphNames.map((data) => (
+                    <div
+                      key={data?.id}
+                      className={`flex flex-row-reverse justify-end items-center gap-5  p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
+                      onClick={() => {
+                        if (
+                          positives ||
+                          negative ||
+                          extreme ||
+                          nssScore ||
+                          neutrals
+                        ) {
+                          if (data.id === 1) {
+                            if (
+                              (positives || negative || extreme || neutrals) &&
+                              nssScore === true
+                            ) {
+                              setNssScore(false);
+                            } else {
+                              setNssScore(true);
+                            }
+                          } else if (data.id === 3) {
+                            if (
+                              (negative || extreme || nssScore || positives) &&
+                              neutrals === true
+                            ) {
+                              setNeutrals(false);
+                            } else {
+                              setNeutrals(true);
+                            }
+                          } else if (data.id === 2) {
+                            if (
+                              (negative || extreme || nssScore || neutrals) &&
+                              positives === true
+                            ) {
+                              setPositive(false);
+                            } else {
+                              setPositive(true);
+                            }
+                          } else if (data.id === 4) {
+                            if (
+                              (positives || extreme || nssScore || neutrals) &&
+                              negative === true
+                            ) {
+                              setNegative(false);
+                            } else {
+                              setNegative(true);
+                            }
+                          } else if (data.id === 5) {
+                            if (
+                              (positives || negative || nssScore || neutrals) &&
+                              extreme === true
+                            ) {
+                              setExtreme(false);
+                            } else {
+                              setExtreme(true);
+                            }
                           }
                         }
-                      }
 
-                      setGraphName(data?.name);
-                    }}
-                  >
-                    <div>{data?.name}</div>
-                    <div
-                      className={`w-[11px] h-[11px] border border-black rounded-sm
+                        setGraphName(data?.name);
+                      }}
+                    >
+                      <div>{data?.name}</div>
+                      <div
+                        className={`w-[11px] h-[11px] border border-black rounded-sm
                       ${
                         nssScore && data?.id === 1 ? "bg-[#009DFF]" : "bg-white"
                       }
@@ -224,9 +242,10 @@ const NPSAllGraph = () => {
                       ${extreme && data?.id === 5 ? "bg-[#DB2B39]" : "bg-white"}
                    
                       rounded-full`}
-                    ></div>
-                  </div>
-                ))}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ const ENgagementTotalCards = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
 
   return (
-    <div className="grid grid-cols-3  gap-2   h-[340px] ">
+    <div className="grid grid-cols-4 lg:grid-cols-1  gap-2  h-[80px] lg:h-[340px] ">
       {apiData?.cards_data?.map((data, index) => (
         <div
           key={index}

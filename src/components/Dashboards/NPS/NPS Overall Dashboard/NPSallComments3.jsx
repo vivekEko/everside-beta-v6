@@ -19,6 +19,14 @@ import positiveComments from "../../../../recoil/atoms/positiveComments";
 import negativeComments from "../../../../recoil/atoms/negativeComments";
 import extremeComments from "../../../../recoil/atoms/extremeComments";
 import neutralComments from "../../../../recoil/atoms/neutralComments";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
+import startDateValue from "../../../../recoil/atoms/StartDateAtom";
+import startMonthValue from "../../../../recoil/atoms/StartMonthAtom";
+import endDateValue from "../../../../recoil/atoms/EndDateAtom";
+import endMonthValue from "../../../../recoil/atoms/EndMonth";
+import newRegionGlobalValue from "../../../../recoil/atoms/newRegionGlobalValue";
+import ClinicValue from "../../../../recoil/atoms/ClinicValue";
 
 const NPSallComments3 = () => {
   const [inputData, setInputData] = useState("");
@@ -43,10 +51,20 @@ const NPSallComments3 = () => {
   const [neutralCommentAtom, setNeutralCommentAtom] =
     useRecoilState(neutralComments);
 
+  const [usernameLocal, setUsernameLocal] = useState();
+
+  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
+  const [selectedClinicValue, setSelectedClinicValue] =
+    useRecoilState(ClinicValue);
+  const [newRegionGlobal, setNewRegionGlobal] =
+    useRecoilState(newRegionGlobalValue);
+
   useEffect(() => {
-    console.log("totalViewedComments");
-    console.log(totalViewedComments);
-  }, [totalViewedComments]);
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
 
   function handleLoadMore() {
     setTotalViewedComments(totalViewedComments + 50);
@@ -180,28 +198,60 @@ const NPSallComments3 = () => {
                 {totalFilteredComments}
               </span>
             </h1>
-            <div className=" rounded-md  flex justify-end items-center ">
-              <input
-                type="text"
-                placeholder="Search.."
-                className={` outline-none  transition-all pl-2 text-xs  pb-1 w-[80px] sm:w-[100px] ${
-                  searchStatus
-                    ? "xl:w-[100%] ease-in  xl:border-b-[1px]"
-                    : "xl:w-[0%] ease-out "
-                }`}
-                onChange={handleInput}
-                value={inputData}
-              />
-              {/* <SearchIcon
+
+            <div className="flex items-center gap-2">
+              <div className=" rounded-md  flex justify-end items-center ">
+                <input
+                  type="text"
+                  placeholder="Search.."
+                  className={` outline-none  transition-all pl-2 text-xs  pb-1 w-[80px] sm:w-[100px] ${
+                    searchStatus
+                      ? "xl:w-[100%] ease-in  xl:border-b-[1px]"
+                      : "xl:w-[0%] ease-out "
+                  }`}
+                  onChange={handleInput}
+                  value={inputData}
+                />
+                {/* <SearchIcon
                 fontSize="small"
                 className="cursor-pointer text-gray-400"
               /> */}
-              <img
-                src={SearchIcons}
-                alt="searchIcon"
-                className="px-2 cursor-pointer"
-                onClick={() => setSearchStatus(!searchStatus)}
-              />
+                <img
+                  src={SearchIcons}
+                  alt="searchIcon"
+                  className="px-2 cursor-pointer"
+                  onClick={() => setSearchStatus(!searchStatus)}
+                />
+              </div>
+
+              <a
+                href={
+                  BASE_API_LINK +
+                  "totalCommentsDownload?" +
+                  "username=" +
+                  usernameLocal +
+                  "&start_year=" +
+                  finalStartDate +
+                  "&" +
+                  "start_month=" +
+                  finalStartMonth +
+                  "&" +
+                  "end_year=" +
+                  finalEndDate +
+                  "&" +
+                  "end_month=" +
+                  finalEndMonth +
+                  "&region=" +
+                  newRegionGlobal +
+                  "&clinic=" +
+                  selectedClinicValue
+                }
+              >
+                <FileDownloadOutlinedIcon
+                  fontSize="small"
+                  className="cursor-pointer text-gray-400"
+                />
+              </a>
             </div>
           </div>
           <div className=" h-[350px] overflow-y-scroll overflow-x-scroll scrollbar-hide ">
