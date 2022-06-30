@@ -20,6 +20,8 @@ import NPSDashboard from "./components/Dashboards/NPS/NPS Overall Dashboard/NPSD
 import engagementErrorAtom from "./recoil/atoms/engagementErrorAtom";
 import engagementErrorMessage from "./recoil/atoms/engagementErrorMessage";
 import activeInnerPage from "./recoil/atoms/activeInnerPage";
+import adminAtom from "./recoil/atoms/adminAtom";
+import Admin from "./components/Global/Admin";
 
 function App() {
   const [datePickerStatus, setDatePickerStatus] =
@@ -31,11 +33,6 @@ function App() {
 
   const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
 
-  useEffect(() => {
-    console.log("sessionStorage?.getItem");
-    console.log(sessionStorage?.getItem("username"));
-  }, [sessionStorage?.getItem("username")]);
-
   const [engagementError, setEngagementError] =
     useRecoilState(engagementErrorAtom);
 
@@ -43,14 +40,11 @@ function App() {
     engagementErrorMessage
   );
 
+  const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
+
   useEffect(() => {
     setActivePageValue("NPS_Overall");
   }, []);
-
-  useEffect(() => {
-    console.log("activePageValue .................................");
-    console.log(activePageValue);
-  }, [activePageValue]);
 
   return (
     <div>
@@ -70,6 +64,15 @@ function App() {
             hamburgerStatus ? "block lg:hidden" : "hidden"
           } xl:hidden`}
         ></div>
+
+        {/* admin modal overlay */}
+        <div
+          className={`h-screen w-full fixed   bg-[#00000041] z-[200] justify-center items-center  ${
+            adminStatus ? "flex" : "hidden"
+          }`}
+        >
+          <Admin />
+        </div>
 
         {/* engagement model error overlay */}
         <div

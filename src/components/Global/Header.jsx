@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import activeInnerPage from "../../recoil/atoms/activeInnerPage";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import axios from "axios";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import adminAtom from "../../recoil/atoms/adminAtom";
 
 const Header = () => {
   const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
@@ -39,6 +41,8 @@ const Header = () => {
     }
   }, [logoutStatus]);
 
+  const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
+
   return (
     <header
       onClick={() => setDatePickerStatus(!setDatePickerStatus)}
@@ -55,48 +59,65 @@ const Header = () => {
           />
         </div>
 
-        {/* Hamburger */}
-        <div
-          className="w-[22px] justify-center items-center  flex flex-col lg:hidden gap-[6px] cursor-pointer transition-all"
-          onClick={() => setHamburgerStatus(!hamburgerStatus)}
-        >
+        <div className="flex gap-4 items-center ">
+          {/* Admin */}
+          <div className="relative group">
+            <ManageAccountsOutlinedIcon
+              className="text-[#00ac69] cursor-pointer"
+              onClick={() => setAdminStatus(!adminStatus)}
+            />
+
+            <div className="absolute top-[120%] invisible -right-4 p-2 text-xs text-gray-500 bg-gray-100 rounded-md group-hover:visible">
+              Admin
+            </div>
+          </div>
+
+          {/* Hamburger */}
           <div
-            className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
-              hamburgerStatus
-                ? "rotate-45 translate-y-1 ease-in h-[2px]"
-                : "rotate-0 translate-y-0  ease-out"
-            }`}
-          ></div>
-          <div
-            className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
-              hamburgerStatus ? "hidden ease-out" : "ease-in"
-            }`}
-          ></div>
-          <div
-            className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
-              hamburgerStatus
-                ? "-rotate-45 -translate-y-1 ease-in h-[2px]"
-                : "rotate-0 translate-y-0  ease-out"
-            }`}
-          ></div>
+            className="w-[22px] justify-center items-center  flex flex-col lg:hidden gap-[6px] cursor-pointer transition-all"
+            onClick={() => setHamburgerStatus(!hamburgerStatus)}
+          >
+            <div
+              className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
+                hamburgerStatus
+                  ? "rotate-45 translate-y-1 ease-in h-[2px]"
+                  : "rotate-0 translate-y-0  ease-out"
+              }`}
+            ></div>
+            <div
+              className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
+                hamburgerStatus ? "hidden ease-out" : "ease-in"
+              }`}
+            ></div>
+            <div
+              className={`w-full h-[2px] rounded-xl bg-[#00ac69]  transition-all  ${
+                hamburgerStatus
+                  ? "-rotate-45 -translate-y-1 ease-in h-[2px]"
+                  : "rotate-0 translate-y-0  ease-out"
+              }`}
+            ></div>
+          </div>
+
+          {/* Logout */}
+          <div className=" relative group">
+            <img
+              src={logout}
+              alt="logout"
+              className="w-[20px] cursor-pointer hidden lg:block"
+              onClick={() => {
+                setLogoutStatus(true);
+                setActivePageValue("NPS_Overall");
+                navigate("/");
+                setUserIsValid(false);
+                window.location.reload(false);
+              }}
+            />
+
+            <div className="absolute top-[150%] invisible -right-4 p-2 text-xs text-gray-500 bg-gray-100 rounded-md group-hover:visible">
+              Logout
+            </div>
+          </div>
         </div>
-
-        {/* User Avatar */}
-        {/* <a href={BASE_API_LINK + "logout?" + "username=" + usernameLocal}> */}
-        <img
-          src={logout}
-          alt="logout"
-          className="w-[20px] cursor-pointer hidden lg:block"
-          onClick={() => {
-            setLogoutStatus(!logoutStatus);
-
-            setActivePageValue("NPS_Overall");
-            navigate("/");
-            setUserIsValid(false);
-            window.location.reload(false);
-          }}
-        />
-        {/* </a> */}
       </div>
     </header>
   );

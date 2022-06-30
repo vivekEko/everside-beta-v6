@@ -107,7 +107,7 @@ const Auth = () => {
             <input
               ref={signInEmailRef}
               type="text"
-              placeholder="Email address"
+              placeholder="Username"
               required
               className="h-12 w-full outline-none px-5 mb-5 bg-[#00000025]  text-black border-b-2 border-opacity-0 focus:border-opacity-100 border-[#359b73] rounded "
             />
