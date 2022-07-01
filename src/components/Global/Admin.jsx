@@ -25,37 +25,62 @@ const Admin = () => {
   //   const newChangePasswordRef = useRef();
 
   const [newChangePasswordValue, setNewChangePasswordValue] = useState();
+  const [activeUser, setActiveUser] = useState();
 
   const [searchStatus, setSearchStatus] = useState(false);
 
-  const usernameList = [
-    {
-      username: "vivekeko",
-    },
+  useEffect(() => {
+    console.log("activeUser: ", activeUser);
+  }, [activeUser]);
 
-    {
-      username: "danieleko",
-    },
-    {
-      username: "amriteko",
-    },
-    {
-      username: "joeleko",
-    },
-    {
-      username: "abhayeko",
-    },
-    {
-      username: "tabithaeko",
-    },
-  ];
+  const [usernameList, setUsernameList] = useState();
+
+  const [successUserMessage, setSuccessUserMessage] = useState();
+  const [errorUserMessage, setErrorUserMessage] = useState();
 
   useEffect(() => {
-    console.log("editUser:", editUser);
+    console.log(errorUserMessage);
+    console.log(successUserMessage);
+  }, [successUserMessage, errorUserMessage]);
 
-    console.log("password");
-    console.log(newChangePasswordValue);
+  // const usernameList = [
+  //   {
+  //     username: "vivekeko",
+  //   },
+  //   {
+  //     username: "danieleko",
+  //   },
+  //   {
+  //     username: "amriteko",
+  //   },
+  //   {
+  //     username: "joeleko",
+  //   },
+  //   {
+  //     username: "abhayeko",
+  //   },
+  //   {
+  //     username: "tabithaeko",
+  //   },
+  // ];
 
+  useEffect(() => {
+    fetch(BASE_API_LINK + "userList", {
+      mode: "cors",
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("userList Api response:");
+        console.log(result);
+        setUsernameList(result?.user_list);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
     if (editUser?.length > 0) {
       const formData = new FormData();
       formData.append("username", editUser);
@@ -82,21 +107,17 @@ const Admin = () => {
   const createUserHandler = (e) => {
     e.preventDefault();
 
+    setSuccessUserMessage();
+    setErrorUserMessage();
+
     const emailIdValue = emailId.current.value;
     const newUserNameValue = newUsername.current.value;
     const newPasswordValue = newPassword.current.value;
 
-    console.log("emailIdValue");
-    console.log(emailIdValue);
-    console.log("newUserNameValue");
-    console.log(newUserNameValue);
-    console.log("newPasswordValue");
-    console.log(newPasswordValue);
-
     if (
       emailIdValue?.length > 0 &&
       newUserNameValue?.length > 0 &&
-      newPasswordValue > 0
+      newPasswordValue?.length > 0
     ) {
       const formData = new FormData();
       formData.append("email", emailIdValue);
@@ -110,12 +131,21 @@ const Admin = () => {
       })
         .then((response) => response.json())
         .then((result) => {
-          if (result.Message === "TRUE") {
-            alert("user created");
+          console.log(result);
+
+          if (result?.Message === "TRUE") {
+            setSuccessUserMessage("User created sucessfully.");
+            // alert("user created");
+          }
+          if (result?.Error) {
+            setErrorUserMessage(result?.Error);
+            // alert("user created");
           }
         })
         .catch((error) => {
-          alert(error);
+          // alert(error);
+
+          setErrorUserMessage("Something went wrong, please try again!");
         });
     }
   };
@@ -134,9 +164,9 @@ const Admin = () => {
 
       {/* modal body */}
 
-      <div className="flex gap-5">
+      <div className="flex gap-5  max-w-[700px]">
         {/* user info form */}
-        <div className="w-[50%]">
+        <div className="   flex-[0.4] ">
           <h1 className=" text-gray-500  w-[90%] mb-5">Add User</h1>
 
           <form>
@@ -163,18 +193,33 @@ const Admin = () => {
               className="h-12 w-full outline-none px-5 mb-5 bg-[#0000000c]  text-black border-b-2 border-opacity-0 focus:border-opacity-100 border-[#359b73] rounded "
             />
 
-            <button
+            {successUserMessage && (
+              <div className={"text-[#00ac69] text-xs pb-2 "}>
+                {successUserMessage}
+              </div>
+            )}
+
+            {errorUserMessage && (
+              <div className="text-red-500 text-xs errorAnimation pb-2">
+                {errorUserMessage}
+              </div>
+            )}
+
+            <div
               onClick={createUserHandler}
-              className="bg-[#359b73] text-white hover:bg-opacity-80 w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md active:scale-95 flex justify-center items-center"
+              className={`
+                bg-[#359b73] active:scale-95 hover:bg-opacity-80
+             
+                text-white  w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md  flex justify-center items-center`}
               variant="outlined"
             >
               <span>Create New User</span>
-            </button>
+            </div>
           </form>
         </div>
 
         {/* user list */}
-        <div className="w-[50%]">
+        <div className="flex-[0.6]  ">
           <div className="mb-5 flex justify-between">
             <h1 className=" text-gray-500 ">Current User List</h1>
 
@@ -201,39 +246,44 @@ const Admin = () => {
           </div>
 
           <div>
-            <div className="grid grid-cols-[50px_150px_150px_150px] gap-2 border-b pb-1">
-              <div className="text-gray-400  text-center">SN</div>
-
-              <div className="text-gray-400 ">Username</div>
-              <div className="text-gray-400 ">Password</div>
-              <div className="text-gray-400 ">Action</div>
+            <div className="grid grid-cols-[8%,25%,40%,20%] gap-2 border-b pb-1">
+              <div className="text-gray-400 text-sm  text-center">SN</div>
+              <div className="text-gray-400 text-sm ">Username</div>
+              <div className="text-gray-400 text-sm ">Password</div>
+              <div className="text-gray-400 text-sm text-center">Action</div>
             </div>
 
             <div className="h-[230px] overflow-y-scroll scrollbar-hide">
               {usernameList?.map((data, index) => (
-                <div className="grid grid-cols-[50px_150px_150px_150px] pb-1 items-center  gap-2 ">
+                <div className="grid grid-cols-[8%,25%,40%,20%] pb-1 items-center  gap-2  ">
                   <div className="text-gray-400 text-center  py-2 my-2">
                     {index + 1}
                   </div>
-                  <div className="py-2 my-2 ">{data?.username}</div>
+                  <div className="py-2 my-2 text-sm">{data}</div>
 
                   <input
                     // ref={newChangePasswordRef}
                     type="text"
                     placeholder="Set New Password"
-                    className="py-2 my-2 outline-none "
+                    className="py-2 my-2 outline-none text-sm"
                     onChange={(e) => setNewChangePasswordValue(e.target.value)}
+                    onClick={() => setActiveUser(data)}
 
                     // onChange={(e) => setEditUser(e.target.value)}
                   />
 
                   <button
-                    className=" p-2 bg-[#43a1ff] text-white rounded-md flex items-center justify-center text-center transition active:scale-95 cursor-pointer"
+                    className={` p-2  text-white rounded-md flex items-center justify-center text-center transition   ${
+                      activeUser === data && newChangePasswordValue
+                        ? "bg-[#43a1ff] cursor-pointer active:scale-95"
+                        : "bg-gray-300 cursor-not-allowed"
+                    }`}
                     onClick={(e) => {
                       e.preventDefault();
-                      setEditUser(data?.username);
-
-                      setCallEditData(!callEditData);
+                      if (activeUser === data && newChangePasswordValue) {
+                        setEditUser(data);
+                        setCallEditData(!callEditData);
+                      }
                     }}
                   >
                     <EditOutlinedIcon fontSize="small" />
