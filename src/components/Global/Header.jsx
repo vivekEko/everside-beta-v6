@@ -11,6 +11,7 @@ import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import axios from "axios";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import adminAtom from "../../recoil/atoms/adminAtom";
+import adminTypeAtom from "../../recoil/atoms/adminTypeAtom";
 
 const Header = () => {
   const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
@@ -61,7 +62,11 @@ const Header = () => {
 
         <div className="flex gap-4 items-center ">
           {/* Admin */}
-          <div className="relative group">
+          <div
+            className={` ${
+              localStorage?.getItem("adminType") === "true" ? "block" : "hidden"
+            } relative group`}
+          >
             <ManageAccountsOutlinedIcon
               className="text-[#00ac69] cursor-pointer"
               onClick={() => setAdminStatus(!adminStatus)}
@@ -109,6 +114,7 @@ const Header = () => {
                 setActivePageValue("NPS_Overall");
                 navigate("/");
                 setUserIsValid(false);
+                localStorage.clear();
                 window.location.reload(false);
               }}
             />

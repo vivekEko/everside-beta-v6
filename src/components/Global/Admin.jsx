@@ -11,6 +11,8 @@ import { BASE_API_LINK } from "../../utils/BaseAPILink";
 const Admin = () => {
   const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
 
+  const [deleteModal, setDeleteModal] = useState();
+
   const [callEditData, setCallEditData] = useState(false);
 
   const emailId = useRef();
@@ -22,48 +24,28 @@ const Admin = () => {
 
   const [editUser, setEditUser] = useState();
 
-  //   const newChangePasswordRef = useRef();
+  const newChangePasswordRef = useRef([]);
 
   const [newChangePasswordValue, setNewChangePasswordValue] = useState();
   const [activeUser, setActiveUser] = useState();
 
   const [searchStatus, setSearchStatus] = useState(false);
 
-  useEffect(() => {
-    console.log("activeUser: ", activeUser);
-  }, [activeUser]);
-
   const [usernameList, setUsernameList] = useState();
+  const [callUsernameList, setCallUsernameList] = useState(false);
 
   const [successUserMessage, setSuccessUserMessage] = useState();
   const [errorUserMessage, setErrorUserMessage] = useState();
 
+  const [editFinalMessage, setEditFinalMessage] = useState();
+  const [deleteFinalMessage, setDeleteFinalMessage] = useState();
+
   useEffect(() => {
-    console.log(errorUserMessage);
-    console.log(successUserMessage);
-  }, [successUserMessage, errorUserMessage]);
+    console.log("newChangePasswordRef:");
+    console.log(newChangePasswordRef);
+  }, [newChangePasswordRef]);
 
-  // const usernameList = [
-  //   {
-  //     username: "vivekeko",
-  //   },
-  //   {
-  //     username: "danieleko",
-  //   },
-  //   {
-  //     username: "amriteko",
-  //   },
-  //   {
-  //     username: "joeleko",
-  //   },
-  //   {
-  //     username: "abhayeko",
-  //   },
-  //   {
-  //     username: "tabithaeko",
-  //   },
-  // ];
-
+  // user list api
   useEffect(() => {
     fetch(BASE_API_LINK + "userList", {
       mode: "cors",
@@ -78,10 +60,11 @@ const Admin = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [callUsernameList]);
 
+  // edit user api
   useEffect(() => {
-    if (editUser?.length > 0) {
+    if (editUser?.length > 0 && callEditData === true) {
       const formData = new FormData();
       formData.append("username", editUser);
       formData.append("password", newChangePasswordValue);
@@ -93,17 +76,27 @@ const Admin = () => {
       })
         .then((response) => response.json())
         .then((result) => {
+          setNewChangePasswordValue("");
           if (result.Message === "TRUE") {
-            alert("user edited");
+            // alert("user edited");
             setNewChangePasswordValue();
+            setCallEditData(false);
+            setCallUsernameList(!callUsernameList);
+            setEditFinalMessage("Password updated");
+
+            setTimeout(() => {
+              setEditFinalMessage(null);
+            }, 3000);
           }
         })
         .catch((error) => {
           alert(error);
+          setCallEditData(false);
         });
     }
   }, [callEditData]);
 
+  // create new user api
   const createUserHandler = (e) => {
     e.preventDefault();
 
@@ -133,41 +126,137 @@ const Admin = () => {
         .then((result) => {
           console.log(result);
 
+          // emailId.current.value = "";
+          // newUsername.current.value = "";
+          // newPassword.current.value = "";
+
           if (result?.Message === "TRUE") {
             setSuccessUserMessage("User created sucessfully.");
-            // alert("user created");
+            setCallUsernameList(!callUsernameList);
+
+            emailId.current.value = "";
+            newUsername.current.value = "";
+            newPassword.current.value = "";
           }
           if (result?.Error) {
             setErrorUserMessage(result?.Error);
-            // alert("user created");
           }
         })
         .catch((error) => {
           // alert(error);
-
-          setErrorUserMessage("Something went wrong, please try again!");
         });
+    } else {
+      setErrorUserMessage("Please fill all the fields.");
     }
   };
 
+  // delete user
+  const handleDelete = () => {
+    const formData = new FormData();
+    formData.append("username", activeUser);
+
+    fetch(BASE_API_LINK + "deleteUser", {
+      mode: "cors",
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.Message === "TRUE") {
+          setCallUsernameList(!callUsernameList);
+
+          setDeleteModal(false);
+          setDeleteFinalMessage("User deleted");
+
+          setTimeout(() => {
+            setDeleteFinalMessage(null);
+          }, 3000);
+        }
+      })
+      .catch((error) => {
+        alert(error);
+        setCallUsernameList(!callUsernameList);
+      });
+  };
+
+  const [inputData, setInputData] = useState("");
+
+  const handleInput = (e) => {
+    setInputData(e.target.value);
+  };
+
   return (
-    <div className="bg-white p-4 z-[3000] rounded-md  transition-all modal-animation">
+    <div className="bg-white p-4 z-[3000] rounded-md  transition-all modal-animation  w-[90%] max-w-[900px] relative">
+      {/* confirmation overlay */}
+      <div
+        className={`bg-white shadow-2xl p-5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded  absolute border-gray-400 border ${
+          deleteModal ? "block" : "hidden"
+        }`}
+      >
+        <h1>
+          Are you sure you want to delete{" "}
+          <span className="font-semibold">"{activeUser}"</span> ?
+        </h1>
+
+        <div className="flex items-center justify-center gap-2 mt-5">
+          <button
+            onClick={handleDelete}
+            className="bg-green-500 text-white rounded p-1 w-[60px]"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => {
+              setDeleteModal(false);
+            }}
+            className="bg-red-500 text-white rounded p-1 w-[60px]"
+          >
+            No
+          </button>
+        </div>
+      </div>
+
+      {/* ${
+          editFinalMessage || deleteFinalMessage ? "block" : "hidden"
+        } */}
+      {/* Edit and delete */}
+      <div
+        className={`bg-white  p-5 top-[5%] left-[60%]  rounded  absolute border-gray-400  ${
+          editFinalMessage || deleteFinalMessage ? "block" : "hidden"
+        }`}
+      >
+        {editFinalMessage && (
+          <div className="text-sm text-green-500">{editFinalMessage}</div>
+        )}
+        {deleteFinalMessage && (
+          <div className="text-sm text-red-500">{deleteFinalMessage}</div>
+        )}
+      </div>
+
       {/* modal heading */}
-      <div className="flex justify-between items-center mb-5">
+      <div className="flex justify-between items-center mb-5 ">
         <h1 className="text-gray-700 text-lg font-semibold">Manage User</h1>
         <CloseRoundedIcon
           fontSize="small"
           className="text-gray-500 cursor-pointer transition hover:scale-[1.2]"
-          onClick={() => setAdminStatus(false)}
+          onClick={() => {
+            setAdminStatus(false);
+
+            setSuccessUserMessage();
+            setErrorUserMessage();
+            emailId.current.value = "";
+            newUsername.current.value = "";
+            newPassword.current.value = "";
+          }}
         />
       </div>
 
       {/* modal body */}
 
-      <div className="flex gap-5  max-w-[700px]">
+      <div className="flex flex-col sm:flex-row gap-5   ">
         {/* user info form */}
-        <div className="   flex-[0.4] ">
-          <h1 className=" text-gray-500  w-[90%] mb-5">Add User</h1>
+        <div className="   flex-[0.4]  ">
+          <h1 className=" text-gray-500  w-[90%] mb-5 ">Add User</h1>
 
           <form>
             <input
@@ -194,13 +283,13 @@ const Admin = () => {
             />
 
             {successUserMessage && (
-              <div className={"text-[#00ac69] text-xs pb-2 "}>
+              <div className={"text-[#00ac69] text-xs pb-2 error"}>
                 {successUserMessage}
               </div>
             )}
 
             {errorUserMessage && (
-              <div className="text-red-500 text-xs errorAnimation pb-2">
+              <div className="text-red-500 text-xs error pb-2">
                 {errorUserMessage}
               </div>
             )}
@@ -209,7 +298,7 @@ const Admin = () => {
               onClick={createUserHandler}
               className={`
                 bg-[#359b73] active:scale-95 hover:bg-opacity-80
-             
+             cursor-pointer
                 text-white  w-full p-3 border-0 hover:border-0 outline-none transition-all rounded-md  flex justify-center items-center`}
               variant="outlined"
             >
@@ -220,20 +309,20 @@ const Admin = () => {
 
         {/* user list */}
         <div className="flex-[0.6]  ">
-          <div className="mb-5 flex justify-between">
+          <div className="mb-5 flex justify-between items-center">
             <h1 className=" text-gray-500 ">Current User List</h1>
 
             <div className=" rounded-md  flex justify-end items-center ">
               <input
                 type="text"
                 placeholder="Search.."
-                className={` outline-none  transition-all pl-2 text-xs  pb-1 w-[80px] sm:w-[100px] ${
+                className={` outline-none  transition-all pl-2 text-sm  pb-1 w-[80px] sm:w-[100px] ${
                   searchStatus
                     ? "xl:w-[100%] ease-in  xl:border-b-[1px]"
                     : "xl:w-[0%] ease-out "
                 }`}
-                //   onChange={handleInput}
-                //   value={inputData}
+                onChange={handleInput}
+                value={inputData}
               />
 
               <img
@@ -254,43 +343,80 @@ const Admin = () => {
             </div>
 
             <div className="h-[230px] overflow-y-scroll scrollbar-hide">
-              {usernameList?.map((data, index) => (
-                <div className="grid grid-cols-[8%,25%,40%,20%] pb-1 items-center  gap-2  ">
-                  <div className="text-gray-400 text-center  py-2 my-2">
-                    {index + 1}
-                  </div>
-                  <div className="py-2 my-2 text-sm">{data}</div>
-
-                  <input
-                    // ref={newChangePasswordRef}
-                    type="text"
-                    placeholder="Set New Password"
-                    className="py-2 my-2 outline-none text-sm"
-                    onChange={(e) => setNewChangePasswordValue(e.target.value)}
-                    onClick={() => setActiveUser(data)}
-
-                    // onChange={(e) => setEditUser(e.target.value)}
-                  />
-
-                  <button
-                    className={` p-2  text-white rounded-md flex items-center justify-center text-center transition   ${
-                      activeUser === data && newChangePasswordValue
-                        ? "bg-[#43a1ff] cursor-pointer active:scale-95"
-                        : "bg-gray-300 cursor-not-allowed"
-                    }`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (activeUser === data && newChangePasswordValue) {
-                        setEditUser(data);
-                        setCallEditData(!callEditData);
-                      }
-                    }}
+              {usernameList
+                ?.filter((filtered_value) => {
+                  if (inputData === "") {
+                    return filtered_value;
+                  } else if (
+                    filtered_value
+                      ?.toLowerCase()
+                      ?.includes(inputData?.toLowerCase())
+                  ) {
+                    return filtered_value;
+                  }
+                })
+                ?.map((data, index) => (
+                  <div
+                    key={data}
+                    className="grid grid-cols-[8%,25%,40%,27%] pb-1 items-center  gap-2  "
                   >
-                    <EditOutlinedIcon fontSize="small" />
-                    <span className="ml-2">Edit</span>
-                  </button>
-                </div>
-              ))}
+                    <div className="text-gray-400 text-center  py-2 my-2">
+                      {index + 1}
+                    </div>
+                    <div className="py-2 my-2 text-sm">{data}</div>
+
+                    <input
+                      id="changePasswordInputField"
+                      type="password"
+                      placeholder="Set New Password"
+                      className="py-2 my-2 outline-none border-b w-[90%] text-sm"
+                      value={activeUser === data ? newChangePasswordValue : ""}
+                      onChange={(e) => {
+                        setNewChangePasswordValue(e.target.value);
+                      }}
+                      onClick={() => {
+                        setNewChangePasswordValue();
+                        setActiveUser(data);
+                      }}
+
+                      // onChange={(e) => setEditUser(e.target.value)}
+                    />
+
+                    <div className="flex items-center gap-2 ">
+                      <button
+                        className={` p-2   rounded-md flex items-center justify-center text-center transition   ${
+                          activeUser === data && newChangePasswordValue
+                            ? "bg-[#43a1ff] text-white cursor-pointer active:scale-95"
+                            : "bg-gray-300 text-gray-800 cursor-not-allowed"
+                        }`}
+                        onClick={(e) => {
+                          if (activeUser === data && newChangePasswordValue) {
+                            setEditUser(data);
+                            setCallEditData(true);
+
+                            // setNewChangePasswordValue("");
+
+                            // console.log(newChangePasswordValue);
+                          }
+                        }}
+                      >
+                        {/* <EditOutlinedIcon fontSize="small" /> */}
+                        <span className="text-xs">Update</span>
+                      </button>
+
+                      <button
+                        className={` p-2  text-white rounded-md flex items-center justify-center text-center transition   bg-red-500 cursor-pointer active:scale-95 `}
+                        onClick={() => {
+                          setActiveUser(data);
+                          setDeleteModal(true);
+                        }}
+                      >
+                        {/* <EditOutlinedIcon fontSize="small" /> */}
+                        <span className="text-xs">Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
             </div>
           </div>
         </div>

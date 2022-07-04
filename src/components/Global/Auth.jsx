@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { SyncLoader } from "react-spinners";
 import activeInnerPage from "../../recoil/atoms/activeInnerPage";
+import activeFilterButton from "../../recoil/atoms/activeFilterButton";
 
 const Auth = () => {
   const signInEmailRef = useRef(null);
@@ -55,6 +56,7 @@ const Auth = () => {
         .then((result) => {
           if (result.Message === "TRUE") {
             setLoginErrorMessage(null);
+            localStorage.setItem("adminType", result.admin_type);
             sessionStorage.setItem("useStatus", result.Message);
             sessionStorage.setItem("username", result.username);
             sessionStorage.setItem("token", result.token);
@@ -66,7 +68,6 @@ const Auth = () => {
           } else if (result.Message === "FALSE") {
             setUserIsValid(null);
             setLoginErrorMessage(null);
-
             // setLoginErrorMessage("Incorrect credentials, please try again.");
 
             setTimeout(() => {
