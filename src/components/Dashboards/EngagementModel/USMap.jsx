@@ -1,12 +1,19 @@
 import React, { useEffect, useRef } from "react";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  CircleMarker,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import cities from "./cities.json";
 import engagementModelAPI from "../../../recoil/atoms/engagementModelAPI";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
+import MapData from "../../../mock_API/Engagement Model/mapData.json";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -25,20 +32,33 @@ console.log(engagementModelAPI);
 const USMap = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
 
-  const position = [
-    parseFloat(apiData?.long_mid),
-    parseFloat(apiData?.lat_mid),
-  ];
+  // const position = [
+  //   parseFloat(apiData?.long_mid),
+  //   parseFloat(apiData?.lat_mid),
+  // ];
+
+  // const position = [
+  //   parseFloat(MapData?.long_mid),
+  //   parseFloat(MapData?.lat_mid),
+  // ];
+
+  const position = [37.09024, -95.712891];
+
+  console.log(MapData);
 
   return (
     <div>
-      <div key={apiData?.long_mid} className="h-full ">
+      {/* <div key={apiData?.long_mid} className="h-full ">
         <MapContainer center={position} zoom={7}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {apiData?.map_data?.map((data, idx) => (
+
+
+
+
             <Marker
               position={[parseFloat(data?.long), parseFloat(data?.lat)]}
               key={idx}
@@ -55,6 +75,33 @@ const USMap = () => {
                 </div>
               </Popup>
             </Marker>
+          ))}
+        </MapContainer>
+      </div> */}
+
+      <div
+        key={Math.random()}
+        className="h-full w-[100%] rounded-xl  overflow-hidden mx-auto "
+      >
+        <MapContainer center={position} zoom={7}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+          />
+          {MapData?.map((data, idx) => (
+            <CircleMarker center={[data?.latitude, data?.longitude]} key={idx}>
+              <Popup>
+                <h1 className="text-base font-semibold mb-2">{data?.state}</h1>
+                <div className="flex justify-start gap-2">
+                  <span className="font-semibold">Population:</span>
+                  <span>{data?.population}</span>
+                </div>
+                <div className="flex justify-start gap-2">
+                  <span className="font-semibold">City:</span>
+                  <span>{data?.city}</span>
+                </div>
+              </Popup>
+            </CircleMarker>
           ))}
         </MapContainer>
       </div>

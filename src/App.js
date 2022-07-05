@@ -67,9 +67,18 @@ function App() {
 
         {/* admin modal overlay */}
         <div
+          onClick={() => setAdminStatus(false)}
           className={`h-screen w-full fixed   bg-[#00000041] z-[200] justify-center items-center  ${
             adminStatus ? "flex" : "hidden"
           }`}
+        >
+          {/* <Admin /> */}
+        </div>
+
+        <div
+          className={` ${
+            adminStatus ? "block" : "hidden"
+          } fixed  left-[50%] top-[400px] translate-x-[-50%] translate-y-[-50%] z-[300] w-[90%] max-w-[900px]`}
         >
           <Admin />
         </div>

@@ -41,7 +41,6 @@ const EngagementModel = () => {
       })
         .then((response) => response?.json())
         .then((result) => {
-          console.log("Engagement previos data:", result);
           setApiData(result);
         })
         .catch((error) => {
@@ -81,7 +80,9 @@ const EngagementModel = () => {
                     <GenderClassification />
                   </div> */}
                 </div>
-                <div className="mt-2 rounded-md ">{/* <USMap /> */}</div>
+                <div className="mt-2 rounded-md ">
+                  <USMap />
+                </div>
               </div>
             )}
           </div>

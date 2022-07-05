@@ -7,6 +7,9 @@ import SearchIcons from "../../assets/img/global-img/searchIcon.svg";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
+import { useDetectClickOutside } from "react-detect-click-outside";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 
 const Admin = () => {
   const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
@@ -132,6 +135,10 @@ const Admin = () => {
 
           if (result?.Message === "TRUE") {
             setSuccessUserMessage("User created sucessfully.");
+            setTimeout(() => {
+              setSuccessUserMessage();
+            }, 5000);
+
             setCallUsernameList(!callUsernameList);
 
             emailId.current.value = "";
@@ -144,9 +151,16 @@ const Admin = () => {
         })
         .catch((error) => {
           // alert(error);
+          setErrorUserMessage("Something went wrong");
+          setTimeout(() => {
+            setErrorUserMessage();
+          }, 5000);
         });
     } else {
       setErrorUserMessage("Please fill all the fields.");
+      setTimeout(() => {
+        setErrorUserMessage();
+      }, 5000);
     }
   };
 
@@ -186,7 +200,7 @@ const Admin = () => {
   };
 
   return (
-    <div className="bg-white p-4 z-[3000] rounded-md  transition-all modal-animation  w-[90%] max-w-[900px] relative">
+    <div className="bg-white p-4 z-[3000] rounded-md  transition-all modal-animation   max-w-[900px] relative overflow-hidden">
       {/* confirmation overlay */}
       <div
         className={`bg-white shadow-2xl p-5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded  absolute border-gray-400 border ${
@@ -194,14 +208,14 @@ const Admin = () => {
         }`}
       >
         <h1>
-          Are you sure you want to delete{" "}
+          Are you sure you want to delete
           <span className="font-semibold">"{activeUser}"</span> ?
         </h1>
 
         <div className="flex items-center justify-center gap-2 mt-5">
           <button
             onClick={handleDelete}
-            className="bg-green-500 text-white rounded p-1 w-[60px]"
+            className="bg-[#00ac69] text-white rounded p-1 w-[60px]"
           >
             Yes
           </button>
@@ -221,15 +235,21 @@ const Admin = () => {
         } */}
       {/* Edit and delete */}
       <div
-        className={`bg-white  p-5 top-[5%] left-[60%]  rounded  absolute border-gray-400  ${
+        className={`bg-white  p-2 top-[5%] left-[60%]  rounded-md slide-down-animation  absolute shadow-lg  ${
           editFinalMessage || deleteFinalMessage ? "block" : "hidden"
         }`}
       >
         {editFinalMessage && (
-          <div className="text-sm text-green-500">{editFinalMessage}</div>
+          <div className="text-sm text-green-500 ">
+            <CheckCircleOutlineRoundedIcon fontSize="small" className="mr-2" />
+            <span>{editFinalMessage}</span>
+          </div>
         )}
         {deleteFinalMessage && (
-          <div className="text-sm text-red-500">{deleteFinalMessage}</div>
+          <div className="text-sm text-red-500">
+            <ErrorOutlineRoundedIcon fontSize="small" className="mr-2" />
+            <span>{deleteFinalMessage}</span>
+          </div>
         )}
       </div>
 
@@ -241,7 +261,6 @@ const Admin = () => {
           className="text-gray-500 cursor-pointer transition hover:scale-[1.2]"
           onClick={() => {
             setAdminStatus(false);
-
             setSuccessUserMessage();
             setErrorUserMessage();
             emailId.current.value = "";
@@ -366,7 +385,6 @@ const Admin = () => {
                     <div className="py-2 my-2 text-sm">{data}</div>
 
                     <input
-                      id="changePasswordInputField"
                       type="password"
                       placeholder="Set New Password"
                       className="py-2 my-2 outline-none border-b w-[90%] text-sm"
@@ -387,7 +405,7 @@ const Admin = () => {
                         className={` p-2   rounded-md flex items-center justify-center text-center transition   ${
                           activeUser === data && newChangePasswordValue
                             ? "bg-[#43a1ff] text-white cursor-pointer active:scale-95"
-                            : "bg-gray-300 text-gray-800 cursor-not-allowed"
+                            : "bg-gray-300 text-gray-400 cursor-not-allowed"
                         }`}
                         onClick={(e) => {
                           if (activeUser === data && newChangePasswordValue) {

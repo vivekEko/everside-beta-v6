@@ -19,6 +19,7 @@ import positiveComments from "../../../../recoil/atoms/positiveComments";
 import negativeComments from "../../../../recoil/atoms/negativeComments";
 import extremeComments from "../../../../recoil/atoms/extremeComments";
 import neutralComments from "../../../../recoil/atoms/neutralComments";
+import adminAtom from "../../../../recoil/atoms/adminAtom";
 
 const NPSallComments = () => {
   const [inputData, setInputData] = useState("");

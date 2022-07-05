@@ -162,3 +162,29 @@ code {
     opacity: 1;
   }
 }
+
+.slide-down-animation {
+  animation: slide-down 0.5s ease-in;
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-50px);
+  }
+
+  25% {
+    transform: translateY(15px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  75% {
+    transform: translateY(5px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
