@@ -22,6 +22,7 @@ import engagementErrorMessage from "./recoil/atoms/engagementErrorMessage";
 import activeInnerPage from "./recoil/atoms/activeInnerPage";
 import adminAtom from "./recoil/atoms/adminAtom";
 import Admin from "./components/Global/Admin";
+import inputFieldNull from "./recoil/atoms/inputFieldNull";
 
 function App() {
   const [datePickerStatus, setDatePickerStatus] =
@@ -41,6 +42,8 @@ function App() {
   );
 
   const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
+
+  const [emptyInputField, setEmptyInputField] = useRecoilState(inputFieldNull);
 
   useEffect(() => {
     setActivePageValue("NPS_Overall");
@@ -67,7 +70,10 @@ function App() {
 
         {/* admin modal overlay */}
         <div
-          onClick={() => setAdminStatus(false)}
+          onClick={() => {
+            setAdminStatus(false);
+            setEmptyInputField(!emptyInputField);
+          }}
           className={`h-screen w-full fixed   bg-[#00000041] z-[200] justify-center items-center  ${
             adminStatus ? "flex" : "hidden"
           }`}

@@ -355,7 +355,11 @@ const NPSDashboard = () => {
           },
         }
       );
-      setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
+      setTimeout(() => {
+        setNpsOverTimeAPIData(npsOverTime?.data);
+        console.log("nps datatata");
+        console.log(npsOverTime?.data);
+      }, 50);
 
       const nssOverTime = await axios.post(
         linksArray[10],
@@ -368,7 +372,12 @@ const NPSDashboard = () => {
           },
         }
       );
-      setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
+      setTimeout(() => {
+        setNssOverTimeAPIData(nssOverTime?.data);
+
+        console.log("nss overtime");
+        console.log(nssOverTime?.data);
+      }, 50);
 
       const npsVsSentiment = await axios.post(
         linksArray[11],
@@ -561,7 +570,10 @@ const NPSDashboard = () => {
           },
         }
       );
-      setTimeout(() => setNpsOverTimeAPIData(npsOverTime?.data), 50);
+      setTimeout(() => {
+        setNpsOverTimeAPIData(npsOverTime?.data);
+        console.log(npsOverTime?.data);
+      }, 50);
 
       const nssOverTime = await axios.post(
         defaultArray[10],
@@ -574,7 +586,11 @@ const NPSDashboard = () => {
           },
         }
       );
-      setTimeout(() => setNssOverTimeAPIData(nssOverTime?.data), 50);
+      setTimeout(() => {
+        setNssOverTimeAPIData(nssOverTime?.data);
+        console.log("nss datatatataat");
+        console.log(nssOverTime?.data);
+      }, 50);
 
       const npsVsSentiment = await axios.post(
         defaultArray[11],

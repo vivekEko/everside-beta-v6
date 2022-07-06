@@ -65,11 +65,10 @@ const CustomCalendar4 = () => {
   const [flushRegionValue, setFlushRegionvalue] = useRecoilState(flushRegion);
   const [allDataRecievedStatus, setAllDataRecievedStatus] =
     useRecoilState(allDataRecieved);
-
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState("May");
-  const [endMonthNumVal, setEndMonthNumVal] = useState(5);
+  const [endMonthVal, setEndMonthVal] = useState("Jun");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(6);
 
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);

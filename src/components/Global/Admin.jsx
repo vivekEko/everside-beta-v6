@@ -10,6 +10,7 @@ import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
+import inputFieldNull from "../../recoil/atoms/inputFieldNull";
 
 const Admin = () => {
   const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
@@ -42,11 +43,15 @@ const Admin = () => {
 
   const [editFinalMessage, setEditFinalMessage] = useState();
   const [deleteFinalMessage, setDeleteFinalMessage] = useState();
+  const [emptyInputField, setEmptyInputField] = useRecoilState(inputFieldNull);
 
   useEffect(() => {
-    console.log("newChangePasswordRef:");
-    console.log(newChangePasswordRef);
-  }, [newChangePasswordRef]);
+    if (emptyInputField) {
+      emailId.current.value = "";
+      newUsername.current.value = "";
+      newPassword.current.value = "";
+    }
+  }, [emptyInputField]);
 
   // user list api
   useEffect(() => {

@@ -37,31 +37,39 @@ const USMap = () => {
   //   parseFloat(apiData?.lat_mid),
   // ];
 
-  // const position = [
-  //   parseFloat(MapData?.long_mid),
-  //   parseFloat(MapData?.lat_mid),
-  // ];
+  const position = [
+    parseFloat(apiData?.long_mid),
+    parseFloat(apiData?.lat_mid),
+  ];
 
-  const position = [37.09024, -95.712891];
-
-  console.log(MapData);
+  // const position = [37.09024, -95.712891];
 
   return (
     <div>
-      {/* <div key={apiData?.long_mid} className="h-full ">
-        <MapContainer center={position} zoom={7}>
+      <div
+        key={apiData?.long_mid}
+        className="h-full overflow-hidden rounded-md border "
+      >
+        <MapContainer
+          className="z-0"
+          center={position}
+          zoom={9}
+          scrollWheelZoom={false}
+        >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
           />
           {apiData?.map_data?.map((data, idx) => (
-
-
-
-
-            <Marker
-              position={[parseFloat(data?.long), parseFloat(data?.lat)]}
+            // <Marker
+            //   position={[parseFloat(data?.long), parseFloat(data?.lat)]}
+            //   key={idx}
+            // >
+            <CircleMarker
+              center={[parseFloat(data?.long), parseFloat(data?.lat)]}
               key={idx}
+              color="#00ac69"
+              radius={8}
             >
               <Popup>
                 <h1 className="text-base font-semibold mb-2">{data?.state}</h1>
@@ -74,12 +82,12 @@ const USMap = () => {
                   <span>{data?.zip_count}</span>
                 </div>
               </Popup>
-            </Marker>
+            </CircleMarker>
           ))}
         </MapContainer>
-      </div> */}
+      </div>
 
-      <div
+      {/* <div
         key={Math.random()}
         className="h-full w-[100%] rounded-xl  overflow-hidden mx-auto "
       >
@@ -102,22 +110,6 @@ const USMap = () => {
                 </div>
               </Popup>
             </CircleMarker>
-          ))}
-        </MapContainer>
-      </div>
-
-      {/* <div>
-        <MapContainer center={position} zoom={4}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {cities.map((city, idx) => (
-            <Marker position={[city.lat, city.lon]} key={idx}>
-              <Popup>
-                <b>{city.name}</b>
-              </Popup>
-            </Marker>
           ))}
         </MapContainer>
       </div> */}
