@@ -20,29 +20,17 @@ delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
-
   iconSize: [30, 30],
-
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-console.log("lat value:");
-console.log(engagementModelAPI);
-
 const USMap = () => {
   const [apiData, setApiData] = useRecoilState(engagementModelAPI);
-
-  // const position = [
-  //   parseFloat(apiData?.long_mid),
-  //   parseFloat(apiData?.lat_mid),
-  // ];
 
   const position = [
     parseFloat(apiData?.long_mid),
     parseFloat(apiData?.lat_mid),
   ];
-
-  // const position = [37.09024, -95.712891];
 
   return (
     <div>

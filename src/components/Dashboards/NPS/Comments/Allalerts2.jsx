@@ -185,6 +185,12 @@ const AlertComments = () => {
                     <th className=" text-gray-400 w-[60%] min-w-[200px]  capitalize text-left font-normal">
                       Comments
                     </th>
+                    <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
+                      Topic
+                    </th>
+                    <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
+                      Clients
+                    </th>
 
                     <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
                       Clinic
@@ -226,6 +232,12 @@ const AlertComments = () => {
                                 ? data?.review
                                 : truncate(data?.review, 100)}
                             </div>
+                          </td>
+                          <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
+                            {data?.topic}
+                          </td>
+                          <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
+                            {data?.client}
                           </td>
 
                           <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">

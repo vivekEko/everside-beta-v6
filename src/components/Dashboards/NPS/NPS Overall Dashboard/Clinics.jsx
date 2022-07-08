@@ -49,6 +49,7 @@ const Clinics = () => {
               <div className="">Name</div>
             </div>
             <div className="w-[30%] flex ml-auto">
+              <div className="flex-1 text-center">Survey Count</div>
               <div className="flex-1 text-center">NPS</div>
               <div className="flex-1 text-center hidden">Rating</div>
             </div>
@@ -79,6 +80,8 @@ const Clinics = () => {
                     </div>
 
                     <div className="text-sm text-gray-500  w-[30%] flex">
+                      <div className=" flex-1 text-center">{data?.count}</div>
+
                       <div className=" flex-1 text-center">
                         {data?.average_nps}
                       </div>

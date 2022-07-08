@@ -239,8 +239,6 @@ function CustomTooltip({ active, payload, label }) {
     setApiData(nssApiData);
   }, [nssApiData]);
 
-  console.log(payload);
-
   if (active) {
     return (
       <div className="rounded-md bg-[#fafafa] text-[#1a1a1a] p-3 shadow-2xl shadow-[#000000] min-w-[150px] ">

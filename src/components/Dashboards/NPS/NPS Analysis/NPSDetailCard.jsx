@@ -335,7 +335,6 @@ function CustomTooltip({ active, payload, label }) {
   const [npsAPIdataValue, setNpsApiDataValue] = useRecoilState(npsAPIdata);
   const [apiData, setApiData] = useState();
 
-  console.log(payload[0]?.name);
   useEffect(() => {
     setApiData(npsAPIdataValue);
   }, [npsAPIdataValue]);

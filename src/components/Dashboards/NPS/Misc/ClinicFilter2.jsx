@@ -80,11 +80,6 @@ const ClinicFilter2 = () => {
     useRecoilState(clinicLocalStatus);
 
   useEffect(() => {
-    console.log("clinicsAPIdataValueeeeeeeeeeeeeeeeee:");
-    console.log(clinicsAPIdataValue);
-  }, [clinicsAPIdataValue]);
-
-  useEffect(() => {
     if (clinicLocal.length) {
       // console.log("clinicLocal length:");
 

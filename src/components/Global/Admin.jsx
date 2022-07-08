@@ -14,33 +14,21 @@ import inputFieldNull from "../../recoil/atoms/inputFieldNull";
 
 const Admin = () => {
   const [adminStatus, setAdminStatus] = useRecoilState(adminAtom);
-
   const [deleteModal, setDeleteModal] = useState();
-
   const [callEditData, setCallEditData] = useState(false);
-
   const emailId = useRef();
-  //   const lastName = useRef();
-
   const newUsername = useRef();
   const newPassword = useRef();
   const newConfirmPassword = useRef();
-
   const [editUser, setEditUser] = useState();
-
   const newChangePasswordRef = useRef([]);
-
   const [newChangePasswordValue, setNewChangePasswordValue] = useState();
   const [activeUser, setActiveUser] = useState();
-
   const [searchStatus, setSearchStatus] = useState(false);
-
   const [usernameList, setUsernameList] = useState();
   const [callUsernameList, setCallUsernameList] = useState(false);
-
   const [successUserMessage, setSuccessUserMessage] = useState();
   const [errorUserMessage, setErrorUserMessage] = useState();
-
   const [editFinalMessage, setEditFinalMessage] = useState();
   const [deleteFinalMessage, setDeleteFinalMessage] = useState();
   const [emptyInputField, setEmptyInputField] = useRecoilState(inputFieldNull);
@@ -55,25 +43,28 @@ const Admin = () => {
 
   // user list api
   useEffect(() => {
+    const userListFormData = new FormData();
+    userListFormData.append("token", sessionStorage.getItem("token"));
+
     fetch(BASE_API_LINK + "userList", {
       mode: "cors",
       method: "POST",
+      body: userListFormData,
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("userList Api response:");
-        console.log(result);
         setUsernameList(result?.user_list);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [callUsernameList]);
+  }, [callUsernameList, sessionStorage.getItem("token")]);
 
   // edit user api
   useEffect(() => {
     if (editUser?.length > 0 && callEditData === true) {
       const formData = new FormData();
+      formData.append("token", sessionStorage.getItem("token"));
       formData.append("username", editUser);
       formData.append("password", newChangePasswordValue);
 
@@ -91,7 +82,6 @@ const Admin = () => {
             setCallEditData(false);
             setCallUsernameList(!callUsernameList);
             setEditFinalMessage("Password updated");
-
             setTimeout(() => {
               setEditFinalMessage(null);
             }, 3000);
@@ -107,7 +97,6 @@ const Admin = () => {
   // create new user api
   const createUserHandler = (e) => {
     e.preventDefault();
-
     setSuccessUserMessage();
     setErrorUserMessage();
 
@@ -124,6 +113,7 @@ const Admin = () => {
       formData.append("email", emailIdValue);
       formData.append("username", newUserNameValue);
       formData.append("password", newPasswordValue);
+      formData.append("token", sessionStorage.getItem("token"));
 
       fetch(BASE_API_LINK + "createUser", {
         mode: "cors",
@@ -173,6 +163,7 @@ const Admin = () => {
   const handleDelete = () => {
     const formData = new FormData();
     formData.append("username", activeUser);
+    formData.append("token", sessionStorage.getItem("token"));
 
     fetch(BASE_API_LINK + "deleteUser", {
       mode: "cors",

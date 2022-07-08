@@ -26,8 +26,6 @@ const MemberScoreGraph = () => {
   useEffect(() => {
     setGraphData(apiData?.graph);
     setPercentageData(apiData?.percentage);
-
-    console.log(apiData);
   }, [apiData]);
 
   const MemberScoreGraphRef = useRef();

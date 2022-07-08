@@ -60,8 +60,8 @@ const Region2 = () => {
   useEffect(() => {
     setNewRegionLocal(regionListValue?.region);
 
-    console.log("region listttttttttttttttt");
-    console.log(regionListValue?.region);
+    // console.log("region listttttttttttttttt");
+    // console.log(regionListValue?.region);
   }, [regionListValue]);
 
   useEffect(() => {
@@ -92,11 +92,6 @@ const Region2 = () => {
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
   }, [sessionStorage?.getItem("username")]);
-
-  useEffect(() => {
-    console.log("usernameLocal:");
-    console.log(usernameLocal);
-  }, [usernameLocal]);
 
   useEffect(async () => {
     const text = regionLocal.join("-");

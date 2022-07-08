@@ -80,7 +80,7 @@ const AlertComments = () => {
   }, [sessionStorage?.getItem("username")]);
 
   return (
-    <div className=" w-[100%] md:w-[50%] p-2 h-[400px] rounded-lg bg-white border ">
+    <div className=" w-[100%] 2xl:w-[50%] p-2 h-[400px] rounded-lg bg-white border ">
       {!apiData && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -131,7 +131,7 @@ const AlertComments = () => {
                 />
               </a>
 
-              <div className=" rounded-md  flex justify-end items-center ">
+              <div className=" rounded-md flex justify-end items-center ">
                 <input
                   type="text"
                   placeholder="Search.."
@@ -184,6 +184,12 @@ const AlertComments = () => {
                     <th className=" text-gray-400 w-[60%] min-w-[200px]  capitalize text-left font-normal">
                       Comments
                     </th>
+                    <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
+                      Topic
+                    </th>
+                    <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
+                      Client
+                    </th>
 
                     <th className=" text-gray-400 w-[20%] min-w-[70px]  capitalize font-normal text-left ">
                       Clinic
@@ -209,7 +215,7 @@ const AlertComments = () => {
                   .map((data, index) => {
                     return (
                       <tbody key={index} className="w-full ">
-                        <tr className="  flex justify-around items-center gap-3 px-2 py-3 border-b">
+                        <tr className="  flex justify-around items-center gap-3 px-2 py-2 border-b">
                           <td className=" text-gray-400 w-[10%] min-w-[70px] capitalize  font-normal text-[12px] ">
                             {data?.timestamp}
                           </td>
@@ -225,6 +231,12 @@ const AlertComments = () => {
                                 ? data?.review
                                 : truncate(data?.review, 100)}
                             </div>
+                          </td>
+                          <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
+                            {data?.topic}
+                          </td>
+                          <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">
+                            {data?.client}
                           </td>
 
                           <td className=" text-gray-400 w-[20%] min-w-[70px]   font-normal ">

@@ -9,13 +9,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Home = () => {
   const [userIsValid, setUserIsValid] = useRecoilState(UserValidity);
 
-  useEffect(() => {
-    console.log("userIsValid length:");
-    console.log(userIsValid);
-
-    console.log(userIsValid?.length);
-  }, [userIsValid]);
-
   const location = useLocation();
   const history = useNavigate();
 

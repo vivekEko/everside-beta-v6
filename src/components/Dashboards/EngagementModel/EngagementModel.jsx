@@ -45,8 +45,7 @@ const EngagementModel = () => {
         .then((response) => response?.json())
         .then((result) => {
           setApiData(result);
-          console.log("engagement response");
-          console.log(result);
+
           setNoPreviousFile(result?.Error);
         })
         .catch((error) => {
